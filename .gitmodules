@@ -6,6 +6,10 @@
   path = runtime/vim-ruby
   url = git://github.com/vim-ruby/vim-ruby.git
 
+[submodule "runtime/vim-rails"]
+  path = runtime/vim-rails
+  url = git://github.com/tpope/vim-rails.git 
+
 [submodule "runtime/nerdcommenter"]
   path = runtime/nerdcommenter
   url = git://github.com/scrooloose/nerdcommenter.git

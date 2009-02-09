@@ -198,8 +198,8 @@ set runtimepath+=~/git/theonevimlib/core
 set runtimepath+=~/git/theonevimlib/contrib
 call theonevimlibsetup#Setup()
 
-set runtimepath+=~/.vim/runtime/rails
 set runtimepath+=~/.vim/runtime/vim-ruby
+set runtimepath+=~/.vim/runtime/vim-rails
 set runtimepath+=~/.vim/runtime/nerdcommenter
 set runtimepath+=~/.vim/runtime/nerdsnippets
 set runtimepath+=~/.vim/runtime/vimoutliner
