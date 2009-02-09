@@ -5,3 +5,11 @@
 [submodule "vim-ruby"]
   path = runtime/vim-ruby
   url = git://github.com/vim-ruby/vim-ruby.git
+
+[submodule "nerdcommenter"]
+  path = runtime/nerdcommenter
+  url = git://github.com/scrooloose/nerdcommenter.git
+
+[submodule "nerdsnippets"]
+  path = runtime/nerdsnippets
+  url = git://github.com/scrooloose/nerdsnippets.git
