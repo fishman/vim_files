@@ -25,3 +25,7 @@
 [submodule "runtime/netlib"]
   path = runtime/netlib
   url = git://github.com/godlygeek/netlib.git
+
+[submodule "runtime/theonevimlib"]
+  path = runtime/theonevimlib
+  url = git://github.com/MarcWeber/theonevimlib.git

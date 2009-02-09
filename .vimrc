@@ -194,8 +194,8 @@ else
   endif
 endif
 
-set runtimepath+=~/git/theonevimlib/core
-set runtimepath+=~/git/theonevimlib/contrib
+set runtimepath+=~/.vim/runtime/theonevimlib/core
+set runtimepath+=~/.vim/runtime/theonevimlib/contrib
 call theonevimlibsetup#Setup()
 
 set runtimepath+=~/.vim/runtime/vim-ruby
