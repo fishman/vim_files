@@ -17,3 +17,11 @@
 [submodule "runtime/nerdsnippets"]
   path = runtime/nerdsnippets
   url = git://github.com/scrooloose/nerdsnippets.git
+
+[submodule "runtime/csapprox"]
+  path = runtime/csapprox
+  url = git://github.com/godlygeek/csapprox.git
+
+[submodule "runtime/netlib"]
+  path = runtime/netlib
+  url = git://github.com/godlygeek/netlib.git
