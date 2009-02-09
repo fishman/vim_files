@@ -2,14 +2,14 @@
   path = snippets
   url = git@github.com:fishman/snippets.git
 
-[submodule "vim-ruby"]
+[submodule "runtime/vim-ruby"]
   path = runtime/vim-ruby
   url = git://github.com/vim-ruby/vim-ruby.git
 
-[submodule "nerdcommenter"]
+[submodule "runtime/nerdcommenter"]
   path = runtime/nerdcommenter
   url = git://github.com/scrooloose/nerdcommenter.git
 
-[submodule "nerdsnippets"]
+[submodule "runtime/nerdsnippets"]
   path = runtime/nerdsnippets
   url = git://github.com/scrooloose/nerdsnippets.git
