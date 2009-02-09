@@ -1,0 +1,1 @@
+inoremap : :<space>;<esc>i
