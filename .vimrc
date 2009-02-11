@@ -543,7 +543,8 @@ endf
 " Search Related: {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " toggle search highlighting
-map <silent> \ :let @/=""<cr><esc>
+" map <silent> \ :let @/=""<cr><esc>
+map <silent> \ :nohl<cr>
 " }}}1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -570,7 +571,7 @@ set fo=tcrqnmM		      " see help formatoptions (complex)
 set linebreak           " wrap long lines at a character in 'breakat'
 set textwidth=500       " maximum width of text that is being inserted
 set ai                  " autoindent
-set si                  " smartindent
+" set si                  " smartindent
 set cindent             " do C-style indenting
 set cino=(0
 set copyindent
