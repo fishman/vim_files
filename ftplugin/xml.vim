@@ -2,8 +2,8 @@
 " FileType:     XML
 " Author:       Devin Weaver <vim (at) tritarget.com> 
 " Maintainer:   Devin Weaver <vim (at) tritarget.com>
-" Last Change:  $Date: 2008-10-16 10:01:12 -0400 (Thu, 16 Oct 2008) $
-" Version:      $Revision: 78 $
+" Last Change:  $Date: 2009-02-06 00:15:06 -0500 (Fri, 06 Feb 2009) $
+" Version:      $Revision: 82 $
 " Location:     http://www.vim.org/scripts/script.php?script_id=301
 " Licence:      This program is free software; you can redistribute it
 "               and/or modify it under the terms of the GNU General Public
@@ -171,7 +171,7 @@ function s:ParseTag( )
     let @" = ""
     execute "normal! \"xy%%"
     let ltag = @"
-    if (&filetype == 'html' || &filetype == 'xhtml' || &filetype == 'php' || &filetype == 'eruby') && (!exists ("g:xml_no_html"))
+    if (&filetype == 'html' || &filetype == 'xhtml') && (!exists ("g:xml_no_html"))
         let html_mode = 1
         let ltag = substitute (ltag, '[^[:graph:]]\+', ' ', 'g')
         let ltag = substitute (ltag, '<\s*\([^[:alnum:]_:\-[:blank:]]\=\)\s*\([[:alnum:]_:\-]\+\)\>', '<\1\2', '')
@@ -501,10 +501,17 @@ if !exists("*s:InitEditFromJump")
 function s:InitEditFromJump( )
     " Add a syntax highlight for the xml_jump_string.
     execute "syntax match Error /\\V" . g:xml_jump_string . "/"
-    " Remove left over garbage from xml_jump_string on file save.
-    augroup xml
-        execute "au BufWritePre <buffer> %s/" . g:xml_jump_string . "//ge"
-    augroup END
+endfunction
+endif
+
+" ClearJumpMarks -> Clean out extranious left over xml_jump_string garbage. {{{1
+if !exists("*s:ClearJumpMarks")
+function s:ClearJumpMarks( )
+    if exists("g:xml_jump_string")
+       if g:xml_jump_string != ""
+           execute ":%s/" . g:xml_jump_string . "//ge"
+       endif
+    endif
 endfunction
 endif
 
@@ -513,12 +520,14 @@ endif
 if !exists("*s:EditFromJump")
 function s:EditFromJump( )
     if exists("g:xml_jump_string")
-        let foo = search(g:xml_jump_string, 'csW') " Moves cursor by default
-        execute "normal! " . strlen(g:xml_jump_string) . "x"
-        if col(".") == col("$") - 1
-            startinsert!
-        else
-            startinsert
+        if g:xml_jump_string != ""
+            let foo = search(g:xml_jump_string, 'csW') " Moves cursor by default
+            execute "normal! " . strlen(g:xml_jump_string) . "x"
+            if col(".") == col("$") - 1
+                startinsert!
+            else
+                startinsert
+            endif
         endif
     else
         echohl WarningMsg
@@ -652,7 +661,7 @@ endfunction
 " }}}2
 
 let s:revision=
-      \ substitute("$Revision: 78 $",'\$\S*: \([.0-9]\+\) \$','\1','')
+      \ substitute("$Revision: 82 $",'\$\S*: \([.0-9]\+\) \$','\1','')
 silent! let s:install_status =
     \ s:XmlInstallDocumentation(expand('<sfile>:p'), s:revision)
 if (s:install_status == 1)
@@ -691,18 +700,18 @@ else
     execute "inoremap <buffer> " . g:xml_tag_completion_map . " <Esc>:call <SID>InsertGt()<Cr>"
 endif
 
-if exists("g:xml_jump_string")
-    nnoremap <buffer> <LocalLeader><Space> :call <SID>EditFromJump()<Cr>
-    inoremap <buffer> <LocalLeader><Space> <Esc>:call <SID>EditFromJump()<Cr>
-    " Clear out all left over xml_jump_string garbage
-    execute "nnoremap <buffer> <LocalLeader><LocalLeader> :%s/" . g:xml_jump_string . "//ge<Cr>"
-    " The syntax files clear out any predefined syntax definitions. Recreate
-    " this when ever a xml_jump_string is created. (in ParseTag)
-endif
+nnoremap <buffer> <LocalLeader><Space> :call <SID>EditFromJump()<Cr>
+inoremap <buffer> <LocalLeader><Space> <Esc>:call <SID>EditFromJump()<Cr>
+" Clear out all left over xml_jump_string garbage
+nnoremap <buffer> <LocalLeader>w :call <SID>ClearJumpMarks()<Cr>
+" The syntax files clear out any predefined syntax definitions. Recreate
+" this when ever a xml_jump_string is created. (in ParseTag)
 
 augroup xml
     au!
     au BufNewFile * call <SID>NewFileXML()
+    " Remove left over garbage from xml_jump_string on file save.
+    au BufWritePre <buffer> call <SID>ClearJumpMarks()
 augroup END
 "}}}1
 finish
@@ -763,7 +772,7 @@ Mappings {{{2 ~
 plugins to use. By default this is the backslash key `\'. See |mapleader|
 for details.
 
-<LocalLeader>Space
+<LocalLeader><Space>
         Normal or Insert - Continue editing after the ending tag. This
         option requires xml_jump_string to be set to function. When a tag
         is completed it will append the xml_jump_string. Once this mapping
@@ -771,7 +780,7 @@ for details.
         of the curser and delete it leaving you in insert mode to continue
         editing.
 
-<LocalLeader><LocalLeader>
+<LocalLeader>w
         Normal - Will clear the entire file of left over xml_jump_string garbage.
         * This will also happen automatically when you save the file. *
 
