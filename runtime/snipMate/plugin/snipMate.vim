@@ -214,7 +214,7 @@ fun! ExpandSnippet()
 				let i += 1
 			endw
 			" expand tabs to spaces if 'expandtab' is set
-			if &et | let snippet = substitute(snippet, '\t', repeat(' ', &ts), 'g') | en
+			if &et | let snippet = substitute(snippet, '\t', repeat(' ', &sts), 'g') | en
 
 			let snip = split(substitute(snippet, '$\d\|${\d.\{-}}', '', 'g'), "\n", 1)
 			if afterCursor != '' | let snip[-1] .= afterCursor | en
