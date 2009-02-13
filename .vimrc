@@ -201,13 +201,16 @@ call theonevimlibsetup#Setup()
 set runtimepath+=~/.vim/runtime/vim-ruby
 set runtimepath+=~/.vim/runtime/vim-rails
 set runtimepath+=~/.vim/runtime/nerdcommenter
-set runtimepath+=~/.vim/runtime/nerdsnippets
+" set runtimepath+=~/.vim/runtime/nerdsnippets
 set runtimepath+=~/.vim/runtime/vimoutliner
+set runtimepath+=~/.vim/runtime/snipMate
+set runtimepath+=~/.vim/runtime/snipMate/after
 " set runtimepath+=~/.vim/runtime/0scan
 " set runtimepath+=~/.vim/runtime/colortest
 " set runtimepath+=~/.vim/runtime/csapprox
 
-runtime plugin/NERD_snippets.vim
+" runtime plugin/snipMate.vim
+" runtime plugin/NERD_snippets.vim
 runtime plugin/NERD_commenter.vim
 " }}}1
 
