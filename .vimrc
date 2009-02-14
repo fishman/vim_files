@@ -48,6 +48,7 @@
 "   ------ *> bufexplorer.vim
 "   ------ *> lineup.vim
 "   ------ *> fuzzyfinder.vim
+"   ------ *> xml.vim
 "   ------ *> yankring.vim
 "   ------ *> C/C++ stuff
 "   ------ *> Others
@@ -824,6 +825,12 @@ map <leader>s? z=
   let g:fuzzy_ignore = "*.log;*.o;*.jpg;*.gif;*png;.svn;application/cache/**"
 
   """"""""""""""""""""""""""""""
+  " => xml.vim
+  """"""""""""""""""""""""""""""
+  let xml_tag_completion_map = "<C-l>"
+
+
+  """"""""""""""""""""""""""""""
   " => yankring.vim
   """"""""""""""""""""""""""""""
    map <leader>yr :YRShow<cr>
@@ -914,7 +921,7 @@ imap <silent> \` <ESC>:QFix<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " map omni complete to ctrl-f
 inoremap <C-F> <C-X><C-O>
-inoremap <C-L> <C-P>
+" inoremap <C-L> <C-P>
 " use global scope search
 let OmniCpp_GlobalScopeSearch = 1
 " 0 = namespaces disabled
