@@ -1,4 +1,4 @@
-*xml-plugin.txt*  Help edit XML and SGML documents.                   v78
+*xml-plugin.txt*  Help edit XML and SGML documents.                   v82
 
                                    XML Edit      ~
 
@@ -50,7 +50,7 @@ Mappings      ~
 plugins to use. By default this is the backslash key `\'. See |mapleader|
 for details.
 
-<LocalLeader>Space
+<LocalLeader><Space>
         Normal or Insert - Continue editing after the ending tag. This
         option requires xml_jump_string to be set to function. When a tag
         is completed it will append the xml_jump_string. Once this mapping
@@ -58,7 +58,7 @@ for details.
         of the curser and delete it leaving you in insert mode to continue
         editing.
 
-<LocalLeader><LocalLeader>
+<LocalLeader>w
         Normal - Will clear the entire file of left over xml_jump_string garbage.
         * This will also happen automatically when you save the file. *
 

@@ -1621,13 +1621,6 @@ g:vimball_home	pi_vimball.txt	/*g:vimball_home*
 g:vimball_mkdir	pi_vimball.txt	/*g:vimball_mkdir*
 g:vimball_path_escape	pi_vimball.txt	/*g:vimball_path_escape*
 global-example	yankring.txt	/*global-example*
-hicolors	hicolors.txt	/*hicolors*
-hicolors-contents	hicolorshelp.txt	/*hicolors-contents*
-hicolors-copyright	hicolorshelp.txt	/*hicolors-copyright*
-hicolors-history	hicolorshelp.txt	/*hicolors-history*
-hicolors-usage	hicolorshelp.txt	/*hicolors-usage*
-hicolors-use	hicolorshelp.txt	/*hicolors-use*
-hicolorshelp.txt	hicolorshelp.txt	/*hicolorshelp.txt*
 i_CTRL-G_S	surround.txt	/*i_CTRL-G_S*
 i_CTRL-G_s	surround.txt	/*i_CTRL-G_s*
 im_1	imaps.txt	/*im_1*
