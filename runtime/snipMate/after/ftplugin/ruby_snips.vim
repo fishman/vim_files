@@ -12,7 +12,7 @@ exe 'Snipp # # =>'
 exe 'Snipp end __END__'
 exe "Snipp case case ${1:object}\nwhen ${2:condition}\n\t${3}\nend"
 exe "Snipp when when ${1:condition}\n\t${2}"
-exe "Snipp def ${1:method_name}\n\t${2}\nend"
+exe "Snipp def def ${1:method_name}\n\t${2}\nend"
 exe "Snipp deft def test_${1:case_name}\n\t${2}\nend"
 exe "Snipp if if ${1:condition}\n\t${2}\nend"
 exe "Snipp ife if ${1:condition}\n\t${2}\nelse\n\t${3}\nend"
