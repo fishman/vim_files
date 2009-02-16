@@ -1031,6 +1031,8 @@ endif
 
 " toggle folds with space
 nnoremap  <silent>  <space> :exe 'silent! normal! za'.(foldlevel('.')?'':'1')<cr>
+" create fold in visual mode
+vnoremap <space> zf
 " Toggle fold state between closed and opened.
 "
 "nnoremap <space> :call ToggleFold()<CR>
