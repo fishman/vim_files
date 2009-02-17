@@ -29,3 +29,7 @@
 [submodule "runtime/theonevimlib"]
   path = runtime/theonevimlib
   url = git://github.com/MarcWeber/theonevimlib.git
+
+[submodule "runtime/snipMate"]
+  path = runtime/snipMate
+  url = git://github.com/meese/snipmate.vim.git
