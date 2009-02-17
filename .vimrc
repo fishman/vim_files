@@ -206,6 +206,10 @@ set runtimepath+=~/.vim/runtime/nerdcommenter
 set runtimepath+=~/.vim/runtime/vimoutliner
 set runtimepath+=~/.vim/runtime/snipMate
 set runtimepath+=~/.vim/runtime/snipMate/after
+
+if has("win32")
+  set rtp+=~/.vim/plugin_win
+endif
 " set runtimepath+=~/.vim/runtime/0scan
 " set runtimepath+=~/.vim/runtime/colortest
 " set runtimepath+=~/.vim/runtime/csapprox
