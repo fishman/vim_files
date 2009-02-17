@@ -1102,6 +1102,9 @@ map <F2> :%s/\s*$//g<cr>:noh<cr>''
 " super paste
 inoremap <C-V> <esc>:set paste<cr>mui<C-R>+<esc>mv'uV'v=:set nopaste<cr>
 
+" copy into clipboard
+vnoremap <C-C> "+y
+
 " select range, hit :call SuperRetab($width) - by p0g and FallingCow
 fu! SuperRetab(width) range
   sil! exe a:firstline.','.a:lastline.'s/\v%(^ *)@<= {'. a:width .'}/\t/g'
