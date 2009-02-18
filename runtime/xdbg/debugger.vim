@@ -1,4 +1,4 @@
-pyfile $HOME/.vim/xdebugger/debugger.py
+pyfile $HOME/.vim/runtime/xdbg/debugger.py
 map <Leader><F1> :python debugger_resize()<cr>
 map <Leader><F2> :python debugger_command('step_into')<cr>
 map <Leader><F3> :python debugger_command('step_over')<cr>
