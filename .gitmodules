@@ -32,4 +32,4 @@
 
 [submodule "runtime/snipMate"]
   path = runtime/snipMate
-  url = git://github.com/meese/snipmate.vim.git
+  url = git@github.com:fishman/snipmate.vim.git
