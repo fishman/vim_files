@@ -33,3 +33,7 @@
 [submodule "runtime/snipMate"]
   path = runtime/snipMate
   url = git@github.com:fishman/snipmate.vim.git
+
+[submodule "runtime/xdbg"]
+  path = runtime/xdbg
+  url = git://git.koch.ro/git/vim-debugger-dbgp
