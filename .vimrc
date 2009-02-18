@@ -214,7 +214,7 @@ endif
 " set runtimepath+=~/.vim/runtime/colortest
 " set runtimepath+=~/.vim/runtime/csapprox
 
-" runtime plugin/snipMate.vim
+runtime plugin/snipMate.vim
 " runtime plugin/NERD_snippets.vim
 runtime plugin/NERD_commenter.vim
 " }}}1
