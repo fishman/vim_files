@@ -1,3 +1,5 @@
+call SnipMateReset()
+
 source ~/.vim/snipmate-snippets/support_functions.vim
  
  
