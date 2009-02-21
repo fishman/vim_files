@@ -1,0 +1,18 @@
+[submodule "runtime/nerdcommenter"]
+	path = runtime/nerdcommenter
+	url = git://github.com/scrooloose/nerdcommenter.git
+[submodule "runtime/vim-ruby"]
+	path = runtime/vim-ruby
+	url = git://github.com/vim-ruby/vim-ruby.git
+[submodule "runtime/vim-rails"]
+	path = runtime/vim-rails
+	url = git://github.com/tpope/vim-rails.git
+[submodule "runtime/theonevimlib"]
+	path = runtime/theonevimlib
+	url = git@github.com:fishman/theonevimlib.git
+[submodule "runtime/snipMate"]
+	path = runtime/snipMate
+	url = git@github.com:fishman/snipmate.vim.git
+[submodule "snipmate-snippets"]
+	path = snipmate-snippets
+	url = git@github.com:fishman/snipmate-snippets.git
