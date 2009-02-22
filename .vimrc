@@ -208,7 +208,8 @@ set runtimepath+=~/.vim/runtime/snipMate
 set runtimepath+=~/.vim/runtime/snipMate/after
 
 if has("win32")
-  set rtp+=~/.vim/plugin_win
+  set rtp+=~/.vim/runtime/win
+  runtime plugin/visual_studio.vim
 endif
 " set runtimepath+=~/.vim/runtime/0scan
 " set runtimepath+=~/.vim/runtime/colortest
