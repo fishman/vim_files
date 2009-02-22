@@ -250,8 +250,7 @@ set visualbell
 set t_vb=
 set noerrorbells        " do not make noise
 " set listchars=tab:\|\ ,trail:.,extends:>,precedes:<,eol:$
-set listchars=tab:>\ ,trail:.,extends:>,precedes:<,nbsp:‗
-" set listchars=tab:\ \ ,trail:·,extends:…,
+set listchars=tab:»\ ,trail:·,extends:>,precedes:<,nbsp:‗,eol:↵
                         " how :set list show
 set magic               " set magic on
 set completeopt=menu    " use popup menu to show possible completions

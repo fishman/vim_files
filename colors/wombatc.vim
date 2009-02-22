@@ -25,7 +25,7 @@ endif
 " General colors
 hi Cursor 		guifg=NONE    guibg=#656565 gui=none   ctermfg=NONE ctermbg=241  cterm=none
 hi Normal 		guifg=#f6f3e8 guibg=#242424 gui=none   ctermfg=230  ctermbg=235  cterm=none
-hi NonText 		guifg=#808080 guibg=#303030 gui=none   ctermfg=244  ctermbg=236  cterm=none
+hi NonText 		guifg=#808080 guibg=#303030 gui=none   ctermfg=180  ctermbg=236  cterm=none
 hi LineNr 		guifg=#857b6f guibg=#000000 gui=none   ctermfg=101  ctermbg=0    cterm=none
 hi StatusLine 	guifg=#f6f3e8 guibg=#444444 gui=italic ctermfg=230  ctermbg=238	 cterm=italic
 hi StatusLineNC guifg=#857b6f guibg=#444444 gui=none   ctermfg=101  ctermbg=238  cterm=none
@@ -33,7 +33,7 @@ hi VertSplit 	guifg=#444444 guibg=#444444 gui=none   ctermfg=238  ctermbg=238  c
 hi Folded 		guibg=#384048 guifg=#a0a8b0 gui=none   ctermbg=237  ctermfg=248  cterm=none
 hi Title		guifg=#f6f3e8 guibg=NONE	gui=bold   ctermfg=230  ctermbg=NONE cterm=bold
 hi Visual		guifg=#f6f3e8 guibg=#444444 gui=none   ctermfg=230  ctermbg=238  cterm=none
-hi SpecialKey	guifg=#808080 guibg=#343434 gui=none   ctermfg=244  ctermbg=236  cterm=none
+hi SpecialKey	guifg=#808080 guibg=#343434 gui=none   ctermfg=180  ctermbg=236  cterm=none
 
 " Syntax highlighting
 hi Comment 		guifg=#99968b gui=italic ctermfg=246       cterm=none          
