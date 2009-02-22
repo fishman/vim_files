@@ -1065,8 +1065,6 @@ let g:xml_use_xhtml = 1
 let g:xml_use_html = 1
 
 let g:rails_default_database="mysql"
-"autocmd User Rails.view.rhtml*  imap  <buffer> <C-Z> <%=  %><C-O>3h
-autocmd FileType eruby  imap  <buffer> <C-Z> <%=  %><C-O>3h
 
 " latex settings
 let g:tex_flavor='latex'
