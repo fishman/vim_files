@@ -323,8 +323,8 @@ vnoremap <silent> # :call VisualSearch('b')<CR>
 map <C-space> ?
 
 " set H and L to first and last character of line
-map H ^
-map L $
+nnoremap H ^
+nnoremap L $
 
 " smart way to switch between windows
 map <C-j> <C-W>j
