@@ -35,6 +35,7 @@
 "   ------ *> grep.vim
 "   ------ *> a.vim
 "   ------ *> crefvim.vim
+"   ------ *> largefile.vim
 "   ------ *> taglist.vim
 "   ------ *> project.vim
 "   ------ *> projtags.vim
@@ -218,6 +219,8 @@ endif
 runtime plugin/snipMate.vim
 " runtime plugin/NERD_snippets.vim
 runtime plugin/NERD_commenter.vim
+" matchit fun
+runtime macros/matchit.vim
 " }}}1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -654,6 +657,12 @@ map <leader>s? z=
   map <silent> <Leader>cc <Plug>CRV_CRefVimAsk
   vmap <silent> <Leader>cr <Plug>CRV_CRefVimVisual
   nmap <silent> <Leader>cr <Plug>CRV_CRefVimNormal
+
+
+  """"""""""""""""""""""""""""""
+  " => largefile.vim
+  """"""""""""""""""""""""""""""
+  let g:LargeFile = 3
 
 
   """"""""""""""""""""""""""""""
@@ -1231,12 +1240,6 @@ command! RunPyBuffer call DoRunPyBuffer2()
 
 "EOF
 endif
-
-" handle large files
-let g:LargeFile = 3
-
-" matchit fun
-runtime macros/matchit.vim
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim: set et ft=vim tw=78 path+=$VIMFILES/* tags+=$VIMRUNTIME/doc/tags:
