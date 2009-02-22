@@ -58,9 +58,9 @@ map \<F8> :python debugger_command('step_over')<cr>
 map \<F9> :python debugger_command('step_out')<cr>
 
 " use F10 since f11 is expose for me
-map \<F10> :python debugger_context()<cr>
+map \<F11> :python debugger_context()<cr>
 map \<F12> :python debugger_property()<cr>
-map \<F10> :python debugger_watch_input("context_get")<cr>A<cr>
+map \<F11> :python debugger_watch_input("context_get")<cr>A<cr>
 map \<F12> :python debugger_watch_input("property_get", '<cword>')<cr>A<cr>
 
 hi DbgCurrent term=reverse ctermfg=White ctermbg=Red gui=reverse
