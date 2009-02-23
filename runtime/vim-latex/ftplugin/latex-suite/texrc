@@ -3,7 +3,7 @@
 " 	     File: texrc.vim
 "      Author: Srinath Avadhanula
 "     Created: Mon Apr 01 11:00 AM 2002 PST
-"         CVS: $Id: texrc 1046 2009-01-20 14:13:19Z tmaas $
+"         CVS: $Id$
 "
 "  Description: This file contains resource configuration information for the
 "               latex-suite package.
@@ -24,7 +24,7 @@
 "                 in this case.
 "
 "        NOTE: This file is best viewed with Vim-6.0+ with folding turned on.
-"         CVS: $Id: texrc 1046 2009-01-20 14:13:19Z tmaas $
+"         CVS: $Id$
 "=============================================================================
 
 " ==============================================================================

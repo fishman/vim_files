@@ -2,7 +2,7 @@
 " 	     File: envmacros.vim
 "      Author: Mikolaj Machowski
 "     Created: Tue Apr 23 08:00 PM 2002 PST
-"  CVS Header: $Id: envmacros.vim 1016 2008-05-06 09:47:54Z tmaas $
+"  CVS Header: $Id$
 "  Description: mappings/menus for environments. 
 "=============================================================================
 

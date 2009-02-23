@@ -1,7 +1,7 @@
 " LaTeX filetype
 "	  Language: LaTeX (ft=tex)
 "	Maintainer: Srinath Avadhanula
-"		   CVS: $Id: main.vim 1013 2006-04-29 02:36:23Z srinathava $
+"		   CVS: $Id$
 "		   URL: 
 
 " line continuation used here.
