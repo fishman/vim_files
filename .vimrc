@@ -212,10 +212,6 @@ if has("win32")
   set rtp+=~/.vim/runtime/win
   runtime plugin/visual_studio.vim
 endif
-" set runtimepath+=~/.vim/runtime/0scan
-" set runtimepath+=~/.vim/runtime/colortest
-" set runtimepath+=~/.vim/runtime/csapprox
-let &runtimepath = '~/.vim/runtime/vim-latex,' . &runtimepath
 
 runtime plugin/snipMate.vim
 " runtime plugin/NERD_snippets.vim
