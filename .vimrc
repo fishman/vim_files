@@ -986,7 +986,11 @@ augroup END
 
 " this allows us to write to files even when we 
 " forget to use sudo to launch vim
-cmap w!! %!sudo tee > /dev/null %
+command! -bang -nargs=? Sudow call SudoWrite()
+function! SudoWrite()
+  %!sudo tee > /dev/null %
+endfunction
+
 
 " use jj for esc hh for dvorak
 imap jj <Esc>
