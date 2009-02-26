@@ -3,7 +3,7 @@ call SnipMateReset()
 source ~/.vim/snipmate-snippets/support_functions.vim
  
  
-call SnipMateExtractSnippetsFromDir("~/.vim/snipmate-snippets")
+call SnipMateExtractSnippets("~/.vim/snipmate-snippets")
  
 function! s:inRailsEnv()
     return filereadable(getcwd() . '/config/environment.rb')
@@ -13,17 +13,26 @@ function! s:inZendEnv()
     return filereadable(getcwd() . '/application/config/application.ini')
 endfunction
  
+function! s:inCakeEnv()
+    return filereadable(getcwd() . '/cake/bootstrap.php')
+endfunction
+ 
 if s:inRailsEnv()
-    call SnipMateExtractSnippetsFromDirForFiletype('~/.vim/snipmate-snippets/ruby-rails', 'ruby')
-    call SnipMateExtractSnippetsFromDirForFiletype('~/.vim/snipmate-snippets/eruby-rails', 'eruby')
+    call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/ruby-rails', 'ruby')
+    call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/eruby-rails', 'eruby')
 endif
  
 if s:inZendEnv()
-    call SnipMateExtractSnippetsFromDirForFiletype('~/.vim/snipmate-snippets/zend', 'php')
+    call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/zend', 'php')
 endif
  
-call SnipMateExtractSnippetsFromDirForFiletype('~/.vim/snipmate-snippets/html', 'eruby')
-call SnipMateExtractSnippetsFromDirForFiletype('~/.vim/snipmate-snippets/html', 'xhtml')
-call SnipMateExtractSnippetsFromDirForFiletype('~/.vim/snipmate-snippets/html', 'php')
+if s:inCakeEnv()
+    call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/cakephp', 'php')
+    call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/cakephtml', 'php')
+endif
 
-call SnipMateExtractSnippetsFromDirForFiletype('~/.vim/snipmate-snippets/objc', 'objcpp')
+call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/html', 'eruby')
+call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/html', 'xhtml')
+call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/html', 'php')
+
+call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/objc', 'objcpp')
