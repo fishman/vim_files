@@ -1,5 +1,8 @@
 call SnipMateReset()
 
+let g:snipmate_snippets_dir="~/.vim/snipmate-snippets"
+let g:snips_author="Reza Jelveh"
+
 source ~/.vim/snipmate-snippets/support_functions.vim
  
  
