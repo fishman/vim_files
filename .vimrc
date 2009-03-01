@@ -326,6 +326,9 @@ map <C-space> ?
 nnoremap H ^
 nnoremap L $
 
+" yank to end of line
+nnoremap Y y$
+
 " smart way to switch between windows
 map <C-j> <C-W>j
 map <C-k> <C-W>k
