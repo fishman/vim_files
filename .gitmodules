@@ -13,6 +13,6 @@
 [submodule "runtime/snipMate"]
 	path = runtime/snipMate
 	url = git@github.com:fishman/snipmate.vim.git
-[submodule "snipmate-snippets"]
-	path = snipmate-snippets
+[submodule "snippets"]
+	path = snippets
 	url = git@github.com:fishman/snipmate-snippets.git
