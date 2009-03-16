@@ -1,8 +1,8 @@
 "=============================================================================
 " File: gist.vim
 " Author: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-" Last Change: 30-Jan-2009. Jan 2008
-" Version: 2.0
+" Last Change: 13-Mar-2009. Jan 2008
+" Version: 2.3
 " WebPage: http://github.com/mattn/gist-vim/tree/master
 " Usage:
 "
@@ -15,8 +15,15 @@
 "   :Gist -p
 "     post whole text to gist with private.
 "
+"   :Gist -a
+"     post whole text to gist with anonymous.
+"
 "   :Gist -e
 "     edit the gist. (shoud be work on gist buffer)
+"     you can update the gist with :w command on gist buffer.
+"
+"   :Gist -e foo.js
+"     edit the gist with name 'foo.js'. (shoud be work on gist buffer)
 "
 "   :Gist XXXXX
 "     edit gist XXXXX.
@@ -165,6 +172,7 @@ function! s:GistList(user, token, gistls)
   silent! %s/&gt;/>/g
   silent! %s/&lt;/</g
   silent! %s/&#\(\d\d\);/\=nr2char(submatch(1))/g
+  setlocal buftype=nofile bufhidden=hide noswapfile 
   setlocal nomodified
   syntax match SpecialKey /^gist: /he=e-2
   exec 'nnoremap <silent> <buffer> <cr> :call <SID>GistListAction()<cr>'
@@ -200,6 +208,7 @@ function! s:GistGet(user, token, gistid, clipboard)
   filetype detect
   exec '%d _'
   exec 'silent 0r! curl -s '.url
+  setlocal buftype=acwrite bufhidden=delete noswapfile 
   setlocal nomodified
   doau StdinReadPost <buffer>
   normal! gg
@@ -213,6 +222,7 @@ function! s:GistGet(user, token, gistid, clipboard)
       normal! ggVG"+y
     endif
   endif
+  au BufWriteCmd <buffer> Gist -e
 endfunction
 
 function! s:GistListAction()
@@ -224,8 +234,12 @@ function! s:GistListAction()
   endif
 endfunction
 
-function! s:GistUpdate(user, token, content, gistid)
-  let name = s:GistGetFileName(a:gistid)
+function! s:GistUpdate(user, token, content, gistid, gistnm)
+  if len(a:gistnm) == 0
+    let name = s:GistGetFileName(a:gistid)
+  else
+    let name = a:gistnm
+  endif
   let namemx = '^[^.]\+\(.\+\)$'
   let ext = ''
   if name =~ namemx
@@ -259,6 +273,7 @@ function! s:GistUpdate(user, token, content, gistid)
   let res = matchstr(split(res, '\(\r\?\n\|\r\n\?\)'), '^Location: ')
   let res = substitute(res, '^.*: ', '', '')
   if len(res) > 0 && res != 'http://gist.github.com/gists' 
+    setlocal nomodified
     echo 'done: '.res
   else
     echoerr 'Edit failed'
@@ -274,9 +289,15 @@ function! s:GistPost(user, token, content, private)
     \ 'file_ext[gistfile1]=%s',
     \ 'file_name[gistfile1]=%s',
     \ 'file_contents[gistfile1]=%s',
-    \ 'login=%s',
-    \ 'token=%s',
     \ ]
+
+  if len(a:user) > 0 && len(a:token) > 0
+    call add(query, 'login=%s')
+    call add(query, 'token=%s')
+  else
+    call add(query, '%.0s%.0s')
+  endif
+
   if a:private
     call add(query, 'private=on')
   endif
@@ -316,8 +337,11 @@ function! Gist(line1, line2, ...)
   endif
 
   let bufname = bufname("%")
+  let user = g:github_user
+  let token = g:github_token
   let gistid = ''
   let gistls = ''
+  let gistnm = ''
   let private = 0
   let clipboard = 0
   let editpost = 0
@@ -332,13 +356,18 @@ function! Gist(line1, line2, ...)
       let gistls = g:github_user
     elseif arg =~ '^\(-p\|--private\)$'
       let private = 1
+    elseif arg =~ '^\(-a\|--anonymous\)$'
+      let user = ''
+      let token = ''
     elseif arg =~ '^\(-c\|--clipboard\)$'
       let clipboard = 1
     elseif arg =~ '^\(-e\|--edit\)$' && bufname =~ bufnamemx
       let editpost = 1
       let gistid = substitute(bufname, bufnamemx, '\1', '')
-    elseif arg =~ '^[0-9A-Za-z\-_]\+$'
-      if len(gistls) > 0
+    elseif len(gistls) > 0 && len(gistnm) == 0
+      if editpost == 1
+        let gistnm = arg
+      elseif len(gistls) > 0
         let gistls = arg
       else
         let gistid = arg
@@ -352,20 +381,21 @@ function! Gist(line1, line2, ...)
   unlet args
   "echo "gistid=".gistid
   "echo "gistls=".gistls
+  "echo "gistnm=".gistnm
   "echo "private=".private
   "echo "clipboard=".clipboard
   "echo "editpost=".editpost
 
   if len(gistls) > 0
-    call s:GistList(g:github_user, g:github_token, gistls)
+    call s:GistList(user, token, gistls)
   elseif len(gistid) > 0 && editpost == 0
-    call s:GistGet(g:github_user, g:github_token, gistid, clipboard)
+    call s:GistGet(user, token, gistid, clipboard)
   else
     let content = join(getline(a:line1, a:line2), "\n")
     if editpost == 1
-      let url = s:GistUpdate(g:github_user, g:github_token, content, gistid)
+      let url = s:GistUpdate(user, token, content, gistid, gistnm)
     else
-      let url = s:GistPost(g:github_user, g:github_token, content, private)
+      let url = s:GistPost(user, token, content, private)
     endif
     if len(url) > 0 && g:gist_open_browser_after_post
       let cmd = substitute(g:gist_browser_command, '%URL%', url, 'g')
