@@ -990,7 +990,7 @@ augroup END
 
 " this allows us to write to files even when we 
 " forget to use sudo to launch vim
-command! -bar -nargs=0 Sudow :silent exe "%!sudo tee > /dev/null %" | silent edit!
+command! -bar -nargs=0 Sudow :silent exe "w !sudo tee % > /dev/null" | silent edit!
 
 
 " use jj for esc hh for dvorak
