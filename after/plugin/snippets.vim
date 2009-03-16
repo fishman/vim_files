@@ -1,12 +1,11 @@
 call SnipMateReset()
 
-let g:snipmate_snippets_dir="~/.vim/snipmate-snippets"
 let g:snips_author="Reza Jelveh"
 
-source ~/.vim/snipmate-snippets/support_functions.vim
+source ~/.vim/snippets/support_functions.vim
  
  
-call SnipMateExtractSnippets("~/.vim/snipmate-snippets")
+call SnipMateExtractSnippets("~/.vim/snippets")
  
 function! s:inRailsEnv()
     return filereadable(getcwd() . '/config/environment.rb')
@@ -21,21 +20,24 @@ function! s:inCakeEnv()
 endfunction
  
 if s:inRailsEnv()
-    call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/ruby-rails', 'ruby')
-    call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/eruby-rails', 'eruby')
+    call SnipMateExtractSnippetsForFiletype('~/.vim/snippets/ruby-rails', 'ruby')
+    call SnipMateExtractSnippetsForFiletype('~/.vim/snippets/eruby-rails', 'eruby')
 endif
  
 if s:inZendEnv()
-    call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/zend', 'php')
+    call SnipMateExtractSnippetsForFiletype('~/.vim/snippets/zend', 'php')
 endif
  
 if s:inCakeEnv()
-    call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/cakephp', 'php')
-    call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/cakephtml', 'php')
+    call SnipMateExtractSnippetsForFiletype('~/.vim/snippets/cakephp', 'php')
+    call SnipMateExtractSnippetsForFiletype('~/.vim/snippets/cakephtml', 'php')
 endif
 
-call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/html', 'eruby')
-call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/html', 'xhtml')
-call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/html', 'php')
+call SnipMateExtractSnippetsForFiletype('~/.vim/snippets/html', 'eruby')
+call SnipMateExtractSnippetsForFiletype('~/.vim/snippets/html', 'xhtml')
+call SnipMateExtractSnippetsForFiletype('~/.vim/snippets/html', 'php')
 
-call SnipMateExtractSnippetsForFiletype('~/.vim/snipmate-snippets/objc', 'objcpp')
+call SnipMateExtractSnippetsForFiletype('~/.vim/snippets/objc', 'objcpp')
+call SnipMateExtractSnippetsForFiletype('~/.vim/snippets/c', 'objcpp')
+
+call SnipMateExtractSnippetsForFiletype('~/.vim/snippets/c', 'objc')
