@@ -554,8 +554,8 @@ endf
 " Search Related: {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " toggle search highlighting
-map <silent> \ :let @/=""<cr><esc>
-" map <silent> \ :nohl<cr>
+" map <silent> \ :let @/=""<cr><esc>
+map <silent> \ :nohl<cr>
 " }}}1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
