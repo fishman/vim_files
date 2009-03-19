@@ -4,6 +4,7 @@ let g:snips_author="Reza Jelveh"
 
 source ~/.vim/snippets/support_functions.vim
  
+call GetSnippets('~/.vim/snippets')
  
 function! s:inRailsEnv()
     return filereadable(getcwd() . '/config/environment.rb')
