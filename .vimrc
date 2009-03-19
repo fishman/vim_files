@@ -364,6 +364,10 @@ map <leader>bw :bw<cr>
 " use the arrows to do something useful
 map <right> :bn<cr>
 map <left> :bp<cr>
+inoremap <up> <C-o>gk
+inoremap <down> <C-o>gj
+nnoremap <up> gk
+nnoremap <down> gj
 
 " tab configuration
 " conflicts with stlref
