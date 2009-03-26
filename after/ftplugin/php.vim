@@ -22,3 +22,11 @@ map <C-F11> :!ctags -f .tmtags --excmd=pattern -R --tag-relative=yes
 set et
 set sts=4
 set sw=4
+set ts=4
+function! s:inCakeEnv()
+    return filereadable(getcwd() . '/cake/bootstrap.php')
+endfunction
+ 
+if s:inCakeEnv()
+	set noet
+endif
