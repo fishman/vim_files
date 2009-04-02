@@ -753,7 +753,6 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   " => NERD_commenter.vim
   """"""""""""""""""""""""""""""
-  let g:NERDShutUp = 1
   let g:NERDComLineMap = ''
   let g:NERDSpaceDelims = 1
 
