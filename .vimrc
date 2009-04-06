@@ -544,10 +544,10 @@ fu! <SID>BufcloseCloseIt()
     bnext
   endif
   if bufnr("%") == l:currentBufNum
-    new
+    enew
   endif
   if buflisted(l:currentBufNum)
-    execute("bdelete! ".l:currentBufNum)
+    execute "bdelete! ".l:currentBufNum 
   endif
 endf
 " }}}1
