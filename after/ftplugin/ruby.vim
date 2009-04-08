@@ -7,3 +7,7 @@ let g:rubycomplete_classes_in_global = 1
 " v...s#  Wrap the selection in #{}
 let g:surround_113 = "#{\r}"   " v
 let g:surround_35  = "#{\r}"   " #
+
+command! -bar -nargs=0 Irb :silent exe "!screen -S irb -X stuff " . shellescape(getline(".")) . "\015" | silent redraw!
+
+setl nu
