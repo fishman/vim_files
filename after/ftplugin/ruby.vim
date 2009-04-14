@@ -17,3 +17,4 @@ nmap <silent> <Leader>a :A<CR>
 nmap <silent> <Leader>rm :Rmodel<cr>
 nmap <silent> <Leader>rc :Rcontroller<cr>
 nmap <silent> <Leader>rv :Rview<cr>
+nmap <silent> <Leader>rf :Rfixtures<cr>
