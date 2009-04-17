@@ -14,6 +14,7 @@ setl nu
 
 nmap <silent> <Leader>r :R<CR>
 nmap <silent> <Leader>a :A<CR>
+nmap <silent> <Leader>rt :Rtags<CR><CR>
 nmap <silent> <Leader>rm :Rmodel<cr>
 nmap <silent> <Leader>rc :Rcontroller<cr>
 nmap <silent> <Leader>rv :Rview<cr>
