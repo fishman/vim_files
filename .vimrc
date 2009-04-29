@@ -824,17 +824,17 @@ map <leader>s? z=
   let g:FuzzyFinderOptions.Base.migemo_support = 0
   "let g:FuzzyFinderOptions.Base.key_open_split = '<C-O>'
   let g:FuzzyFinderOptions.File.excluded_path = '\v\~$|\.obj$|\.jpg$|\.gif$|\.o$|\./|\.git/|\.svn/|\.DS_Store|\.exe$|\.bak$|\.swp$|((^|[/\\])\.[/\\]$)'
-  noremap <leader>fp :FuzzyFinderFile Project-<CR>
-  noremap <leader>ff :FuzzyFinderFile<CR>
-  noremap <leader>fb :FuzzyFinderBuffer<CR>
-  noremap <leader>fm :FuzzyFinderMruFile<CR>
-  noremap <leader>fv :FuzzyFinderBookmark<CR>
-  noremap <leader>fa :FuzzyFinderAddBookmark<CR>
-  noremap <leader>fd :FuzzyFinderDir<CR>
-  noremap <leader>ft :FuzzyFinderTag<CR>
-  noremap <leader>fc :FuzzyFinderRemoveCache<CR>
-  noremap <leader>t :FuzzyFinderTextMate<CR>
-  noremap <leader>fr :FuzzyFinderTextMateRefreshFiles<CR>
+  noremap <silent> <leader>fp :FuzzyFinderFile Project-<CR>
+  noremap <silent> <leader>ff :FuzzyFinderFile<CR>
+  noremap <silent> <leader>fb :FuzzyFinderBuffer<CR>
+  noremap <silent> <leader>fm :FuzzyFinderMruFile<CR>
+  noremap <silent> <leader>fv :FuzzyFinderBookmark<CR>
+  noremap <silent> <leader>fa :FuzzyFinderAddBookmark<CR>
+  noremap <silent> <leader>fd :FuzzyFinderDir<CR>
+  noremap <silent> <leader>ft :FuzzyFinderTag<CR>
+  noremap <silent> <leader>fc :FuzzyFinderRenewCache<CR>
+  noremap <silent> <leader>t :FuzzyFinderTextMate<CR>
+  noremap <silent> <leader>fr :FuzzyFinderTextMateRefreshFiles<CR>
 
 
   let g:fuzzy_ignore = "*.log;*.o;*.jpg;*.gif;*png;.svn;application/cache/**"
