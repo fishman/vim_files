@@ -203,18 +203,18 @@ call theonevimlibsetup#Setup()
 set runtimepath+=~/.vim/runtime/vim-ruby
 set runtimepath+=~/.vim/runtime/vim-rails
 set runtimepath+=~/.vim/runtime/nerdcommenter
-" set runtimepath+=~/.vim/runtime/nerdsnippets
+set runtimepath+=~/.vim/runtime/nerdsnippets
 set runtimepath+=~/.vim/runtime/vimoutliner
-set runtimepath+=~/.vim/runtime/snipMate
+" set runtimepath+=~/.vim/runtime/snipMate
 
 if has("win32")
   set rtp+=~/.vim/runtime/win
   runtime plugin/visual_studio.vim
 endif
 
-runtime plugin/snipMate.vim
-runtime after/plugin/snipMate.vim
-" runtime plugin/NERD_snippets.vim
+" runtime plugin/snipMate.vim
+" runtime after/plugin/snipMate.vim
+runtime plugin/NERD_snippets.vim
 runtime plugin/NERD_commenter.vim
 " matchit fun
 runtime macros/matchit.vim
