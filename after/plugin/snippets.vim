@@ -3,7 +3,7 @@ call NERDSnippetsReset()
 " source ~/.vim/nerdsnippets/support_functions.vim
  
 " snippets = '~/.vim/nerdsnippets'
-let snippets = '~/.vim/snippets/'
+let snippets = '~/.vim/snippets'
  
 call NERDSnippetsFromDirectory(snippets)
  
@@ -20,24 +20,24 @@ function! s:inCakeEnv()
 endfunction
  
 if s:inRailsEnv()
-    call NERDSnippetsFromDirectoryForFiletype(snippets.'ruby-rails', 'ruby')
-    call NERDSnippetsFromDirectoryForFiletype(snippets.'eruby-rails', 'eruby')
+    call NERDSnippetsFromDirectoryForFiletype(snippets.'/ruby-rails', 'ruby')
+    call NERDSnippetsFromDirectoryForFiletype(snippets.'/eruby-rails', 'eruby')
 endif
  
 if s:inZendEnv()
-    call NERDSnippetsFromDirectoryForFiletype(snippets.'zend', 'php')
+    call NERDSnippetsFromDirectoryForFiletype(snippets.'/zend', 'php')
 endif
  
 if s:inCakeEnv()
-    call NERDSnippetsFromDirectoryForFiletype(snippets . 'cakephp', 'php')
-    call NERDSnippetsFromDirectoryForFiletype(snippets . 'cakephtml', 'php')
+    call NERDSnippetsFromDirectoryForFiletype(snippets . '/cakephp', 'php')
+    call NERDSnippetsFromDirectoryForFiletype(snippets . '/cakephtml', 'php')
 endif
 
-call NERDSnippetsFromDirectoryForFiletype(snippets.'html', 'eruby')
-call NERDSnippetsFromDirectoryForFiletype(snippets.'html', 'xhtml')
-call NERDSnippetsFromDirectoryForFiletype(snippets.'html', 'php')
+call NERDSnippetsFromDirectoryForFiletype(snippets.'/html', 'eruby')
+call NERDSnippetsFromDirectoryForFiletype(snippets.'/html', 'xhtml')
+call NERDSnippetsFromDirectoryForFiletype(snippets.'/html', 'php')
 
-call NERDSnippetsFromDirectoryForFiletype(snippets.'objc', 'objcpp')
-call NERDSnippetsFromDirectoryForFiletype(snippets.'c', 'objcpp')
+call NERDSnippetsFromDirectoryForFiletype(snippets.'/objc', 'objcpp')
+call NERDSnippetsFromDirectoryForFiletype(snippets.'/c', 'objcpp')
 
-call NERDSnippetsFromDirectoryForFiletype(snippets.'c', 'objc')
+call NERDSnippetsFromDirectoryForFiletype(snippets.'/c', 'objc')
