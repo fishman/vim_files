@@ -1,6 +1,6 @@
 call NERDSnippetsReset()
  
-" source ~/.vim/nerdsnippets/support_functions.vim
+source ~/.vim/snippets/support_functions.vim
  
 " snippets = '~/.vim/nerdsnippets'
 let snippets = '~/.vim/snippets'
