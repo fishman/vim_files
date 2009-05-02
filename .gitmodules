@@ -16,3 +16,6 @@
 [submodule "snippets"]
 	path = snippets
 	url = git@github.com:fishman/snipmate-snippets.git
+[submodule "runtime/nerdsnippets"]
+	path = runtime/nerdsnippets
+	url = git@github.com:fishman/nerdsnippets.git
