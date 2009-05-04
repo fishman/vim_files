@@ -8,15 +8,15 @@ let snippets = '~/.vim/snippets'
 call NERDSnippetsFromDirectory(snippets)
  
 function! s:inRailsEnv()
-    return filereadable(getcwd() . 'config/environment.rb')
+    return filereadable(getcwd() . '/config/environment.rb')
 endfunction
 
 function! s:inZendEnv()
-    return filereadable(getcwd() . 'application/config/application.ini')
+    return filereadable(getcwd() . '/application/config/application.ini')
 endfunction
  
 function! s:inCakeEnv()
-    return filereadable(getcwd() . 'cake/bootstrap.php')
+    return filereadable(getcwd() . '/cake/bootstrap.php')
 endfunction
  
 if s:inRailsEnv()
