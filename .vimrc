@@ -388,8 +388,8 @@ imap <m-0> <esc>0i
 imap <D-$> <esc>$a
 imap <D-0> <esc>0i
 
-imap <c-e> <esc>A
-imap <c-a> <esc>I
+" imap <c-e> <esc>A
+" imap <c-a> <esc>I
 
 " switch to current dir
 map <leader>cd :cd %:p:h<cr>
