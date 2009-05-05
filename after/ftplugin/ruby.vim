@@ -23,3 +23,6 @@ nmap <silent> <Leader>rc :Rcontroller<cr>
 nmap <silent> <Leader>rv :Rview<cr>
 nmap <silent> <Leader>rf :Rfixtures<cr>
 nmap <silent> <Leader>rl :Rlayout<cr>
+
+autocmd User Rails    silent! Rlcd
+autocmd User Rails    map <buffer> <F9> :Rake<CR>
