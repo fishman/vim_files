@@ -673,7 +673,7 @@ map <leader>s? z=
   if has("win32")
     let Tlist_Ctags_Cmd = $VIMFILES.'\ctags.exe'
   elseif has("mac")
-    let Tlist_Ctags_Cmd = '/opt/local/bin/ctags'
+    let Tlist_Ctags_Cmd = '/opt/local/gentoo/usr/bin/ctags'
   endif
 
   let Tlist_Sort_Type = "name"         " order by name
@@ -741,8 +741,8 @@ map <leader>s? z=
   if has("win32")
     let g:VCSCommandSVNExec = 'C:\Programme\Subversion\svn.exe'
   else
-    let g:VCSCommandSVNExec = '/opt/local/bin/svn'
-    let g:VCSCommandGitExec = '/opt/local/bin/git'
+    let g:VCSCommandSVNExec = '/opt/local/gentoo/usr/bin/svn'
+    let g:VCSCommandGitExec = '/opt/local/gentoo/usr/bin/git'
   endif
 
   augroup VCSCommand
@@ -914,7 +914,7 @@ map <leader>s? z=
   map <leader>d :Dox<cr>
   " doxygen.vim    - load doxygen syntax for c/cpp/idl
   "let load_doxygen_syntax = 1
-  map <C-F11> :!/opt/local/bin/ctags -f .tmtags -R --c++-kinds=+p --fields=+iaS --extra=+q .<cr>
+  map <C-F11> :!/opt/local/gentoo/usr/bin/ctags -f .tmtags -R --c++-kinds=+p --fields=+iaS --extra=+q .<cr>
   map <C-F12> :%!astyle -t -b -S -w -M -p -U<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -995,7 +995,7 @@ command! -bar -nargs=0 Sudow :silent exe "w !sudo tee % > /dev/null" | silent ed
 
 
 " use jj for esc hh for dvorak
-imap jj <Esc>
+imap hh <Esc>
 
 " go to newline
 imap <M-o> <Esc>o
