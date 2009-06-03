@@ -94,8 +94,7 @@ set confirm             " raise a confirm dialog for changed buffer
 set fenc=utf-8          " character encoding for file of the buffer
 set fencs=ucs-bom,utf-8,gb18030,gbk,gb2312,cp936
 set timeoutlen=200      " Time to wait after ESC (default causes an annoying delay)
-filetype plugin on      " enable filetype plugin
-filetype indent on
+filetype plugin indent on      " enable filetype plugin
 
 if $TERM != "linux" && $TERM != "screen" && $TERM != "rxvt-unicode"
   set mouse=a           " except screen & SecureCRT's linux terminal
@@ -574,20 +573,16 @@ set directory=$VIMDATA/temp
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text Options: {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"set noexpandtab         " real tabs please!
-set expandtab
-set tabstop=8           " tab spacing
-set softtabstop=2       " unify it
-set shiftwidth=2        " unify it
-"set smarttab            " use tabs at start of a line, spaces elsewhere
+" set expandtab
+" set smarttab            " use tabs at start of a line, spaces elsewhere
 set fo=tcrqnmM		      " see help formatoptions (complex)
 set linebreak           " wrap long lines at a character in 'breakat'
 set textwidth=500       " maximum width of text that is being inserted
-set ai                  " autoindent
+" set ai                  " autoindent
 " set si                  " smartindent
-set cindent             " do C-style indenting
+" set cindent             " do C-style indenting
 set cino=(0
-set copyindent
+" set copyindent
 set wrap                " wrap lines
 
 map <leader>t2 :set shiftwidth=2<cr>
