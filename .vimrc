@@ -328,6 +328,10 @@ nnoremap L $
 " yank to end of line
 nnoremap Y y$
 
+" tag next prev
+nmap <leader>tn :tn<cr>
+nmap <leader>tp :tp<cr>
+
 " smart way to switch between windows
 map <C-j> <C-W>j
 map <C-k> <C-W>k
