@@ -1,14 +1,17 @@
 call NERDSnippetsReset()
 
 if has("win32")         " platform dependent
-	source $VIMFILES/snippets/support_functions.vim
-	let snippets = $VIMFILES . '/snippets'
-	" snippets = '~/.vim/nerdsnippets'
-else
 	source $VIMFILES\snippets\support_functions.vim
-	let snippets = $VIMFILES . '\snippets'
+	let slash = '\'
+else
+	source $VIMFILES/snippets/support_functions.vim
+	let slash = '/'
 endif
  
+let snippets = $VIMFILES . slash . 'snippets'
+let snippets_ = snippets . slash
+" snippets = '~/.vim/nerdsnippets'
+
 call NERDSnippetsFromDirectory(snippets)
  
 function! s:inRailsEnv()
@@ -24,24 +27,24 @@ function! s:inCakeEnv()
 endfunction
  
 if s:inRailsEnv()
-    call NERDSnippetsFromDirectoryForFiletype(snippets.'/ruby-rails', 'ruby')
-    call NERDSnippetsFromDirectoryForFiletype(snippets.'/eruby-rails', 'eruby')
+    call NERDSnippetsFromDirectoryForFiletype(snippets_.'ruby-rails', 'ruby')
+    call NERDSnippetsFromDirectoryForFiletype(snippets_.'eruby-rails', 'eruby')
 endif
  
 if s:inZendEnv()
-    call NERDSnippetsFromDirectoryForFiletype(snippets.'/zend', 'php')
+    call NERDSnippetsFromDirectoryForFiletype(snippets_.'zend', 'php')
 endif
  
 if s:inCakeEnv()
-    call NERDSnippetsFromDirectoryForFiletype(snippets . '/cakephp', 'php')
-    call NERDSnippetsFromDirectoryForFiletype(snippets . '/cakephtml', 'php')
+    call NERDSnippetsFromDirectoryForFiletype(snippets_.'cakephp', 'php')
+    call NERDSnippetsFromDirectoryForFiletype(snippets_.'cakephtml', 'php')
 endif
 
-call NERDSnippetsFromDirectoryForFiletype(snippets.'/html', 'eruby')
-call NERDSnippetsFromDirectoryForFiletype(snippets.'/html', 'xhtml')
-call NERDSnippetsFromDirectoryForFiletype(snippets.'/html', 'php')
+call NERDSnippetsFromDirectoryForFiletype(snippets_.'html', 'eruby')
+call NERDSnippetsFromDirectoryForFiletype(snippets_.'html', 'xhtml')
+call NERDSnippetsFromDirectoryForFiletype(snippets_.'html', 'php')
 
-call NERDSnippetsFromDirectoryForFiletype(snippets.'/objc', 'objcpp')
-call NERDSnippetsFromDirectoryForFiletype(snippets.'/c', 'objcpp')
+call NERDSnippetsFromDirectoryForFiletype(snippets_.'objc', 'objcpp')
+call NERDSnippetsFromDirectoryForFiletype(snippets_.'c', 'objcpp')
 
-call NERDSnippetsFromDirectoryForFiletype(snippets.'/c', 'objc')
+call NERDSnippetsFromDirectoryForFiletype(snippets_.'c', 'objc')
