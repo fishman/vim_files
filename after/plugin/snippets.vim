@@ -1,9 +1,9 @@
 call NERDSnippetsReset()
  
-source ~/.vim/snippets/support_functions.vim
+source $VIMFILES/snippets/support_functions.vim
  
 " snippets = '~/.vim/nerdsnippets'
-let snippets = '~/.vim/snippets'
+let snippets = $VIMFILES . '/snippets'
  
 call NERDSnippetsFromDirectory(snippets)
  

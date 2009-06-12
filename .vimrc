@@ -109,8 +109,8 @@ imap <F1> <C-O>:w!<cr>
 "nmap <leader>f :find<cr>
 
 if has("win32")         " platform dependent
-  let $VIMDATA  = $VIM.'/vimdata'
-  let $VIMFILES = $VIM.'/vimfiles'
+  let $VIMDATA  = $HOME.'/vimdata'
+  let $VIMFILES = $HOME.'/vimfiles'
 else
   let $VIMDATA  = $HOME.'/.vim/vimdata'
   let $VIMFILES = $HOME.'/.vim'
