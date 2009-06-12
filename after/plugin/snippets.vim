@@ -1,11 +1,11 @@
 call NERDSnippetsReset()
 
 if has("win32")         " platform dependent
-	source $VIMFILES\snippets\support_functions.vim
-	let slash = '\'
+  source $VIMFILES\snippets\support_functions.vim
+  let slash = '\'
 else
-	source $VIMFILES/snippets/support_functions.vim
-	let slash = '/'
+  source $VIMFILES/snippets/support_functions.vim
+  let slash = '/'
 endif
  
 let snippets = $VIMFILES . slash . 'snippets'
