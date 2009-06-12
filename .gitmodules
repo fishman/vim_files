@@ -6,16 +6,16 @@
 	url = git://github.com/vim-ruby/vim-ruby.git
 [submodule "runtime/vim-rails"]
 	path = runtime/vim-rails
-	url = git://github.com/tpope/vim-rails.git
+	url = git://github.com/fishman/vim-rails.git
 [submodule "runtime/theonevimlib"]
 	path = runtime/theonevimlib
-	url = git@github.com:fishman/theonevimlib.git
+	url = git://github.com/fishman/theonevimlib.git
 [submodule "runtime/snipMate"]
 	path = runtime/snipMate
-	url = git://github.com/meese/snipmate.vim.git
+	url = git://github.com/fishman/snipmate.vim.git
 [submodule "snippets"]
 	path = snippets
-	url = git@github.com:fishman/snipmate-snippets.git
+	url = git://github.com/fishman/snipmate-snippets.git
 [submodule "runtime/nerdsnippets"]
 	path = runtime/nerdsnippets
-	url = git@github.com:fishman/nerdsnippets.git
+	url = git://github.com/fishman/nerdsnippets.git
