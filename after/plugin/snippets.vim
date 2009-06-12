@@ -15,15 +15,15 @@ let snippets_ = snippets . slash
 call NERDSnippetsFromDirectory(snippets)
  
 function! s:inRailsEnv()
-    return filereadable(getcwd() . '/config/environment.rb')
+    return filereadable(getcwd() . slash . 'config' . slash . 'environment.rb')
 endfunction
 
 function! s:inZendEnv()
-    return filereadable(getcwd() . '/application/config/application.ini')
+    return filereadable(getcwd() . slash . 'application' . slash . 'config' . slash .  'application.ini')
 endfunction
  
 function! s:inCakeEnv()
-    return filereadable(getcwd() . '/cake/bootstrap.php')
+    return filereadable(getcwd() . slash . 'cake' . slash . 'bootstrap.php')
 endfunction
  
 if s:inRailsEnv()
