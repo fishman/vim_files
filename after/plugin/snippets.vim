@@ -1,9 +1,13 @@
 call NERDSnippetsReset()
- 
-source $VIMFILES/snippets/support_functions.vim
- 
-" snippets = '~/.vim/nerdsnippets'
-let snippets = $VIMFILES . '/snippets'
+
+if has("win32")         " platform dependent
+	source $VIMFILES/snippets/support_functions.vim
+	let snippets = $VIMFILES . '/snippets'
+	" snippets = '~/.vim/nerdsnippets'
+else
+	source $VIMFILES\snippets\support_functions.vim
+	let snippets = $VIMFILES . '\snippets'
+endif
  
 call NERDSnippetsFromDirectory(snippets)
  
