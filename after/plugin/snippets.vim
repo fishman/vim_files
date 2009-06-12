@@ -2,28 +2,28 @@ call NERDSnippetsReset()
 
 if has("win32")         " platform dependent
   source $VIMFILES\snippets\support_functions.vim
-  let slash = '\'
+  let s:slash = '\'
 else
   source $VIMFILES/snippets/support_functions.vim
-  let slash = '/'
+  let s:slash = '/'
 endif
  
-let snippets = $VIMFILES . slash . 'snippets'
-let snippets_ = snippets . slash
+let snippets = $VIMFILES . s:slash . 'snippets'
+let snippets_ = snippets . s:slash
 " snippets = '~/.vim/nerdsnippets'
 
 call NERDSnippetsFromDirectory(snippets)
  
 function! s:inRailsEnv()
-    return filereadable(getcwd() . slash . 'config' . slash . 'environment.rb')
+    return filereadable(getcwd() . s:slash . 'config' . s:slash . 'environment.rb')
 endfunction
 
 function! s:inZendEnv()
-    return filereadable(getcwd() . slash . 'application' . slash . 'config' . slash .  'application.ini')
+    return filereadable(getcwd() . s:slash . 'application' . s:slash . 'config' . s:slash .  'application.ini')
 endfunction
  
 function! s:inCakeEnv()
-    return filereadable(getcwd() . slash . 'cake' . slash . 'bootstrap.php')
+    return filereadable(getcwd() . s:slash . 'cake' . s:slash . 'bootstrap.php')
 endfunction
  
 if s:inRailsEnv()
