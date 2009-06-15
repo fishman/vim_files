@@ -790,7 +790,11 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   " => gist.vim
   """"""""""""""""""""""""""""""
-  let g:gist_clip_command = 'xclip -selection clipboard'
+  if has("macunix")
+    let g:gist_clip_command = 'pbcopy'
+  elseif has("unix")
+    let g:gist_clip_command = 'xclip -selection clipboard'
+  endif
 
   """"""""""""""""""""""""""""""
   " => bufexplorer.vim
