@@ -19,3 +19,6 @@
 [submodule "runtime/nerdsnippets"]
 	path = runtime/nerdsnippets
 	url = git://github.com/fishman/nerdsnippets.git
+[submodule "runtime/git-vim"]
+	path = runtime/git-vim
+	url = git://github.com/bartman/git-vim.git
