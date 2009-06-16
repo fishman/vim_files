@@ -44,6 +44,8 @@
 "   ------ *> NERD_tree.vim
 "   ------ *> winmanager.vim
 "   ------ *> autocomplpop.vim
+"   ------ *> session.vim
+"   ------ *> dbext.vim
 "   ------ *> supertab.vim
 "   ------ *> marks_corey.vim
 "   ------ *> bufexplorer.vim
@@ -889,6 +891,12 @@ map <leader>s? z=
     "set makeprg=g++\ -ansi\ -pedantic\ -Wall\ -g\ %
     call <SID>CProgSettings()
   endfunction
+
+  """"""""""""""""""""""""""""""
+  " => session.vim
+  """"""""""""""""""""""""""""""
+  map <silent> <F11> :SessionSave<cr>
+  map <silent> <F12> :SessionOpenLast<cr>
 
 
   """"""""""""""""""""""""""""""
