@@ -195,20 +195,20 @@ else
   endif
 endif
 
-set runtimepath+=~/.vim/runtime/theonevimlib/core
-set runtimepath+=~/.vim/runtime/theonevimlib/contrib
+set runtimepath+=$VIMFILES/runtime/theonevimlib/core
+set runtimepath+=$VIMFILES/runtime/theonevimlib/contrib
 call theonevimlibsetup#Setup()
 
-set runtimepath+=~/.vim/runtime/vim-ruby
-set runtimepath+=~/.vim/runtime/vim-rails
-set runtimepath+=~/.vim/runtime/nerdcommenter
-set runtimepath+=~/.vim/runtime/nerdsnippets
-set runtimepath+=~/.vim/runtime/vimoutliner
-set runtimepath+=~/.vim/runtime/git-vim
+set runtimepath+=$VIMFILES/runtime/vim-ruby
+set runtimepath+=$VIMFILES/runtime/vim-rails
+set runtimepath+=$VIMFILES/runtime/nerdcommenter
+set runtimepath+=$VIMFILES/runtime/nerdsnippets
+set runtimepath+=$VIMFILES/runtime/vimoutliner
+set runtimepath+=$VIMFILES/runtime/git-vim
 " set runtimepath+=~/.vim/runtime/snipMate
 
 if has("win32")
-  set rtp+=~/.vim/runtime/win
+  set rtp+=$VIMFILES/runtime/win
   runtime plugin/visual_studio.vim
 endif
 
