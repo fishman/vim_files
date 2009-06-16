@@ -204,6 +204,7 @@ set runtimepath+=~/.vim/runtime/vim-rails
 set runtimepath+=~/.vim/runtime/nerdcommenter
 set runtimepath+=~/.vim/runtime/nerdsnippets
 set runtimepath+=~/.vim/runtime/vimoutliner
+set runtimepath+=~/.vim/runtime/git-vim
 " set runtimepath+=~/.vim/runtime/snipMate
 
 if has("win32")
@@ -215,6 +216,7 @@ endif
 " runtime after/plugin/snipMate.vim
 runtime plugin/NERD_snippets.vim
 runtime plugin/NERD_commenter.vim
+runtime plugin/git.vim
 " matchit fun
 runtime macros/matchit.vim
 " }}}1
