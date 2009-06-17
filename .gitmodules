@@ -22,3 +22,6 @@
 [submodule "runtime/git-vim"]
 	path = runtime/git-vim
 	url = git://github.com/bartman/git-vim.git
+[submodule "runtime/nerdtree"]
+	path = runtime/nerdtree
+	url = git://github.com/scrooloose/nerdtree.git
