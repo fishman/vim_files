@@ -895,8 +895,8 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   " => session.vim
   """"""""""""""""""""""""""""""
-  map <silent> <F11> :SessionSave<cr>
-  map <silent> <F12> :SessionOpenLast<cr>
+  map <silent> <F12> :SessionSave<cr>
+  map <silent> <F11> :SessionOpenLast<cr>
 
 
   """"""""""""""""""""""""""""""
