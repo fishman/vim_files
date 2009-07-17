@@ -27,5 +27,5 @@ nmap <silent> <Leader>rp :Rpreview<cr><cr>
 
 autocmd User Rails    silent! Rlcd
 autocmd User Rails    map <buffer> <F9> :Rake<CR>
-autocmd User Rails    map <buffer> <F8> :Rserver!<CR><CR>
+autocmd User Rails    map <buffer> <F8> :Rserver!thin<CR><CR>
 autocmd User Rails    map <F7> :R<CR>
