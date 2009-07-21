@@ -745,7 +745,7 @@ map <leader>s? z=
   " vcscommand.vim - svn executable path
   if has("win32")
     let g:VCSCommandSVNExec = 'C:\Programme\Subversion\svn.exe'
-  else
+  elseif has("macunix")
     let g:VCSCommandSVNExec = '/opt/local/gentoo/usr/bin/svn'
     let g:VCSCommandGitExec = '/opt/local/gentoo/usr/bin/git'
   endif
