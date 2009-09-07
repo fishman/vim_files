@@ -623,7 +623,7 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   let Grep_Skip_Dirs = 'RCS CVS SCCS .svn'
   let Grep_Skip_Files = '*.obj *.o tags .tmtags'
-  let Grep_Default_Filelist = '*.[ch] *.cpp *.php *.html *.phtml *.rb'
+  let Grep_Default_Filelist = '*.[ch] *.cpp *.php *.html *.phtml *.rb *.erb'
 
   let Grep_Default_Options = '-i'
   if has("macunix") || has("gui_macvim")
