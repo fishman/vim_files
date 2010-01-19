@@ -253,8 +253,11 @@ set incsearch           " highlight where the typed pattern matches
 set visualbell
 set t_vb=
 set noerrorbells        " do not make noise
-set listchars=tab:\|\ ,trail:.,extends:>,precedes:<,eol:$
-" set listchars=tab:»\ ,trail:·,extends:>,precedes:<,nbsp:‗,eol:↵
+if has("multi_byte_encoding")
+  set listchars=tab:»\ ,trail:·,extends:>,precedes:<,eol:¬
+else
+  set listchars=tab:\|\ ,trail:.,extends:>,precedes:<,eol:$
+endif
                         " how :set list show
 set magic               " set magic on
 set completeopt=menu    " use popup menu to show possible completions
