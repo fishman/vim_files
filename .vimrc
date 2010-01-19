@@ -259,6 +259,7 @@ else
   set listchars=tab:\|\ ,trail:.,extends:>,precedes:<,eol:$
 endif
                         " how :set list show
+set list
 set magic               " set magic on
 set completeopt=menu    " use popup menu to show possible completions
 " set foldenable          " enable folding, I find it very useful
