@@ -907,8 +907,8 @@ map <leader>s? z=
   " => dbext.vim
   """"""""""""""""""""""""""""""
   let g:debext_default_type = 'MYSQL'
-  let g:dbext_default_profile_mysql = 'type=MYSQL:user=root:passwd=:dbname=mysql:extra=-t'
-  let g:dbext_default_MYSQL_bin = '/Applications/xampp/xamppfiles/bin/mysql'
+  let g:dbext_default_profile_mysql = 'type=MYSQL:user=root:passwd=root:dbname=mysql:extra=-t'
+  let g:dbext_default_MYSQL_bin = '/usr/local/bin/mysql'
 
   """"""""""""""""""""""""""""""
   " => Others
