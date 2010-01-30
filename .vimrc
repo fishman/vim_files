@@ -201,6 +201,9 @@ set runtimepath+=$VIMFILES/runtime/theonevimlib/core
 set runtimepath+=$VIMFILES/runtime/theonevimlib/contrib
 call theonevimlibsetup#Setup()
 
+set runtimepath+=$VIMFILES/runtime/cocoa.vim
+" set runtimepath+=$VIMFILES/runtime/cocoa.vim/after
+set runtimepath+=$VIMFILES/runtime/theonevimlib/contrib
 set runtimepath+=$VIMFILES/runtime/vim-ruby
 set runtimepath+=$VIMFILES/runtime/vim-rails
 set runtimepath+=$VIMFILES/runtime/nerdcommenter
@@ -907,7 +910,8 @@ map <leader>s? z=
   " => dbext.vim
   """"""""""""""""""""""""""""""
   let g:debext_default_type = 'MYSQL'
-  let g:dbext_default_profile_mysql = 'type=MYSQL:user=root:passwd=root:dbname=mysql:extra=-t'
+  let g:dbext_default_profile_local_studiblock = 'type=MYSQL:user=root:passwd=root:dbname=studiblock:extra=-t'
+  let g:dbext_default_profile_local_talkyoo_dev2 = 'type=MYSQL:user=root:passwd=root:dbname=talkyoo_dev2:extra=-t'
   let g:dbext_default_MYSQL_bin = '/usr/local/bin/mysql'
 
   """"""""""""""""""""""""""""""
@@ -997,7 +1001,7 @@ autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 augroup development
     autocmd!
     autocmd Filetype c,cpp setl cindent nowrap number textwidth=0
-    autocmd Filetype objc,objcpp setl cindent nowrap number textwidth=0
+    autocmd Filetype objc,objcpp setl cindent nowrap number textwidth=0 noet ts=4 sw=4
     autocmd FileType make,php,sh,javascript,perl,css,dosbatch,python,xml,idlang setl nowrap number textwidth=0
     autocmd FileType html setl number textwidth=0
     "autocmd BufWritePost *.cpp,*.h,*.c call UpdateCTags()

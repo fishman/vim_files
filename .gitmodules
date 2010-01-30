@@ -25,3 +25,6 @@
 [submodule "runtime/nerdtree"]
 	path = runtime/nerdtree
 	url = git://github.com/scrooloose/nerdtree.git
+[submodule "runtime/cocoa.vim"]
+	path = runtime/cocoa.vim
+	url = git://github.com/threeve/cocoa.vim.git
