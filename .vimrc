@@ -1001,7 +1001,7 @@ autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 augroup development
     autocmd!
     autocmd Filetype c,cpp setl cindent nowrap number textwidth=0
-    autocmd Filetype objc,objcpp setl cindent nowrap number textwidth=0 noet ts=4 sw=4
+    autocmd Filetype objc,objcpp setl cindent nowrap number textwidth=0 ts=4 sw=4
     autocmd FileType make,php,sh,javascript,perl,css,dosbatch,python,xml,idlang setl nowrap number textwidth=0
     autocmd FileType html setl number textwidth=0
     "autocmd BufWritePost *.cpp,*.h,*.c call UpdateCTags()
