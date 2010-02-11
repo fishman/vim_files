@@ -825,19 +825,21 @@ map <leader>s? z=
   " => fuzzyfinder.vim
   """"""""""""""""""""""""""""""
   " Fuzzy finder rocks, like Command-T in TextMate (buggy at moment, fix!!)
-  let g:FuzzyFinderOptions = { 'Base':{}, 'Bookmark':{}, 'Buffer':{}, 'File':{}, 'Dir':{}, 'MruFile':{}, 'MruCmd':{}, 'Tag':{}, 'TaggedFile':{}}
-  let g:FuzzyFinderOptions.Buffer.mode_available = 1
-  let g:FuzzyFinderOptions.Bookmark.mode_available = 1
-  let g:FuzzyFinderOptions.File.mode_available = 1
-  let g:FuzzyFinderOptions.MruFile.mode_available = 1
-  let g:FuzzyFinderOptions.MruCmd.mode_available = 0
-  let g:FuzzyFinderOptions.Dir.mode_available = 1
-  let g:FuzzyFinderOptions.Tag.mode_available = 1
-  let g:FuzzyFinderOptions.TaggedFile.mode_available = 0
-  let g:FuzzyFinderOptions.Base.abbrev_map = { "^Project-" : ["**/"], }
-  let g:FuzzyFinderOptions.Base.migemo_support = 0
-  "let g:FuzzyFinderOptions.Base.key_open_split = '<C-O>'
-  let g:FuzzyFinderOptions.File.excluded_path = '\v\~$|\.obj$|\.jpg$|\.gif$|\.o$|\./|\.git/|\.svn/|\.DS_Store|\.exe$|\.bak$|\.swp$|((^|[/\\])\.[/\\]$)'
+  if !exists("g:FuzzyFinderOptions")
+    let g:FuzzyFinderOptions = { 'Base':{}, 'Bookmark':{}, 'Buffer':{}, 'File':{}, 'Dir':{}, 'MruFile':{}, 'MruCmd':{}, 'Tag':{}, 'TaggedFile':{}}
+    let g:FuzzyFinderOptions.Buffer.mode_available = 1
+    let g:FuzzyFinderOptions.Bookmark.mode_available = 1
+    let g:FuzzyFinderOptions.File.mode_available = 1
+    let g:FuzzyFinderOptions.MruFile.mode_available = 1
+    let g:FuzzyFinderOptions.MruCmd.mode_available = 0
+    let g:FuzzyFinderOptions.Dir.mode_available = 1
+    let g:FuzzyFinderOptions.Tag.mode_available = 1
+    let g:FuzzyFinderOptions.TaggedFile.mode_available = 0
+    let g:FuzzyFinderOptions.Base.abbrev_map = { "^Project-" : ["**/"], }
+    let g:FuzzyFinderOptions.Base.migemo_support = 0
+    "let g:FuzzyFinderOptions.Base.key_open_split = '<C-O>'
+    let g:FuzzyFinderOptions.File.excluded_path = '\v\~$|\.obj$|\.jpg$|\.gif$|\.o$|\./|\.git/|\.svn/|\.DS_Store|\.exe$|\.bak$|\.swp$|((^|[/\\])\.[/\\]$)'
+  endif
   noremap <silent> <leader>fp :FuzzyFinderFile Project-<CR>
   noremap <silent> <leader>ff :FuzzyFinderFile<CR>
   noremap <silent> <leader>fb :FuzzyFinderBuffer<CR>
