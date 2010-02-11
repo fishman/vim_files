@@ -1099,14 +1099,30 @@ map <F5> [I:let nr = input("Which one: ") <Bar>exe "normal " . nr ."[\t"<CR>
 " remove the windows ^M
 noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
+" Cheapo todo management
+noremap <silent><leader>td <c-o>s<c-v>u2713
+
 " remove indenting on empty lines
 map <F2> :%s/\s*$//g<cr>:noh<cr>''
 
-" super paste
-inoremap <C-V> <esc>:set paste<cr>mui<C-R>+<esc>mv'uV'v=:set nopaste<cr>
 
-" copy into clipboard
-vnoremap <C-C> "+y
+function! ToggleSuperpaste()
+  if exists("g:superpaste_on")
+    unlet g:superpaste_on
+    iunmap <C-V>
+    vunmap <C-C>
+  else
+    let g:superpaste_on = 1
+    " super paste
+    inoremap <C-V> <esc>:set paste<cr>mui<C-R>+<esc>mv'uV'v=:set nopaste<cr>
+    " copy into clipboard
+    vnoremap <C-C> "+y
+  endif
+endfunction
+
+inoremap <silent><leader>td  <C-O>:call ToggleSuperpaste()<CR><C-O>s<C-V>u2713<C-O>:call ToggleSuperpaste()<CR>
+
+call ToggleSuperpaste()
 
 " select range, hit :call SuperRetab($width) - by p0g and FallingCow
 fu! SuperRetab(width) range
