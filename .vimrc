@@ -1099,9 +1099,6 @@ map <F5> [I:let nr = input("Which one: ") <Bar>exe "normal " . nr ."[\t"<CR>
 " remove the windows ^M
 noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
-" Cheapo todo management
-noremap <silent><leader>td <c-o>s<c-v>u2713
-
 " remove indenting on empty lines
 map <F2> :%s/\s*$//g<cr>:noh<cr>''
 
@@ -1120,7 +1117,8 @@ function! ToggleSuperpaste()
   endif
 endfunction
 
-inoremap <silent><leader>td  <C-O>:call ToggleSuperpaste()<CR><C-O>s<C-V>u2713<C-O>:call ToggleSuperpaste()<CR>
+" Cheapo todo management
+noremap <silent><leader>td  :call ToggleSuperpaste()<CR>s<C-V>u2713<C-O>:call ToggleSuperpaste()<CR><esc>
 
 call ToggleSuperpaste()
 
