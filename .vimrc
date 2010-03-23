@@ -699,7 +699,7 @@ map <leader>s? z=
   let Tlist_Display_Tag_Scope = 1      " Show tag scope next to the tag name.
   "let Tlist_Close_On_Select = 1        " Close the taglist window when a file or tag is selected.
   let Tlist_WinWidth = 40
-  map <leader>t :Tlist<cr>
+  " map <leader>t :Tlist<cr>
   nnoremap <silent> <F4> :TlistToggle<CR>
 
 
@@ -849,7 +849,7 @@ map <leader>s? z=
   noremap <silent> <leader>fd :FuzzyFinderDir<CR>
   noremap <silent> <leader>ft :FuzzyFinderTag<CR>
   noremap <silent> <leader>fc :FuzzyFinderRenewCache<CR>
-  noremap <silent> <leader>t :FuzzyFinderTextMate<CR>
+  " noremap <silent> <leader>t :FuzzyFinderTextMate<CR>
   noremap <silent> <leader>fr :FuzzyFinderTextMateRefreshFiles<CR>
 
 
