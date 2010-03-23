@@ -1,3 +1,5 @@
 .DS_Store
 plugin_disabled
 vimdata/temp/*.sw?
+*.o
+*.bundle
