@@ -28,3 +28,9 @@
 [submodule "runtime/cocoa.vim"]
 	path = runtime/cocoa.vim
 	url = git://github.com/threeve/cocoa.vim.git
+[submodule "runtime/hypergit.vim"]
+	path = runtime/hypergit.vim
+	url = git://github.com/c9s/hypergit.vim.git
+[submodule "runtime/commandt"]
+	path = runtime/commandt
+	url = git://github.com/wincent/Command-T.git
