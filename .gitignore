@@ -3,3 +3,4 @@ plugin_disabled
 vimdata/temp/*.sw?
 *.o
 *.bundle
+mkmf.log
