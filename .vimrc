@@ -233,7 +233,7 @@ runtime macros/matchit.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set scrolloff=7         " minimal screen lines above/below cursor
 set wildmenu            " :h and press <Tab> to see what happens
-set wig=*.o,*.pyc,*.tiff,*.jpg,*.tif,*.gif,.git,.svn,*.pdf,*.png
+set wig=*.o,*.pyc,*.tiff,*.jpg,*.tif,*.gif,.git,.svn,*.pdf,*.png,build
                         " type of file that will not in wildmenu
 set ruler               " show current position along the bottom
 set cmdheight=2         " use 1 screen lines for command-line
