@@ -34,7 +34,9 @@ module CommandT
     end
 
     def show
-      @finder.path    = VIM::pwd
+      # optional parameter will be desired starting directory, or ""
+      @path           = File.expand_path(VIM::evaluate('a:arg'), VIM::pwd)
+      @finder.path    = @path
       @initial_window = $curwin
       @initial_buffer = $curbuf
       @match_window   = MatchWindow.new \
@@ -44,6 +46,9 @@ module CommandT
       @prompt.focus
       register_for_key_presses
       clear # clears prompt and list matches
+    rescue Errno::ENOENT
+      # probably a problem with the optional parameter
+      @match_window.print_no_such_file_or_directory
     end
 
     def hide
@@ -143,8 +148,7 @@ module CommandT
         :max_depth              => get_number('g:CommandTMaxDepth'),
         :always_show_dot_files  => get_bool('g:CommandTAlwaysShowDotFiles'),
         :never_show_dot_files   => get_bool('g:CommandTNeverShowDotFiles'),
-        :scan_dot_directories   => get_bool('g:CommandTScanDotDirectories'),
-        :excludes               => get_string('&wildignore')
+        :scan_dot_directories   => get_bool('g:CommandTScanDotDirectories')
     end
 
     def get_number name
@@ -179,6 +183,7 @@ module CommandT
 
     def open_selection selection, options = {}
       command = options[:command] || default_open_command
+      selection = File.expand_path selection, @path
       selection = sanitize_path_string selection
       VIM::command "silent #{command} #{selection}"
     end
@@ -186,6 +191,14 @@ module CommandT
     def map key, function, param = nil
       VIM::command "noremap <silent> <buffer> #{key} " \
         ":call CommandT#{function}(#{param})<CR>"
+    end
+
+    def xterm?
+      !!(VIM::evaluate('&term') =~ /\Axterm/)
+    end
+
+    def vt100?
+      !!(VIM::evaluate('&term') =~ /\Avt100/)
     end
 
     def register_for_key_presses
@@ -198,30 +211,30 @@ module CommandT
         map "<Char-#{b}>", 'HandleKey', b
       end
 
-      # "special" keys
-      map '<BS>',     'Backspace'
-      map '<Del>',    'Delete'
-      map '<CR>',     'AcceptSelection'
-      map '<C-CR>',   'AcceptSelectionSplit'
-      map '<C-s>',    'AcceptSelectionSplit'
-      map '<C-t>',    'AcceptSelectionTab'
-      map '<C-v>',    'AcceptSelectionVSplit'
-      map '<Tab>',    'ToggleFocus'
-      # map '<Esc>',    'Cancel'
-      map '<C-c>',    'Cancel'
-      map '<C-n>',    'SelectNext'
-      map '<C-p>',    'SelectPrev'
-      map '<C-j>',    'SelectNext'
-      map '<C-k>',    'SelectPrev'
-      map '<Down>',   'SelectNext'
-      map '<Up>',     'SelectPrev'
-      map '<C-u>',    'Clear'
-      map '<Left>',   'CursorLeft'
-      map '<Right>',  'CursorRight'
-      map '<C-h>',    'Backspace'
-      map '<C-l>',    'CursorRight'
-      map '<C-e>',    'CursorEnd'
-      map '<C-a>',    'CursorStart'
+      # "special" keys (overridable by settings)
+      { 'Backspace'             => '<BS>',
+        'Delete'                => '<Del>',
+        'AcceptSelection'       => '<CR>',
+        'AcceptSelectionSplit'  => ['<C-CR>', '<C-s>'],
+        'AcceptSelectionTab'    => '<C-t>',
+        'AcceptSelectionVSplit' => '<C-v>',
+        'ToggleFocus'           => '<Tab>',
+        'Cancel'                => ['<C-c>', '<Esc>'],
+        'SelectNext'            => ['<C-n>', '<C-j>', '<Down>'],
+        'SelectPrev'            => ['<C-p>', '<C-k>', '<Up>'],
+        'Clear'                 => '<C-u>',
+        'CursorLeft'            => ['<Left>'],
+        'CursorRight'           => ['<Right>', '<C-l>'],
+        'CursorEnd'             => '<C-e>',
+        'CursorStart'           => '<C-a>' }.each do |key, value|
+        if override = get_string("g:CommandT#{key}Map")
+          map override, key
+        else
+          [value].flatten.each do |mapping|
+            map mapping, key unless mapping == '<Esc>' && (xterm? || vt100?)
+          end
+        end
+      end
     end
 
     # Returns the desired maximum number of matches, based on available
