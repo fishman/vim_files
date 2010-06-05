@@ -172,7 +172,6 @@ if has("gui_running")
 
   let psc_style='cool'
 
-  "colo ps_color
   " colo desert
   colo wombat
 
@@ -193,7 +192,7 @@ else
     colo desert
   else
     "colo desert
-    colo wombat
+    colo wombatc
   endif
 endif
 

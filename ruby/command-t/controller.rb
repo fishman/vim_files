@@ -212,7 +212,7 @@ module CommandT
       end
 
       # "special" keys (overridable by settings)
-      { 'Backspace'             => '<BS>',
+      { 'Backspace'             => '<C-h>',
         'Delete'                => '<Del>',
         'AcceptSelection'       => '<CR>',
         'AcceptSelectionSplit'  => ['<C-CR>', '<C-s>'],
