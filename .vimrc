@@ -1010,6 +1010,7 @@ augroup development
     autocmd Filetype taglist setl statusline=Taglist
     autocmd FileType make set noet ts=8 sw=8 nosi
     autocmd FileType mkd set ai formatoptions=tcroqn2 comments=n:>
+    au BufRead,BufNewFile jquery.*.js color desert|set ft=javascript syntax=jquery
 augroup END
 
 " this allows us to write to files even when we 
