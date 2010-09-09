@@ -578,7 +578,7 @@ map <silent> \ :nohl<cr>
 " Files And Backups: {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{1
-"set nobackup
+set nobackup
 set backupdir=$VIMDATA/backup
 set directory=$VIMDATA/temp
 "set nowritebackup
@@ -595,15 +595,12 @@ set linebreak           " wrap long lines at a character in 'breakat'
 set textwidth=500       " maximum width of text that is being inserted
 " set ai                  " autoindent
 " set si                  " smartindent
-" set cindent             " do C-style indenting
-set cino=(0
 " set copyindent
 set wrap                " wrap lines
 
 map <leader>t2 :set shiftwidth=2<cr>
 map <leader>t8 :set shiftwidth=8<cr>
-au FileType html,vim,javascript setl shiftwidth=2
-au FileType html,vim,javascript setl tabstop=2
+au FileType vim setl sw=2 ts=2
 au FileType python setl tabstop=4 sw=4 sts=4 nosi
 
 "noremap <leader>; :make<CR>
@@ -1002,10 +999,10 @@ autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 " Development
 augroup development
     autocmd!
-    autocmd Filetype c,cpp setl cindent nowrap number textwidth=0
-    autocmd Filetype objc,objcpp setl cindent nowrap number textwidth=0 ts=4 sw=4
+    autocmd Filetype c,cpp setl cindent cino=(0 nowrap number textwidth=0
+    autocmd Filetype objc,objcpp setl cindent cino=(0 nowrap number textwidth=0 ts=4 sw=4
     autocmd FileType make,php,sh,javascript,perl,css,dosbatch,python,xml,idlang setl nowrap number textwidth=0
-    autocmd FileType html setl number textwidth=0
+    autocmd FileType html,javascript setl cindent cino=J1j1 number textwidth=0 ts=2 sw=2
     "autocmd BufWritePost *.cpp,*.h,*.c call UpdateCTags()
     autocmd Filetype taglist setl statusline=Taglist
     autocmd FileType make set noet ts=8 sw=8 nosi
