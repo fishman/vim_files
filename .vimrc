@@ -50,6 +50,7 @@
 "   ------ *> marks_corey.vim
 "   ------ *> bufexplorer.vim
 "   ------ *> lineup.vim
+"   ------ *> command-t.vim
 "   ------ *> fuzzyfinder.vim
 "   ------ *> xml.vim
 "   ------ *> yankring.vim
@@ -817,7 +818,12 @@ map <leader>s? z=
   " might as well use alignmaps but thats a bit overkill
   vnoremap <Leader>t= :Lineup=<CR>
   vnoremap <Leader>t/ :Lineup/<CR>
-
+  """"""""""""""""""""""""""""""
+  " => command-t.vim
+  """"""""""""""""""""""""""""""
+  " fix backspace in console
+  let g:CommandTBackspaceMap = '<C-h>'
+  let g:CommandTCursorLeftMap = '<Left>'
   """"""""""""""""""""""""""""""
   " => fuzzyfinder.vim
   """"""""""""""""""""""""""""""
@@ -1002,7 +1008,7 @@ augroup development
     autocmd Filetype c,cpp setl cindent cino=(0 nowrap number textwidth=0
     autocmd Filetype objc,objcpp setl cindent cino=(0 nowrap number textwidth=0 ts=4 sw=4
     autocmd FileType make,php,sh,javascript,perl,css,dosbatch,python,xml,idlang setl nowrap number textwidth=0
-    autocmd FileType html,javascript setl cindent cino=J1j1 number textwidth=0 ts=2 sw=2
+    autocmd FileType html,javascript setl cindent cino=J1 number textwidth=0 ts=2 sw=2
     "autocmd BufWritePost *.cpp,*.h,*.c call UpdateCTags()
     autocmd Filetype taglist setl statusline=Taglist
     autocmd FileType make set noet ts=8 sw=8 nosi
