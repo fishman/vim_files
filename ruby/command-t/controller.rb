@@ -244,6 +244,10 @@ module CommandT
         ":call CommandT#{function}(#{param})<CR>"
     end
 
+    def rxvt?
+      !!(::VIM::evaluate('&term') =~ /\Arxvt/)
+    end
+
     def xterm?
       !!(::VIM::evaluate('&term') =~ /\Axterm/)
     end
@@ -284,7 +288,7 @@ module CommandT
           end
         else
           [value].flatten.each do |mapping|
-            map mapping, key unless mapping == '<Esc>' && (xterm? || vt100?)
+            map mapping, key unless mapping == '<Esc>' && (rxvt? || xterm? || vt100?)
           end
         end
       end
