@@ -822,7 +822,7 @@ map <leader>s? z=
   " => command-t.vim
   """"""""""""""""""""""""""""""
   " fix backspace in console
-  let g:CommandTBackspaceMap = '<C-h>'
+  let g:CommandTBackspaceMap = '<C-?>'
   let g:CommandTCursorLeftMap = '<Left>'
   """"""""""""""""""""""""""""""
   " => fuzzyfinder.vim
