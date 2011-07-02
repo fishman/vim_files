@@ -191,6 +191,8 @@ else
 
   elseif $TERM == "xterm-color"
     colo desert
+  elseif $TERM == "screen-256color"
+    colo wombat256mod
   else
     "colo desert
     colo wombatc
