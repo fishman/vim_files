@@ -1,3 +1,4 @@
+setl foldmethod=marker
 " latex settings
 let g:Tex_ViewRule_ps = 'Skim'
 let g:Tex_ViewRule_pdf = 'Skim'

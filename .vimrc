@@ -195,7 +195,7 @@ else
     colo wombat256mod
   else
     "colo desert
-    colo wombatc
+    colo wombat256mod
   endif
 endif
 
@@ -1015,7 +1015,8 @@ augroup development
     autocmd Filetype taglist setl statusline=Taglist
     autocmd FileType make set noet ts=8 sw=8 nosi
     autocmd FileType mkd set ai formatoptions=tcroqn2 comments=n:>
-    au BufRead,BufNewFile jquery.*.js color desert|set ft=javascript syntax=jquery
+    au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
+    au BufRead,BufNewFile *.vra set ft=scope syntax=scope
 augroup END
 
 " this allows us to write to files even when we 

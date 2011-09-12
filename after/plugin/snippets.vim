@@ -41,3 +41,4 @@ call NERDSnippetsFromDirectoryForFiletype(snippets.'/objc', 'objcpp')
 call NERDSnippetsFromDirectoryForFiletype(snippets.'/c', 'objcpp')
 
 call NERDSnippetsFromDirectoryForFiletype(snippets.'/c', 'objc')
+call NERDSnippetsFromDirectoryForFiletype(snippets.'/c', 'cpp')
