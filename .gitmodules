@@ -1,12 +1,3 @@
-[submodule "runtime/nerdcommenter"]
-	path = runtime/nerdcommenter
-	url = git://github.com/scrooloose/nerdcommenter.git
-[submodule "runtime/vim-ruby"]
-	path = runtime/vim-ruby
-	url = git://github.com/vim-ruby/vim-ruby.git
-[submodule "runtime/vim-rails"]
-	path = runtime/vim-rails
-	url = git://github.com/fishman/vim-rails.git
 [submodule "runtime/theonevimlib"]
 	path = runtime/theonevimlib
 	url = git://github.com/fishman/theonevimlib.git
@@ -22,9 +13,6 @@
 [submodule "runtime/git-vim"]
 	path = runtime/git-vim
 	url = git://github.com/bartman/git-vim.git
-[submodule "runtime/nerdtree"]
-	path = runtime/nerdtree
-	url = git://github.com/scrooloose/nerdtree.git
 [submodule "runtime/cocoa.vim"]
 	path = runtime/cocoa.vim
 	url = git://github.com/threeve/cocoa.vim.git

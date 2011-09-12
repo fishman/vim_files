@@ -206,16 +206,7 @@ endif
 " set runtimepath+=$VIMFILES/runtime/cocoa.vim
 " " set runtimepath+=$VIMFILES/runtime/cocoa.vim/after
 " set runtimepath+=$VIMFILES/runtime/theonevimlib/contrib
-" set runtimepath+=$VIMFILES/runtime/vim-ruby
-" set runtimepath+=$VIMFILES/runtime/vim-rails
-" set runtimepath+=$VIMFILES/runtime/nerdcommenter
 " " set runtimepath+=$VIMFILES/runtime/nerdsnippets
-" set runtimepath+=$VIMFILES/runtime/tlib_vim
-" set runtimepath+=$VIMFILES/runtime/vim-addon-mw-utils
-" set runtimepath+=$VIMFILES/runtime/snipmate-snippets
-" set runtimepath+=$VIMFILES/runtime/vim-snippets
-" set runtimepath+=$VIMFILES/runtime/vim-snipmate
-
 " set runtimepath+=$VIMFILES/runtime/vimoutliner
 " set runtimepath+=$VIMFILES/runtime/git-vim
 " set runtimepath+=$VIMFILES/runtime/nerdtree
@@ -227,6 +218,10 @@ call vundle#rc()
 " required! 
 Bundle 'gmarik/vundle'
 " stuff
+Bundle "git://github.com/vim-ruby/vim-ruby.git"
+Bundle "git://github.com/fishman/vim-rails.git"
+Bundle "git://github.com/scrooloose/nerdtree.git"
+Bundle "git://github.com/scrooloose/nerdcommenter.git"
 Bundle "git://github.com/MarcWeber/vim-addon-mw-utils.git"
 Bundle "git://github.com/tomtom/tlib_vim.git"
 Bundle "git://github.com/honza/snipmate-snippets.git"
