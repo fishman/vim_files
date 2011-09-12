@@ -22,6 +22,7 @@ endfunction
 if s:inRailsEnv()
     call NERDSnippetsFromDirectoryForFiletype(snippets.'/ruby-rails', 'ruby')
     call NERDSnippetsFromDirectoryForFiletype(snippets.'/eruby-rails', 'eruby')
+		call NERDSnippetsFromDirectoryForFiletype(snippets.'/ruby-rspec', 'ruby')
 endif
  
 if s:inZendEnv()
