@@ -199,21 +199,39 @@ else
   endif
 endif
 
-set runtimepath+=$VIMFILES/runtime/theonevimlib/core
-set runtimepath+=$VIMFILES/runtime/theonevimlib/contrib
-call theonevimlibsetup#Setup()
+" set runtimepath+=$VIMFILES/runtime/theonevimlib/core
+" set runtimepath+=$VIMFILES/runtime/theonevimlib/contrib
+" call theonevimlibsetup#Setup()
 
-set runtimepath+=$VIMFILES/runtime/cocoa.vim
-" set runtimepath+=$VIMFILES/runtime/cocoa.vim/after
-set runtimepath+=$VIMFILES/runtime/theonevimlib/contrib
-set runtimepath+=$VIMFILES/runtime/vim-ruby
-set runtimepath+=$VIMFILES/runtime/vim-rails
-set runtimepath+=$VIMFILES/runtime/nerdcommenter
-set runtimepath+=$VIMFILES/runtime/nerdsnippets
-set runtimepath+=$VIMFILES/runtime/vimoutliner
-set runtimepath+=$VIMFILES/runtime/git-vim
-set runtimepath+=$VIMFILES/runtime/nerdtree
-" set runtimepath+=~/.vim/runtime/snipMate
+" set runtimepath+=$VIMFILES/runtime/cocoa.vim
+" " set runtimepath+=$VIMFILES/runtime/cocoa.vim/after
+" set runtimepath+=$VIMFILES/runtime/theonevimlib/contrib
+" set runtimepath+=$VIMFILES/runtime/vim-ruby
+" set runtimepath+=$VIMFILES/runtime/vim-rails
+" set runtimepath+=$VIMFILES/runtime/nerdcommenter
+" " set runtimepath+=$VIMFILES/runtime/nerdsnippets
+" set runtimepath+=$VIMFILES/runtime/tlib_vim
+" set runtimepath+=$VIMFILES/runtime/vim-addon-mw-utils
+" set runtimepath+=$VIMFILES/runtime/snipmate-snippets
+" set runtimepath+=$VIMFILES/runtime/vim-snippets
+" set runtimepath+=$VIMFILES/runtime/vim-snipmate
+
+" set runtimepath+=$VIMFILES/runtime/vimoutliner
+" set runtimepath+=$VIMFILES/runtime/git-vim
+" set runtimepath+=$VIMFILES/runtime/nerdtree
+" " set runtimepath+=~/.vim/runtime/snipMate
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required! 
+Bundle 'gmarik/vundle'
+" stuff
+Bundle "git://github.com/MarcWeber/vim-addon-mw-utils.git"
+Bundle "git://github.com/tomtom/tlib_vim.git"
+Bundle "git://github.com/honza/snipmate-snippets.git"
+Bundle "git://github.com/garbas/vim-snipmate.git"
+
 
 if has("win32")
   set rtp+=$VIMFILES/runtime/win
