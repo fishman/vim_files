@@ -141,7 +141,7 @@ syntax enable           " enable syntax hl
 if has("win32")
   try | set gfn=Consolas:h11:cANSI | catch | endtry " Vista only
 elseif has("gui_gtk2")
-  set gfn="Consolas 12"
+  set gfn=Terminus\ 14
 else
   set gfn=Consolas:h13,Inconsolata:h14,PanicSans:h12
 endif
