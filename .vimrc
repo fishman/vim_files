@@ -141,7 +141,7 @@ syntax enable           " enable syntax hl
 if has("win32")
   try | set gfn=Consolas:h11:cANSI | catch | endtry " Vista only
 elseif has("gui_gtk2")
-  set gfn=Terminus\ 14
+  set gfn=Terminus\ 12
 else
   set gfn=Consolas:h13,Inconsolata:h14,PanicSans:h12
 endif
@@ -206,7 +206,7 @@ endif
 " set runtimepath+=$VIMFILES/runtime/cocoa.vim
 " " set runtimepath+=$VIMFILES/runtime/cocoa.vim/after
 " set runtimepath+=$VIMFILES/runtime/theonevimlib/contrib
-" " set runtimepath+=$VIMFILES/runtime/nerdsnippets
+" set runtimepath+=$VIMFILES/runtime/nerdsnippets
 " set runtimepath+=$VIMFILES/runtime/vimoutliner
 " set runtimepath+=$VIMFILES/runtime/git-vim
 " set runtimepath+=$VIMFILES/runtime/nerdtree
@@ -219,13 +219,18 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 " stuff
 Bundle "git://github.com/vim-ruby/vim-ruby.git"
-Bundle "git://github.com/fishman/vim-rails.git"
+Bundle "git://github.com/tpope/vim-rails.git"
+Bundle "git://github.com/tpope/vim-endwise.git"
+Bundle "git://github.com/tpope/vim-fugitive.git"
 Bundle "git://github.com/scrooloose/nerdtree.git"
 Bundle "git://github.com/scrooloose/nerdcommenter.git"
-Bundle "git://github.com/MarcWeber/vim-addon-mw-utils.git"
-Bundle "git://github.com/tomtom/tlib_vim.git"
-Bundle "git://github.com/honza/snipmate-snippets.git"
-Bundle "git://github.com/garbas/vim-snipmate.git"
+" go back to old snippets
+" Bundle "git://github.com/MarcWeber/vim-addon-mw-utils.git"
+" Bundle "git://github.com/tomtom/tlib_vim.git"
+" Bundle "git://github.com/honza/snipmate-snippets.git"
+" Bundle "git://github.com/garbas/vim-snipmate.git"
+" Bundle "git://github.com/drmingdrmer/xptemplate.git"
+Bundle "nerdsnippets"
 
 
 if has("win32")
@@ -741,36 +746,14 @@ map <leader>s? z=
 
 
   """"""""""""""""""""""""""""""
-  " => vcscommand.vim
+  " => fugitive.vim
   """"""""""""""""""""""""""""""
-  nmap <Leader>va <Plug>VCSAdd
-  nmap <Leader>vi <Plug>VCSInfo
-  nmap <Leader>vn <Plug>VCSAnnotate
-  nmap <Leader>vb <Plug>VCSAnnotate
-  nmap <Leader>vc <Plug>VCSCommit
-  nmap <Leader>vd <Plug>VCSVimDiff
-  nmap <Leader>vg <Plug>VCSGotoOriginal
-  nmap <Leader>vG <Plug>VCSGotoOriginal!
-  nmap <Leader>vl <Plug>VCSLog
-  nmap <Leader>vL <Plug>VCSLock
-  nmap <Leader>vr <Plug>VCSReview
-  nmap <Leader>vs <Plug>VCSStatus
-  nmap <Leader>vu <Plug>VCSUpdate
-  nmap <Leader>vU <Plug>VCSUnlock
-  nmap <Leader>vv <Plug>VCSVimDiff
-  nmap <Leader>vR <Plug>VCSRevert
+  nmap <Leader>va :Gwrite<cr>
+  nmap <Leader>vc :Gcommit<cr>
+  nmap <Leader>vr :Gread<cr>
+  nmap <Leader>vs :Gstatus<cr>
 
-  " vcscommand.vim - svn executable path
-  if has("win32")
-    let g:VCSCommandSVNExec = 'C:\Programme\Subversion\svn.exe'
-  elseif has("macunix")
-    let g:VCSCommandSVNExec = '/opt/local/gentoo/usr/bin/svn'
-    let g:VCSCommandGitExec = '/opt/local/gentoo/usr/bin/git'
-  endif
-
-  augroup VCSCommand
-    au VCSCommand User VCSBufferCreated silent! nmap <unique> <buffer> q :bwipeout<cr>
-  augroup END
+  autocmd QuickFixCmdPost *grep* cwindow
 
 
   """"""""""""""""""""""""""""""
@@ -839,6 +822,7 @@ map <leader>s? z=
   " fix backspace in console
   let g:CommandTBackspaceMap = '<C-?>'
   let g:CommandTCursorLeftMap = '<Left>'
+  let g:CommandTMatchWindowAtTop=1 " show window at top
   """"""""""""""""""""""""""""""
   " => fuzzyfinder.vim
   """"""""""""""""""""""""""""""
