@@ -39,7 +39,7 @@
 "   ------ *> taglist.vim
 "   ------ *> project.vim
 "   ------ *> projtags.vim
-"   ------ *> vcscommand.vim
+"   ------ *> fugitive.vim
 "   ------ *> NERD_commenter.vim
 "   ------ *> NERD_tree.vim
 "   ------ *> winmanager.vim
@@ -752,6 +752,7 @@ map <leader>s? z=
   nmap <Leader>vc :Gcommit<cr>
   nmap <Leader>vr :Gread<cr>
   nmap <Leader>vs :Gstatus<cr>
+  nmap <Leader>vd :Gdiff<cr>
 
   autocmd QuickFixCmdPost *grep* cwindow
 
