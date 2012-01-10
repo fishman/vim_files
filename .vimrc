@@ -50,8 +50,6 @@
 "   ------ *> marks_corey.vim
 "   ------ *> bufexplorer.vim
 "   ------ *> lineup.vim
-"   ------ *> command-t.vim
-"   ------ *> fuzzyfinder.vim
 "   ------ *> xml.vim
 "   ------ *> yankring.vim
 "   ------ *> C/C++ stuff
@@ -225,6 +223,7 @@ Bundle "git://github.com/tpope/vim-fugitive.git"
 Bundle "git://github.com/scrooloose/nerdtree.git"
 Bundle "git://github.com/scrooloose/nerdcommenter.git"
 Bundle "git://github.com/majutsushi/tagbar.git"
+Bundle "git://github.com/kien/ctrlp.vim.git"
 " go back to old snippets
 " Bundle "git://github.com/MarcWeber/vim-addon-mw-utils.git"
 " Bundle "git://github.com/tomtom/tlib_vim.git"
@@ -798,46 +797,6 @@ map <leader>s? z=
   " might as well use alignmaps but thats a bit overkill
   vnoremap <Leader>t= :Lineup=<CR>
   vnoremap <Leader>t/ :Lineup/<CR>
-  """"""""""""""""""""""""""""""
-  " => command-t.vim
-  """"""""""""""""""""""""""""""
-  " fix backspace in console
-  let g:CommandTBackspaceMap = '<C-?>'
-  let g:CommandTCursorLeftMap = '<Left>'
-  let g:CommandTMatchWindowAtTop=1 " show window at top
-  """"""""""""""""""""""""""""""
-  " => fuzzyfinder.vim
-  """"""""""""""""""""""""""""""
-  " Fuzzy finder rocks, like Command-T in TextMate (buggy at moment, fix!!)
-  if !exists("g:FuzzyFinderOptions")
-    let g:FuzzyFinderOptions = { 'Base':{}, 'Bookmark':{}, 'Buffer':{}, 'File':{}, 'Dir':{}, 'MruFile':{}, 'MruCmd':{}, 'Tag':{}, 'TaggedFile':{}}
-    let g:FuzzyFinderOptions.Buffer.mode_available = 1
-    let g:FuzzyFinderOptions.Bookmark.mode_available = 1
-    let g:FuzzyFinderOptions.File.mode_available = 1
-    let g:FuzzyFinderOptions.MruFile.mode_available = 1
-    let g:FuzzyFinderOptions.MruCmd.mode_available = 0
-    let g:FuzzyFinderOptions.Dir.mode_available = 1
-    let g:FuzzyFinderOptions.Tag.mode_available = 1
-    let g:FuzzyFinderOptions.TaggedFile.mode_available = 0
-    let g:FuzzyFinderOptions.Base.abbrev_map = { "^Project-" : ["**/"], }
-    let g:FuzzyFinderOptions.Base.migemo_support = 0
-    "let g:FuzzyFinderOptions.Base.key_open_split = '<C-O>'
-    let g:FuzzyFinderOptions.File.excluded_path = '\v\~$|\.obj$|\.jpg$|\.gif$|\.o$|\./|\.git/|\.svn/|\.DS_Store|\.exe$|\.bak$|\.swp$|((^|[/\\])\.[/\\]$)'
-  endif
-  noremap <silent> <leader>fp :FuzzyFinderFile Project-<CR>
-  noremap <silent> <leader>ff :FuzzyFinderFile<CR>
-  noremap <silent> <leader>fb :FuzzyFinderBuffer<CR>
-  noremap <silent> <leader>fm :FuzzyFinderMruFile<CR>
-  noremap <silent> <leader>fv :FuzzyFinderBookmark<CR>
-  noremap <silent> <leader>fa :FuzzyFinderAddBookmark<CR>
-  noremap <silent> <leader>fd :FuzzyFinderDir<CR>
-  noremap <silent> <leader>ft :FuzzyFinderTag<CR>
-  noremap <silent> <leader>fc :FuzzyFinderRenewCache<CR>
-  " noremap <silent> <leader>t :FuzzyFinderTextMate<CR>
-  noremap <silent> <leader>fr :FuzzyFinderTextMateRefreshFiles<CR>
-
-
-  let g:fuzzy_ignore = "*.log;*.o;*.jpg;*.gif;*png;.svn;application/cache/**"
 
   """"""""""""""""""""""""""""""
   " => xml.vim
