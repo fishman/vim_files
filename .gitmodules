@@ -1,24 +1,30 @@
-[submodule "runtime/theonevimlib"]
-	path = runtime/theonevimlib
-	url = git://github.com/fishman/theonevimlib.git
-[submodule "runtime/snipMate"]
-	path = runtime/snipMate
-	url = git://github.com/fishman/snipmate.vim.git
-[submodule "snippets"]
-	path = snippets
-	url = git://github.com/fishman/snipmate-snippets.git
-[submodule "runtime/nerdsnippets"]
-	path = runtime/nerdsnippets
-	url = git://github.com/fishman/nerdsnippets.git
-[submodule "runtime/git-vim"]
-	path = runtime/git-vim
+[submodule "bundle/nerdcommenter"]
+	path = bundle/nerdcommenter
+	url = git://github.com/scrooloose/nerdcommenter.git
+[submodule "bundle/nerdtree"]
+	path = bundle/nerdtree
+	url = git://github.com/scrooloose/nerdtree.git
+[submodule "bundle/UltiSnips"]
+	path = bundle/UltiSnips
 	url = git://github.com/bartman/git-vim.git
-[submodule "runtime/cocoa.vim"]
-	path = runtime/cocoa.vim
-	url = git://github.com/threeve/cocoa.vim.git
-[submodule "runtime/hypergit.vim"]
-	path = runtime/hypergit.vim
-	url = git://github.com/c9s/hypergit.vim.git
-[submodule "runtime/commandt"]
-	path = runtime/commandt
-	url = git://github.com/wincent/Command-T.git
+[submodule "bundle/ctrlp.vim"]
+	path = bundle/ctrlp.vim
+	url = git://github.com/kien/ctrlp.vim.git
+[submodule "bundle/syntastic"]
+	path = bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
+[submodule "tagbar"]
+	path = bundle/tagbar
+	url = git://github.com/majutsushi/tagbar.git
+[submodule "vim-fugitive"]
+	path = bundle/vim-fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule "vim-rails"]
+	path = bundle/vim-rails
+	url = git://github.com/tpope/vim-rails.git
+[submodule "vim-endwise"]
+	path = bundle/vim-endwise
+	url = git://github.com/endwise/vim-rails.git
+[submodule "vim-ruby"]
+	path = bundle/vim-ruby
+	url = git://github.com/vim-ruby/vim-ruby.git

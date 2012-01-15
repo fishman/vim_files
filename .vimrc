@@ -241,14 +241,6 @@ if has("win32")
   runtime plugin/visual_studio.vim
 endif
 
-" runtime plugin/snipMate.vim
-" runtime after/plugin/snipMate.vim
-runtime plugin/NERD_tree.vim
-runtime plugin/NERD_snippets.vim
-runtime plugin/NERD_commenter.vim
-runtime plugin/git.vim
-" matchit fun
-runtime macros/matchit.vim
 " }}}1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
