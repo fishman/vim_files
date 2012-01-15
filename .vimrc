@@ -53,9 +53,9 @@
 "   ------ *> xml.vim
 "   ------ *> yankring.vim
 "   ------ *> C/C++ stuff
+"   ------ *> clang_complete
 "   ------ *> Others
 "   *> Cope
-"   *> OmniCompletion
 "   *> Misc
 "
 " Usage:
@@ -882,6 +882,14 @@ map <leader>s? z=
   map <C-F11> :!/opt/local/gentoo/usr/bin/ctags -f .tmtags -R --c++-kinds=+p --fields=+iaS --extra=+q .<cr>
   map <C-F12> :%!astyle -t -b -S -w -M -p -U<cr>
 
+  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  " clang_complete: {{{1
+  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  " map omni complete to ctrl-f
+  inoremap <C-F> <C-X><C-U>
+  let g:clang_use_library = 1
+  " inoremap <C-L> <C-P>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Cope: {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -896,12 +904,6 @@ imap <silent> <leader>` <ESC>:QFix<cr>
 "au BufReadPost quickfix nmap q :bw<CR>
 
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" OmniCompletion: {{{1
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" map omni complete to ctrl-f
-inoremap <C-F> <C-X><C-O>
-" inoremap <C-L> <C-P>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Misc: {{{1
@@ -909,10 +911,10 @@ inoremap <C-F> <C-X><C-O>
 " Development
 augroup development
     autocmd!
-    autocmd Filetype c,cpp setl cindent cino=(0 nowrap number textwidth=0
-    autocmd Filetype objc,objcpp setl cindent cino=(0 nowrap number textwidth=0 ts=4 sw=4
-    autocmd FileType make,php,sh,javascript,perl,css,dosbatch,python,xml,idlang setl nowrap number textwidth=0
-    autocmd FileType html,javascript setl cindent cino=J1 number textwidth=0 ts=2 sw=2
+    autocmd Filetype c,cpp setl cindent cino=(0 nowrap textwidth=0
+    autocmd Filetype objc,objcpp setl cindent cino=(0 nowrap textwidth=0 ts=4 sw=4
+    autocmd FileType make,php,sh,javascript,perl,css,dosbatch,python,xml,idlang setl nowrap textwidth=0
+    autocmd FileType html,javascript setl cindent cino=J1 textwidth=0 ts=2 sw=2
     "autocmd BufWritePost *.cpp,*.h,*.c call UpdateCTags()
     autocmd Filetype taglist setl statusline=Taglist
     autocmd FileType make set noet ts=8 sw=8 nosi
@@ -1157,6 +1159,7 @@ command! RunPyBuffer call DoRunPyBuffer2()
 
 "EOF
 endif
+	
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim: set et ft=vim tw=78 path+=$VIMFILES/* tags+=$VIMRUNTIME/doc/tags:
