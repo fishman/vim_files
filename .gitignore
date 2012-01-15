@@ -4,3 +4,4 @@ vimdata/temp/*.sw?
 *.o
 *.bundle
 mkmf.log
+doc/tags
