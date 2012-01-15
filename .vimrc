@@ -209,28 +209,31 @@ endif
 " set runtimepath+=$VIMFILES/runtime/git-vim
 " set runtimepath+=$VIMFILES/runtime/nerdtree
 " " set runtimepath+=~/.vim/runtime/snipMate
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
 
-" let Vundle manage Vundle
-" required! 
-Bundle 'gmarik/vundle'
-" stuff
-Bundle "git://github.com/vim-ruby/vim-ruby.git"
-Bundle "git://github.com/tpope/vim-rails.git"
-Bundle "git://github.com/tpope/vim-endwise.git"
-Bundle "git://github.com/tpope/vim-fugitive.git"
-Bundle "git://github.com/scrooloose/nerdtree.git"
-Bundle "git://github.com/scrooloose/nerdcommenter.git"
-Bundle "git://github.com/majutsushi/tagbar.git"
-Bundle "git://github.com/kien/ctrlp.vim.git"
+call pathogen#infect()
+"set rtp+=~/.vim/bundle/vundle/
+"call vundle#rc()
+"
+"" let Vundle manage Vundle
+"" required! 
+"Bundle 'gmarik/vundle'
+"" stuff
+"Bundle "git://github.com/vim-ruby/vim-ruby.git"
+"Bundle "git://github.com/tpope/vim-rails.git"
+"Bundle "git://github.com/tpope/vim-endwise.git"
+"Bundle "git://github.com/tpope/vim-fugitive.git"
+"Bundle "git://github.com/scrooloose/nerdtree.git"
+"Bundle "git://github.com/scrooloose/nerdcommenter.git"
+"Bundle "git://github.com/majutsushi/tagbar.git"
+"Bundle "git://github.com/kien/ctrlp.vim.git"
+"Bundle 'ultrasnips'
 " go back to old snippets
 " Bundle "git://github.com/MarcWeber/vim-addon-mw-utils.git"
 " Bundle "git://github.com/tomtom/tlib_vim.git"
 " Bundle "git://github.com/honza/snipmate-snippets.git"
 " Bundle "git://github.com/garbas/vim-snipmate.git"
 " Bundle "git://github.com/drmingdrmer/xptemplate.git"
-Bundle "nerdsnippets"
+" Bundle "nerdsnippets"
 
 
 if has("win32")
@@ -765,6 +768,10 @@ map <leader>s? z=
   " => supertab.vim
   """"""""""""""""""""""""""""""
   "let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
+  """"""""""""""""""""""""""""""
+  " => ctrlp.vim
+  """"""""""""""""""""""""""""""
+  noremap <silent> <leader>t :CtrlP<CR>
 
   """"""""""""""""""""""""""""""
   " => marks_corey.vim
