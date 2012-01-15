@@ -52,3 +52,6 @@
 [submodule "bundle/gist"]
 	path = bundle/gist
 	url = git://github.com/mattn/gist-vim.git
+[submodule "bundle/camelcasemotion"]
+	path = bundle/camelcasemotion
+	url = git://github.com/bkad/CamelCaseMotion.git
