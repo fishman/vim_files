@@ -55,3 +55,9 @@
 [submodule "bundle/camelcasemotion"]
 	path = bundle/camelcasemotion
 	url = git://github.com/bkad/CamelCaseMotion.git
+[submodule "bundle/session"]
+	path = bundle/session
+	url = git://github.com/xolox/vim-session.git
+[submodule "bundle/zencoding"]
+	path = bundle/zencoding
+	url = http://github.com/mattn/zencoding-vim.git
