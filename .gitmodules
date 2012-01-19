@@ -36,7 +36,7 @@
 	url = git://github.com/tpope/vim-markdown.git
 [submodule "bundle/vim-node"]
 	path = bundle/vim-node
-	url = git://github.com/mmalecki/vim-node.js.git
+	url = git://github.com/fishman/vim-node.js.git
 [submodule "bundle/vim-rspec"]
 	path = bundle/vim-rspec
 	url = git://github.com/skwp/vim-rspec.git
