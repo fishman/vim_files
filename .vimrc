@@ -616,8 +616,6 @@ set wrap                " wrap lines
 
 map <leader>t2 :set shiftwidth=2<cr>
 map <leader>t8 :set shiftwidth=8<cr>
-au FileType vim setl sw=2 ts=2
-au FileType python setl tabstop=4 sw=4 sts=4 nosi
 
 "noremap <leader>; :make<CR>
 " Map ; to "add ; to the end of the line, when missing"
@@ -884,7 +882,10 @@ map <leader>s? z=
   " clang_complete: {{{1
   """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " map omni complete to ctrl-f
-  inoremap <C-F> <C-X><C-U>
+  inoremap <C-F> <C-X><C-O>
+  " map custom completion to ctrl-j
+  inoremap <C-J> <C-X><C-U>
+  
   let g:clang_use_library = 1
   " inoremap <C-L> <C-P>
 
@@ -909,6 +910,7 @@ imap <silent> <leader>` <ESC>:QFix<cr>
 " Development
 augroup development
     autocmd!
+    autocmd BufNewFile,BufRead *.rb setlocal filetype=ruby.rails syntax=ruby
     autocmd Filetype c,cpp setl cindent cino=(0 nowrap textwidth=0
     autocmd Filetype objc,objcpp setl cindent cino=(0 nowrap textwidth=0 ts=4 sw=4
     autocmd FileType make,php,sh,javascript,perl,css,dosbatch,python,xml,idlang setl nowrap textwidth=0
@@ -917,6 +919,8 @@ augroup development
     autocmd Filetype taglist setl statusline=Taglist
     autocmd FileType make set noet ts=8 sw=8 nosi
     autocmd FileType mkd set ai formatoptions=tcroqn2 comments=n:>
+    au FileType vim setl sw=2 ts=2
+    au FileType python setl tabstop=4 sw=4 sts=4 nosi omnifunc=pythoncomplete#Complete
     au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
     au BufRead,BufNewFile *.vra set ft=scope syntax=scope
 augroup END
@@ -931,9 +935,6 @@ imap hh <Esc>
 
 " go to newline
 imap <M-o> <Esc>o
-
-" map custom completion to ctrl-j
-inoremap <C-J> <C-X><C-U>
 
 " convert last word to uppercase
 imap <c--> <esc>gUiw`]a
@@ -1054,7 +1055,6 @@ fu! SmartTOhtml()
   exe ":bd"
 endf
 
-
 " ------------------------
 " Change Working Directory: {{{1
 " -----------------------
@@ -1158,6 +1158,7 @@ command! RunPyBuffer call DoRunPyBuffer2()
 "EOF
 endif
 	
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim: set et ft=vim tw=78 path+=$VIMFILES/* tags+=$VIMRUNTIME/doc/tags:
