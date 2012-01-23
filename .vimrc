@@ -762,6 +762,7 @@ map <leader>s? z=
   " => ctrlp.vim
   """"""""""""""""""""""""""""""
   noremap <silent> <leader>t :CtrlP<CR>
+  let g:ctrlp_working_path_mode = 2
 
   """"""""""""""""""""""""""""""
   " => marks_corey.vim
