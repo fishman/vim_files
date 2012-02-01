@@ -924,6 +924,30 @@ augroup development
     au FileType python setl tabstop=4 sw=4 sts=4 nosi omnifunc=pythoncomplete#Complete
     au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
     au BufRead,BufNewFile *.vra set ft=scope syntax=scope
+    " Vala/Genie Support -------------------------------- {{{
+    " get vala.vim here:
+    " https://live.gnome.org/Vala/Vim
+    autocmd BufRead *.vala set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
+    autocmd BufRead *.vapi set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
+    autocmd BufRead,BufNewFile *.vala setfiletype vala
+    autocmd BufRead,BufNewFile *.vapi setfiletype vala
+    autocmd FileType vala setlocal cindent
+
+    " indentation for genie: genie.vim
+    " http://www.vim.org/scripts/script.php?script_id=2349
+    " This will overrule the default filetype grads
+    autocmd BufRead,BufNewFile *.gs setlocal filetype=genie syntax=vala
+
+    autocmd FileType vala,genie setlocal formatoptions+=croql
+    " }}}
+
+    " Python Support ------------------------------------ {{{
+    autocmd FileType python setl omnifunc=pythoncomplete#Complete
+    autocmd FileType python inoreab <buffer> #! #!/usr/bin/env python
+    autocmd FileType python inoreab <buffer> #e # -*- coding: utf=8 -*-
+    " }}}
+
+
 augroup END
 
 " this allows us to write to files even when we 
