@@ -190,6 +190,15 @@ else
   elseif $TERM == "xterm-color"
     colo desert
   elseif $TERM == "screen-256color"
+    " simply use c-v to create these maps
+    map [1;5D <c-left>
+    map [1;5C <c-right>
+    map [1;2D <s-left>
+    map [1;2C <s-right>
+
+    " fix mouse selection dragging and scrolling
+    set ttymouse=xterm2
+
     colo wombat256mod
   else
     "colo desert
@@ -609,6 +618,7 @@ set directory=$VIMDATA/temp
 set fo=tcrqnmM		      " see help formatoptions (complex)
 set linebreak           " wrap long lines at a character in 'breakat'
 set textwidth=500       " maximum width of text that is being inserted
+au FileType mail setl textwidth=78
 " set ai                  " autoindent
 " set si                  " smartindent
 " set copyindent
