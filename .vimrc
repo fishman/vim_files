@@ -191,10 +191,19 @@ else
     colo desert
   elseif $TERM == "screen-256color"
     " simply use c-v to create these maps
-    map [1;5D <c-left>
-    map [1;5C <c-right>
-    map [1;2D <s-left>
-    map [1;2C <s-right>
+    noremap [1;5D <c-left>
+    noremap [1;5C <c-right>
+    noremap [1;2D <s-left>
+    noremap [1;2C <s-right>
+    inoremap [1;5D <c-left>
+    inoremap [1;5C <c-right>
+    inoremap [1;2D <s-left>
+    inoremap [1;2C <s-right>
+    cnoremap [1;5D <c-left>
+    cnoremap [1;5C <c-right>
+    cnoremap [1;2D <s-left>
+    cnoremap [1;2C <s-right>
+    inoremap OP <C-O>:w!<cr>
 
     " fix mouse selection dragging and scrolling
     set ttymouse=xterm2
