@@ -10,7 +10,7 @@ let g:surround_35  = "#{\r}"   " #
 
 command! -bar -nargs=0 Irb :silent exe "!screen -S irb -X stuff " . shellescape(getline(".")) . "\015" | silent redraw!
 
-setl cindent cino=J1
+setl cindent nu cino=J1
 
 nmap <silent> <Leader>r :R<CR>
 nmap <silent> <Leader>rs :RS<CR>

@@ -931,31 +931,34 @@ imap <silent> <leader>` <ESC>:QFix<cr>
 augroup development
     autocmd!
     autocmd BufNewFile,BufRead *.rb setlocal filetype=ruby.rails syntax=ruby
-    autocmd Filetype c,cpp setl cindent cino=(0 nowrap textwidth=0
-    autocmd Filetype objc,objcpp setl cindent cino=(0 nowrap textwidth=0 ts=4 sw=4
+    autocmd Filetype c,cpp setl nu cindent cino=(0 nowrap textwidth=0 ts=4 sw=4 sts=4 et
+    autocmd Filetype objc,objcpp setl nu cindent cino=(0 nowrap textwidth=0 ts=4 sw=4 sts=4 et
     autocmd FileType make,php,sh,javascript,perl,css,dosbatch,python,xml,idlang setl nowrap textwidth=0
     autocmd FileType html,javascript setl cindent cino=J1 textwidth=0 ts=2 sw=2
+    autocmd FileType haskell setl textwidth=0 ts=2 sw=2 sts=2 et
     "autocmd BufWritePost *.cpp,*.h,*.c call UpdateCTags()
     autocmd Filetype taglist setl statusline=Taglist
     autocmd FileType make set noet ts=8 sw=8 nosi
     autocmd FileType mkd set ai formatoptions=tcroqn2 comments=n:>
     au FileType vim setl sw=2 ts=2
-    au FileType python setl tabstop=4 sw=4 sts=4 nosi omnifunc=pythoncomplete#Complete
+    au FileType python setl tabstop=4 et sw=4 sts=4 nosi omnifunc=pythoncomplete#Complete
     au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
+    au BufRead,BufNewFile *.eco setl ft=eco.html sw=2 ts=2 et sts=2
     au BufRead,BufNewFile *.vra set ft=scope syntax=scope
+    au BufRead,BufNewFile *.json.jbuilder set ft=ruby
     " Vala/Genie Support -------------------------------- {{{
     " get vala.vim here:
     " https://live.gnome.org/Vala/Vim
     autocmd BufRead *.vala set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
     autocmd BufRead *.vapi set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
-    autocmd BufRead,BufNewFile *.vala setfiletype vala
-    autocmd BufRead,BufNewFile *.vapi setfiletype vala
+    autocmd BufRead,BufNewFile *.vala setl et ts=4 sts=4 sw=4 nu cindent cino=(0 filetype=vala
+    autocmd BufRead,BufNewFile *.vapi setl et ts=4 sts=4 sw=4 nu cindent cino=(0 filetype=vala
     autocmd FileType vala setlocal cindent
 
     " indentation for genie: genie.vim
     " http://www.vim.org/scripts/script.php?script_id=2349
     " This will overrule the default filetype grads
-    autocmd BufRead,BufNewFile *.gs setlocal filetype=genie syntax=vala
+    autocmd BufRead,BufNewFile *.gs setlocal filetype=genie
 
     autocmd FileType vala,genie setlocal formatoptions+=croql
     " }}}
@@ -1201,7 +1204,6 @@ command! RunPyBuffer call DoRunPyBuffer2()
 
 "EOF
 endif
-	
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
