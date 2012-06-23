@@ -778,7 +778,8 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   " => commandt.vim
   """"""""""""""""""""""""""""""
-  noremap <silent> <leader>t :CommandT<CR>
+  " noremap <silent> <leader>t :CommandT<CR>
+  noremap <silent> <leader>t :CtrlP<CR>
   " let g:ctrlp_working_path_mode = 2
 
   """"""""""""""""""""""""""""""
