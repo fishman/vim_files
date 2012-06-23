@@ -780,6 +780,7 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   " noremap <silent> <leader>t :CommandT<CR>
   noremap <silent> <leader>t :CtrlP<CR>
+  noremap <silent> <leader>tb :CtrlPBuffer<CR>
   " let g:ctrlp_working_path_mode = 2
 
   """"""""""""""""""""""""""""""
