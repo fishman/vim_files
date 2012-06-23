@@ -776,10 +776,10 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   "let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
   """"""""""""""""""""""""""""""
-  " => ctrlp.vim
+  " => commandt.vim
   """"""""""""""""""""""""""""""
-  noremap <silent> <leader>t :CtrlP<CR>
-  let g:ctrlp_working_path_mode = 2
+  noremap <silent> <leader>t :CommandT<CR>
+  " let g:ctrlp_working_path_mode = 2
 
   """"""""""""""""""""""""""""""
   " => marks_corey.vim
@@ -818,6 +818,12 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   let xml_tag_completion_map = "<C-l>"
 
+  """"""""""""""""""""""""""""""
+  " => vim-javascript.vim
+  """"""""""""""""""""""""""""""
+  let g:html_indent_inctags = "html,body,head,tbody"
+  let g:html_indent_script1 = "inc"
+  let g:html_indent_style1 = "inc"
 
   """"""""""""""""""""""""""""""
   " => yankring.vim
