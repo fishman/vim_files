@@ -6,14 +6,14 @@
 "
 
 " Description: vimrc with dozens of scripts, for linux/windows
-" Derive From: Leal <linxiao.li AT gmail DOT com> 
+" Derive From: Leal <linxiao.li AT gmail DOT com>
 "              Amix - http://www.amix.dk/vim/vimrc.html
 "              MetaCosm - http://vi-improved.org/vimrc.php
 "              Sidney - http://www.afn.org/~afn39695/sidney.htm
-" Last Change: 
+" Last Change:
 " Maintainer:  Reza Jelveh
-" SVN Repo:    
-" Version:     
+" SVN Repo:
+" Version:
 "
 " Section:
 " ------------------------------------------------------------------
@@ -138,9 +138,7 @@ syntax enable           " enable syntax hl
 
 if has("win32")
   try | set gfn=Consolas:h11:cANSI | catch | endtry " Vista only
-elseif has("gui_gtk2")
-  set gfn=Terminus\ 12
-else
+elseif has("gui_mac")
   set gfn=Consolas:h13,Inconsolata:h14,PanicSans:h12
 endif
 
@@ -183,7 +181,7 @@ else
     "colo desert256
     colo wombatc
     " colo desertc
-    " colo leo    
+    " colo leo
     " colo gardener
     " colo inkpot
 
@@ -233,7 +231,7 @@ call pathogen#infect()
 "call vundle#rc()
 "
 "" let Vundle manage Vundle
-"" required! 
+"" required!
 "Bundle 'gmarik/vundle'
 "" stuff
 "Bundle "git://github.com/vim-ruby/vim-ruby.git"
@@ -595,7 +593,7 @@ fu! <SID>BufcloseCloseIt()
     enew
   endif
   if buflisted(l:currentBufNum)
-    execute "bdelete! ".l:currentBufNum 
+    execute "bdelete! ".l:currentBufNum
   endif
 endf
 " }}}1
@@ -678,12 +676,12 @@ map <leader>s? z=
 
   map <S-F3> :Rgrep<cr>
   "let Grep_Cygwin_Find = 1
-  
+
 
   """"""""""""""""""""""""""""""
   " => tovl grep
   """"""""""""""""""""""""""""""
-  " command! -nargs=* BGgrep 
+  " command! -nargs=* BGgrep
             " \ call tovl#plugin_management#Plugin('plugins#background_processes#grep#PluginBackgroundGrep').Dialog()
 
 
@@ -905,7 +903,7 @@ map <leader>s? z=
   inoremap <C-F> <C-X><C-O>
   " map custom completion to ctrl-j
   inoremap <C-J> <C-X><C-U>
-  
+
   let g:clang_use_library = 1
   " inoremap <C-L> <C-P>
 
@@ -972,7 +970,7 @@ augroup development
 
 augroup END
 
-" this allows us to write to files even when we 
+" this allows us to write to files even when we
 " forget to use sudo to launch vim
 command! -bar -nargs=0 Sudow :silent exe "w !sudo tee % > /dev/null" | silent edit!
 
