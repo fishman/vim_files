@@ -43,7 +43,6 @@
 "   ------ *> NERD_commenter.vim
 "   ------ *> NERD_tree.vim
 "   ------ *> winmanager.vim
-"   ------ *> autocomplpop.vim
 "   ------ *> session.vim
 "   ------ *> dbext.vim
 "   ------ *> supertab.vim
@@ -775,13 +774,16 @@ map <leader>s? z=
   " => supertab.vim
   """"""""""""""""""""""""""""""
   "let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
+
   """"""""""""""""""""""""""""""
-  " => commandt.vim
+  " => ctrlp.vim
   """"""""""""""""""""""""""""""
-  " noremap <silent> <leader>t :CommandT<CR>
+  " {{{
   noremap <silent> <leader>t :CtrlP<CR>
   noremap <silent> <leader>tb :CtrlPBuffer<CR>
-  " let g:ctrlp_working_path_mode = 2
+  let g:ctrlp_persistence_input = 0
+  let g:ctrlp_by_filename = 0
+  " }}}
 
   """"""""""""""""""""""""""""""
   " => marks_corey.vim
@@ -832,12 +834,6 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
    map <leader>yr :YRShow<cr>
 
-  """"""""""""""""""""""""""""""
-  " => autocomplpop.vim
-  """"""""""""""""""""""""""""""
-  let g:AutoComplPop_NotEnableAtStartup = 1
-  map ,ace :AutoComplPopEnable<CR>
-  map ,acd :AutoComplPopDisable<CR>
 
   """"""""""""""""""""""""""""""
   " => C/C++ Stuff
@@ -904,15 +900,46 @@ map <leader>s? z=
   map <C-F11> :!/opt/local/gentoo/usr/bin/ctags -f .tmtags -R --c++-kinds=+p --fields=+iaS --extra=+q .<cr>
   map <C-F12> :%!astyle -t -b -S -w -M -p -U<cr>
 
+
+
+  """"""""""""""""""""""""""""""
+  " => UltiSnips
+  """"""""""""""""""""""""""""""
+  " {{{
+  let g:UltiSnipsSnippetDirectories = [hostname() == 'osse-vb' && hostname() == 'ow-linux' ?
+        \ "work_snippets" : "osse_snippets", "UltiSnips"]
+  let g:UltiSnipsDontReverseSearchPath = "1"
+  let g:UltiSnipsExpandTrigger = "<Tab>"
+  let g:UltiSnipsJumpForwardTrigger = "<Tab>"
+  let g:UltiSnipsJumpBackwardTrigger = "<S-tab>"
+  " }}}
+
+
+  """"""""""""""""""""""""""""""
+  " => latex
+  """"""""""""""""""""""""""""""
+  " {{{
+  let g:tex_fold_enabled = 1
+  let g:tex_flavor = "latex"
+  let g:tex_conceal = 'sgdm'
+  let g:tex_comment_nospell = 1
+  " }}}
+
+
   """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-  " clang_complete: {{{1
+  " clang_complete: {{{
   """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " map omni complete to ctrl-f
   inoremap <C-F> <C-X><C-O>
   " map custom completion to ctrl-j
   inoremap <C-J> <C-X><C-U>
-
+  let g:clang_complete_copen = 0
+  let g:clang_complete_auto = 0
+  let g:clang_snippets = 1
+  let g:clang_snippets_engine = 'ultisnips'
   let g:clang_use_library = 1
+  " }}}
+
   " inoremap <C-L> <C-P>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
