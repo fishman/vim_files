@@ -963,7 +963,6 @@ imap <silent> <leader>` <ESC>:QFix<cr>
 " Development
 augroup development
     autocmd!
-    autocmd BufNewFile,BufRead *.rb setlocal filetype=ruby.rails syntax=ruby
     autocmd Filetype c,cpp setl nu cindent cino=(0 nowrap textwidth=0 ts=4 sw=4 sts=4 et
     autocmd Filetype objc,objcpp setl nu cindent cino=(0 nowrap textwidth=0 ts=4 sw=4 sts=4 et
     autocmd FileType make,php,sh,javascript,perl,css,dosbatch,python,xml,idlang setl nowrap textwidth=0
