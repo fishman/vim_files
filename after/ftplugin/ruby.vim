@@ -29,3 +29,4 @@ autocmd User Rails    silent! Rlcd
 autocmd User Rails    map <buffer> <F9> :Rake<CR>
 autocmd User Rails    map <buffer> <F8> :Rserver!thin<CR><CR>
 autocmd User Rails    map <F7> :R<CR>
+autocmd User Rails.spec* UltiSnipsAddFiletypes rspec
