@@ -781,6 +781,7 @@ map <leader>s? z=
   " {{{
   noremap <silent> <leader>t :CtrlP<CR>
   noremap <silent> <leader>tb :CtrlPBuffer<CR>
+  noremap <silent> <leader>m :CtrlPMRU<CR>
   let g:ctrlp_persistence_input = 0
   let g:ctrlp_by_filename = 0
   " }}}
@@ -906,12 +907,13 @@ map <leader>s? z=
   " => UltiSnips
   """"""""""""""""""""""""""""""
   " {{{
-  let g:UltiSnipsSnippetDirectories = [hostname() == 'osse-vb' && hostname() == 'ow-linux' ?
-        \ "work_snippets" : "osse_snippets", "UltiSnips"]
+  " let g:UltiSnipsSnippetDirectories = [hostname() == 'osse-vb' && hostname() == 'ow-linux' ?
+  "       \ "work_snippets" : "osse_snippets", "UltiSnips"]
   let g:UltiSnipsDontReverseSearchPath = "1"
-  let g:UltiSnipsExpandTrigger = "<Tab>"
-  let g:UltiSnipsJumpForwardTrigger = "<Tab>"
-  let g:UltiSnipsJumpBackwardTrigger = "<S-tab>"
+  let g:UltiSnipsExpandTrigger         = "<Tab>"
+  let g:UltiSnipsJumpForwardTrigger    = "<Tab>"
+  let g:UltiSnipsJumpBackwardTrigger   = "<S-tab>"
+  let g:UltiSnipsListSnippets          = "<leader>ls"
   " }}}
 
 
@@ -1011,7 +1013,7 @@ command! -bar -nargs=0 Sudow :silent exe "w !sudo tee % > /dev/null" | silent ed
 
 
 " use jj for esc hh for dvorak
-imap hh <Esc>
+" imap hh <Esc>
 
 " go to newline
 imap <M-o> <Esc>o
@@ -1087,7 +1089,7 @@ let g:rails_default_database="mysql"
 map <F5> [I:let nr = input("Which one: ") <Bar>exe "normal " . nr ."[\t"<CR>
 
 " remove the windows ^M
-noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+" noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " remove indenting on empty lines
 map <F2> :%s/\s*$//g<cr>:noh<cr>''
