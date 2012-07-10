@@ -985,6 +985,7 @@ augroup development
     autocmd BufRead *.vapi set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
     autocmd BufRead,BufNewFile *.vala setl et ts=4 sts=4 sw=4 nu cindent cino=(0 filetype=vala
     autocmd BufRead,BufNewFile *.vapi setl et ts=4 sts=4 sw=4 nu cindent cino=(0 filetype=vala
+    autocmd Filetype java setlocal omnifunc=javacomplete#Complete completefunc=javacomplete#CompleteParamsInfo
     autocmd FileType vala setlocal cindent
 
     " indentation for genie: genie.vim
