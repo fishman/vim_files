@@ -708,7 +708,33 @@ map <leader>s? z=
   " => tagbar.vim
   """"""""""""""""""""""""""""""
   nnoremap <silent> <F4> :TagbarToggle<CR>
-
+  let g:tagbar_type_coffee = {
+        \ 'ctagstype' : 'coffee',
+        \ 'kinds' : [
+        \   'n:namespace',
+        \   'c:class',
+        \   'o:object',
+        \   'm:methods',
+        \   'f:functions',
+        \   'i:instance variables',
+        \   'v:var:1',
+        \ ],
+        \ 'sro' : ".",
+        \ 'scope2kind' : {
+        \   'o' : 'object',
+        \   'f' : 'function',
+        \   'm' : 'method',
+        \   'v' : 'var',
+        \   'i' : 'ivar'
+        \ },
+        \ 'kind2scope' : {
+        \  'function' : 'f',
+        \  'method' : 'm',
+        \  'var' : 'v',
+        \  'ivar' : 'i',
+        \ 'object' : 'o'
+        \}
+        \}
 
   """"""""""""""""""""""""""""""
   " => project.vim
@@ -829,6 +855,11 @@ map <leader>s? z=
   let g:html_indent_inctags = "html,body,head,tbody"
   let g:html_indent_script1 = "inc"
   let g:html_indent_style1 = "inc"
+
+  """"""""""""""""""""""""""""""
+  " => javacomplete.vim
+  """"""""""""""""""""""""""""""
+  let g:java_classpath      = "/opt/android-sdk/platforms/android-16/android.jar"
 
   """"""""""""""""""""""""""""""
   " => yankring.vim
