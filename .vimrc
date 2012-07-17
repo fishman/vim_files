@@ -655,7 +655,7 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   let Grep_Skip_Dirs = 'RCS CVS SCCS .svn'
   let Grep_Skip_Files = '*.obj *.o tags .tmtags'
-  let Grep_Default_Filelist = '*.[ch] *.cpp *.php *.html *.phtml *.rb *.erb'
+  let Grep_Default_Filelist = '*.[ch] *.cpp *.php *.html *.phtml *.rb *.erb *.eco *.coffee'
 
   let Grep_Default_Options = '-i'
   if has("macunix") || has("gui_macvim")
@@ -810,6 +810,12 @@ map <leader>s? z=
   noremap <silent> <leader>m :CtrlPMRU<CR>
   let g:ctrlp_persistence_input = 0
   let g:ctrlp_by_filename = 0
+
+  let g:ctrlp_custom_ignore = {
+        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp$\|vendor\/bundle',
+        \ 'file': '\.exe$\|\.so$\|\.dat$|\.gem$',
+        \ 'link': 'some_bad_symbolic_links'
+        \ }
   " }}}
 
   """"""""""""""""""""""""""""""
