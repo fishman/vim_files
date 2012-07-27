@@ -30,9 +30,3 @@ autocmd User Rails    map <buffer> <F9> :Rake<CR>
 autocmd User Rails    map <buffer> <F8> :Rserver!thin<CR><CR>
 autocmd User Rails    map <F7> :R<CR>
 autocmd User Rails.spec* UltiSnipsAddFiletypes rspec
-autocmd User Rails Rnavcommand bmodel app/assets/javascripts/models -glob=**/* -suffix=.js.coffee
-autocmd User Rails Rnavcommand bcollection app/assets/javascripts/collections -glob=**/* -suffix=.js.coffee
-autocmd User Rails Rnavcommand brouter app/assets/javascripts/routers -glob=**/* -suffix=.js.coffee
-autocmd User Rails Rnavcommand bview app/assets/javascripts/views -glob=**/* -suffix=.js.coffee
-autocmd User Rails Rnavcommand btemplate app/assets/templates -glob=**/* -suffix=.jst.eco
-

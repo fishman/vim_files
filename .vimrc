@@ -1017,6 +1017,7 @@ augroup development
     au BufRead,BufNewFile *.eco setl ft=eco.html sw=2 ts=2 et sts=2
     au BufRead,BufNewFile *.vra set ft=scope syntax=scope
     au BufRead,BufNewFile *.json.jbuilder set ft=ruby
+    au BufNewFile,BufRead *.gradle setf groovy
     " Vala/Genie Support -------------------------------- {{{
     " get vala.vim here:
     " https://live.gnome.org/Vala/Vim
@@ -1040,6 +1041,13 @@ augroup development
     autocmd FileType python inoreab <buffer> #! #!/usr/bin/env python
     autocmd FileType python inoreab <buffer> #e # -*- coding: utf=8 -*-
     " }}}
+
+    autocmd User Rails Rnavcommand bmodel app/assets/javascripts/models -glob=**/* -suffix=.js.coffee
+    autocmd User Rails Rnavcommand bcollection app/assets/javascripts/collections -glob=**/* -suffix=.js.coffee
+    autocmd User Rails Rnavcommand brouter app/assets/javascripts/routers -glob=**/* -suffix=.js.coffee
+    autocmd User Rails Rnavcommand bview app/assets/javascripts/views -glob=**/* -suffix=.js.coffee
+    autocmd User Rails Rnavcommand btemplate app/assets/templates -glob=**/* -suffix=.jst.eco
+
 
 
 augroup END
