@@ -619,13 +619,13 @@ set directory=$VIMDATA/temp
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text Options: {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" set expandtab
+set expandtab
 " set smarttab            " use tabs at start of a line, spaces elsewhere
 set fo=tcrqnmM		      " see help formatoptions (complex)
 set linebreak           " wrap long lines at a character in 'breakat'
 set textwidth=500       " maximum width of text that is being inserted
 au FileType mail setl textwidth=78
-" set ai                  " autoindent
+set ai                  " autoindent
 " set si                  " smartindent
 " set copyindent
 set wrap                " wrap lines
@@ -865,7 +865,7 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   " => javacomplete.vim
   """"""""""""""""""""""""""""""
-  let g:java_classpath      = "/opt/android-sdk/platforms/android-16/android.jar"
+  " let g:java_classpath      = "/opt/android-sdk/platforms/android-16/android.jar"
 
   """"""""""""""""""""""""""""""
   " => yankring.vim
@@ -1025,7 +1025,6 @@ augroup development
     autocmd BufRead *.vapi set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
     autocmd BufRead,BufNewFile *.vala setl et ts=4 sts=4 sw=4 nu cindent cino=(0 filetype=vala
     autocmd BufRead,BufNewFile *.vapi setl et ts=4 sts=4 sw=4 nu cindent cino=(0 filetype=vala
-    autocmd Filetype java setlocal omnifunc=javacomplete#Complete completefunc=javacomplete#CompleteParamsInfo
     autocmd FileType vala setlocal cindent
 
     " indentation for genie: genie.vim
