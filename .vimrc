@@ -624,6 +624,7 @@ set expandtab
 set fo=tcrqnmM		      " see help formatoptions (complex)
 set linebreak           " wrap long lines at a character in 'breakat'
 set textwidth=500       " maximum width of text that is being inserted
+set ts=4 sts=4 sw=4
 au FileType mail setl textwidth=78
 set ai                  " autoindent
 " set si                  " smartindent
@@ -812,8 +813,8 @@ map <leader>s? z=
   let g:ctrlp_by_filename = 0
 
   let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp$\|vendor\/bundle',
-        \ 'file': '\.exe$\|\.so$\|\.dat$|\.gem$',
+        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp$\|vendor\/bundle|\bin$|\gen$',
+        \ 'file': '\.exe$\|\.so$\|\.dat$|\.gem$|\.class$',
         \ 'link': 'some_bad_symbolic_links'
         \ }
   " }}}
