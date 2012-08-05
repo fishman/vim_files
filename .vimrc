@@ -1049,6 +1049,9 @@ augroup development
     autocmd User Rails Rnavcommand btemplate app/assets/templates -glob=**/* -suffix=.jst.eco
 
 
+    " templates {{{
+    autocmd BufNewFile  proguard.cfg        :r ~/.vim/skeletons/proguard.cfg
+    " }}}
 
 augroup END
 
