@@ -813,8 +813,8 @@ map <leader>s? z=
   let g:ctrlp_by_filename = 0
 
   let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp$\|vendor\/bundle\|bin$\|gen$',
-        \ 'file': '\.exe$\|\.so$\|\.dat$|\.gem$\|\.class$',
+        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp$\|vendor\/bundle\|bin\|gen\|target',
+        \ 'file': '\.exe$\|\.so$\|\.dat$|\.gem$\|\.class$\|\.dex$',
         \ 'link': 'some_bad_symbolic_links'
         \ }
   " }}}
