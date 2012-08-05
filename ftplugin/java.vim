@@ -28,20 +28,20 @@ let java_minlines = 150
 
 nnoremap <F7> :JavaImpSilent<CR>
 
-if glob('AndroidManifest.xml') =~ ''
-  if filereadable('project.properties')
-    " the following line uses external tools and is less portable
-    "let s:androidTargetPlatform = system('grep target= project.properties | cut -d \= -f 2')
-    vimgrep /target=/j project.properties
-    let s:androidTargetPlatform = split(getqflist()[0].text, '=')[1]
-    let s:targetAndroidJar = $ANDROID_HOME . '/platforms/' . s:androidTargetPlatform . '/android.jar'
-    if $CLASSPATH =~ ''
-      let $CLASSPATH = s:targetAndroidJar . ':' . $CLASSPATH
-    else
-      let $CLASSPATH = s:targetAndroidJar
-    endif
-  end
-endif
+" if glob('AndroidManifest.xml') =~ ''
+"   if filereadable('project.properties')
+"     " the following line uses external tools and is less portable
+"     "let s:androidTargetPlatform = system('grep target= project.properties | cut -d \= -f 2')
+"     vimgrep /target=/j project.properties
+"     let s:androidTargetPlatform = split(getqflist()[0].text, '=')[1]
+"     let s:targetAndroidJar = $ANDROID_HOME . '/platforms/' . s:androidTargetPlatform . '/android.jar'
+"     if $CLASSPATH =~ ''
+"       let $CLASSPATH = s:targetAndroidJar . ':' . $CLASSPATH
+"     else
+"       let $CLASSPATH = s:targetAndroidJar
+"     endif
+"   end
+" endif
 
 " android configuration for javaimp plugin
 if $ANDROID_HOME != ""
