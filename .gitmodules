@@ -85,3 +85,9 @@
 [submodule "bundle/surround"]
 	path = bundle/surround
 	url = https://github.com/tpope/vim-surround.git
+[submodule "bundle/javaimp"]
+	path = bundle/javaimp
+	url = https://github.com/vim-scripts/JavaImp.vim--Lee.git
+[submodule "bundle/logcat"]
+	path = bundle/logcat
+	url = https://github.com/thinca/vim-logcat.git
