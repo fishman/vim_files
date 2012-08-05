@@ -16,3 +16,53 @@ snippet ver "Set SDK version" !b
 	android:minSdkVersion="8"
 	android:targetSdkVersion="16" />
 endsnippet
+
+snippet maps "Add maps dependency" !b
+<dependency>
+	<groupId>com.google.android.maps</groupId>
+	<artifactId>maps</artifactId>
+	<version>${platform_version}_r${1:2}</version>
+	<scope>provided</scope>
+</dependency>
+endsnippet
+
+snippet usb "Add USB addon" !b
+<dependency>
+	<groupId>com.android.future</groupId>
+	<artifactId>usb</artifactId>
+	<version>${platform_version}_r${1:2}</version>
+	<scope>provided</scope>
+</dependency>
+endsnippet
+
+snippet compat "Add compatibility" !b
+<dependency>
+	<groupId>android.support</groupId>
+	<artifactId>compatibility-v${1:13}</artifactId>
+	<version>r9</version>
+</dependency>
+endsnippet
+
+snippet analytics "Add google analytics" !b
+<dependency>
+	<groupId>com.google.android.analytics</groupId>
+	<artifactId>analytics</artifactId>
+	<version>r2</version>
+</dependency>
+endsnippet
+
+snippet admob "Add AdMob" !b
+<dependency>
+	<groupId>com.google.android.admob</groupId>
+	<artifactId>admob</artifactId>
+	<version>6.1.0-r7</version>
+</dependency>
+endsnippet
+
+snippet cloud "Add CloudMessaging client" !b
+<dependency>
+	<groupId>com.google.android.gcm</groupId>
+	<artifactId>gcm-client</artifactId>
+	<version>r2</version>
+</dependency>
+endsnippet
