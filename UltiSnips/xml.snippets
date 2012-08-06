@@ -10,6 +10,10 @@ snippet theme "Set Android theme" !b
 android:theme="@style/AppTheme" >
 endsnippet
 
+snippet holoe "Set holo everywhere" !b
+android:theme="@style/Theme.HoloEverywhereDark"
+endsnippet
+
 
 snippet ver "Set SDK version" !b
 <uses-sdk
@@ -21,6 +25,48 @@ snippet proguard "Add proguard config" !b
 <proguard>
 	<skip>false</skip>
 </proguard>
+endsnippet
+
+snippet holoedep "Add holo everywhere dependency" !b
+<dependency>
+	<groupId>com.wazabe.holoeverywhere</groupId>
+	<artifactId>HoloEverywhereLib</artifactId>
+	<version>1.0.0</version>
+</dependency>
+endsnippet
+
+snippet sherlock "Add actionbarsherlock" !b
+<dependency>
+	<groupId>com.actionbarsherlock</groupId>
+	<artifactId>parent</artifactId>
+	<version>4.1.0</version>
+</dependency>
+endsnippet
+
+snippet sherlockguice "Add sherlock guice" !b
+<dependency>
+	<groupId>com.github.rtyley</groupId>
+	<artifactId>roboguice-sherlock</artifactId>
+	<version>1.4</version>
+</dependency>
+endsnippet
+
+
+snippet guice "Add RoboGuice dependency" !b
+<dependency>
+	<groupId>org.roboguice</groupId>
+	<artifactId>roboguice</artifactId>
+	<version>2.0</version>
+</dependency>
+endsnippet
+
+snippet nullable "Add Nullable dependency" !b
+<!-- For the optional Nullable annotation -->
+<dependency>
+	<groupId>com.google.code.findbugs</groupId>
+	<artifactId>jsr305</artifactId>
+	<version>1.3.9</version>
+</dependency>
 endsnippet
 
 snippet maps "Add maps dependency" !b
