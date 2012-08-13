@@ -1052,7 +1052,10 @@ augroup development
     " templates {{{
     autocmd BufNewFile  proguard.cfg        :r ~/.vim/skeletons/proguard.cfg
     autocmd BufNewFile  *Activity.java      :r ~/.vim/skeletons/activity.java
+    autocmd BufNewFile  *.jbuilder          :r ~/.vim/skeletons/json.jbuilder
     " }}}
+
+    autocmd FileType snippets setl noet
 
 augroup END
 
