@@ -91,3 +91,6 @@
 [submodule "bundle/logcat"]
 	path = bundle/logcat
 	url = https://github.com/thinca/vim-logcat.git
+[submodule "bundle/AsyncCommand"]
+	path = bundle/AsyncCommand
+	url = https://github.com/pydave/AsyncCommand.git
