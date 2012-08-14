@@ -13,3 +13,7 @@ event :${1:process} do
 	transitions :to => :${2:pending}, :from => [ :${3:new} ]
 end
 endsnippet
+
+snippet mai "add index" !b
+add_index :${1:users}, :${2:column}
+endsnippet
