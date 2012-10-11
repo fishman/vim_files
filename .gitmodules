@@ -100,3 +100,6 @@
 [submodule "bundle/taskpaper"]
 	path = bundle/taskpaper
 	url = https://github.com/davidoc/taskpaper.vim.git
+[submodule "bundle/YankRing"]
+	path = bundle/YankRing
+	url = https://github.com/vim-scripts/YankRing.vim.git
