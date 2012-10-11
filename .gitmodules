@@ -94,3 +94,9 @@
 [submodule "bundle/AsyncCommand"]
 	path = bundle/AsyncCommand
 	url = https://github.com/pydave/AsyncCommand.git
+[submodule "bundle/dwm.vim"]
+	path = bundle/dwm.vim
+	url = https://github.com/spolu/dwm.vim.git
+[submodule "bundle/SingleCompile"]
+	path = bundle/SingleCompile
+	url = https://github.com/xuhdev/SingleCompile.git

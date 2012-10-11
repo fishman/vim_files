@@ -51,6 +51,7 @@
 "   ------ *> lineup.vim
 "   ------ *> xml.vim
 "   ------ *> yankring.vim
+"   ------ *> SingleCompile.vim
 "   ------ *> C/C++ stuff
 "   ------ *> clang_complete
 "   ------ *> Others
@@ -149,8 +150,8 @@ if has("gui_running")
   " the `b' puts a scrollbar at the bottom, which has no effect if wrap is set
   " e sets the gui tabline
   " r sets the right scrollbar
-  set guioptions-=T
-  set guioptions=agme
+  set guioptions-=Tm
+  set guioptions=age
   set tabpagemax=30
   set mousehide
 
@@ -871,8 +872,15 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   " => yankring.vim
   """"""""""""""""""""""""""""""
-   map <leader>yr :YRShow<cr>
+  map <leader>y :YRShow<cr>
 
+  """"""""""""""""""""""""""""""
+  " => SingleCompile.vim
+  """"""""""""""""""""""""""""""
+  nnoremap <F9>  :SCCompile<cr>
+  nnoremap <F10> :SCCompileRun<cr>
+  inoremap <F9>  <c-o>:SCCompile<cr>
+  inoremap <F10> <c-o>:SCCompileRun<cr>
 
   """"""""""""""""""""""""""""""
   " => C/C++ Stuff
@@ -930,8 +938,6 @@ map <leader>s? z=
   let MRU_Max_Entries = 20
   " favmenu.vim    - file to save favorite items
   let FAV_File = $VIMDATA.'/_vim_fav_files'
-  " yankring.vim   - map :YRShow
-  map <leader>y :YRShow<cr>
   " doxygentoolkit.vim - map :Dox
   map <leader>d :Dox<cr>
   " doxygen.vim    - load doxygen syntax for c/cpp/idl
@@ -1058,6 +1064,19 @@ augroup development
 
     autocmd FileType snippets setl noet
 
+augroup END
+
+augroup TEXT
+  " Allows to read PDF files with VIM by piping them through pdftotext
+  autocmd BufReadPre *.pdf set ro
+  autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk "%" - |fmt -csw78
+
+  " Same for word files with antiword
+  autocmd BufReadPre *.doc set ro
+  autocmd BufReadPost *.doc %!antiword "%"
+
+  autocmd BufReadPre *.docx set ro
+  autocmd BufReadPost *.docx %!antiword-xp "%"
 augroup END
 
 " this allows us to write to files even when we
