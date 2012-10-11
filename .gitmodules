@@ -97,3 +97,6 @@
 [submodule "bundle/SingleCompile"]
 	path = bundle/SingleCompile
 	url = https://github.com/xuhdev/SingleCompile.git
+[submodule "bundle/taskpaper"]
+	path = bundle/taskpaper
+	url = https://github.com/davidoc/taskpaper.vim.git
