@@ -54,6 +54,7 @@
 "   ------ *> SingleCompile.vim
 "   ------ *> C/C++ stuff
 "   ------ *> clang_complete
+"   ------ *> jedi.vim
 "   ------ *> Others
 "   *> Cope
 "   *> Misc
@@ -807,6 +808,7 @@ map <leader>s? z=
   " => ctrlp.vim
   """"""""""""""""""""""""""""""
   " {{{
+  noremap <silent> <M-t> :CtrlP<CR>
   noremap <silent> <leader>t :CtrlP<CR>
   noremap <silent> <leader>tb :CtrlPBuffer<CR>
   noremap <silent> <leader>m :CtrlPMRU<CR>
@@ -922,9 +924,15 @@ map <leader>s? z=
   " => dbext.vim
   """"""""""""""""""""""""""""""
   let g:debext_default_type = 'MYSQL'
-  let g:dbext_default_profile_local_studiblock = 'type=MYSQL:user=root:passwd=root:dbname=studiblock:extra=-t'
-  let g:dbext_default_profile_local_talkyoo_dev2 = 'type=MYSQL:user=root:passwd=root:dbname=talkyoo_dev2:extra=-t'
-  let g:dbext_default_MYSQL_bin = '/usr/local/bin/mysql'
+  let g:dbext_default_profile_local_mysql = 'type=MYSQL:user=root:dbname=mysql=-t'
+  let g:dbext_default_MYSQL_bin = 'mysql'
+
+  """"""""""""""""""""""""""""""
+  " => fugitive.vim
+  """"""""""""""""""""""""""""""
+  let g:jedi#use_tabs_not_buffers = 0
+  let g:jedi#popup_on_dot = 0
+
 
   """"""""""""""""""""""""""""""
   " => Others
@@ -1161,7 +1169,7 @@ let g:rails_default_database="mysql"
 map <F5> [I:let nr = input("Which one: ") <Bar>exe "normal " . nr ."[\t"<CR>
 
 " remove the windows ^M
-" noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+noremap <leader>dos mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " remove indenting on empty lines
 map <F2> :%s/\s*$//g<cr>:noh<cr>''
