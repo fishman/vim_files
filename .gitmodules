@@ -103,3 +103,12 @@
 [submodule "bundle/YankRing"]
 	path = bundle/YankRing
 	url = https://github.com/vim-scripts/YankRing.vim.git
+[submodule "bundle/jedi"]
+	path = bundle/jedi
+	url = https://github.com/davidhalter/jedi-vim.git
+[submodule "bundle/git-grep-qargs"]
+	path = bundle/git-grep-qargs
+	url = https://github.com/henrik/vim-qargs.git
+[submodule "bundle/git-grep"]
+	path = bundle/git-grep
+	url = https://github.com/henrik/git-grep-vim.git
