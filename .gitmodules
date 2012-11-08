@@ -112,3 +112,9 @@
 [submodule "bundle/git-grep"]
 	path = bundle/git-grep
 	url = https://github.com/henrik/git-grep-vim.git
+[submodule "bundle/vimux"]
+	path = bundle/vimux
+	url = https://github.com/benmills/vimux.git
+[submodule "bundle/slim-lang"]
+	path = bundle/slim-lang
+	url = https://github.com/bbommarito/vim-slim.git
