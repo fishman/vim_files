@@ -55,6 +55,7 @@
 "   ------ *> C/C++ stuff
 "   ------ *> clang_complete
 "   ------ *> jedi.vim
+"   ------ *> vimux.vim
 "   ------ *> Others
 "   *> Cope
 "   *> Misc
@@ -473,7 +474,7 @@ inoremap z, ""<esc>:let leavechar='"'<cr>i
 "inoremap ( ()<esc>:let leavechar=")"<cr>i
 "inoremap [ []<esc>:let leavechar="]"<cr>i
 "imap <c-l> <esc>:exec "normal f" . leavechar<cr>a
-imap zz <esc>:exec "normal f" . leavechar<cr>a
+"imap zz <esc>:exec "normal f" . leavechar<cr>a
 "au BufNewFile,BufRead *.\(vim\)\@! inoremap " ""<esc>:let leavechar='"'<cr>i
 "au BufNewFile,BufRead *.\(txt\)\@! inoremap ' ''<esc>:let leavechar="'"<cr>i
 
@@ -928,10 +929,18 @@ map <leader>s? z=
   let g:dbext_default_MYSQL_bin = 'mysql'
 
   """"""""""""""""""""""""""""""
-  " => fugitive.vim
+  " => jedi.vim
   """"""""""""""""""""""""""""""
   let g:jedi#use_tabs_not_buffers = 0
   let g:jedi#popup_on_dot = 0
+
+  """"""""""""""""""""""""""""""
+  " => vimux.vim
+  """"""""""""""""""""""""""""""
+  map <leader><space> :call VimuxRunLastCommand()<cr>
+  map <leader>x :call VimuxPromptCommand()<cr>
+  map <leader>X :call VimuxCloseRunner()<cr>
+  map <leader>C :call VimuxInterruptRunner()<cr>
 
 
   """"""""""""""""""""""""""""""
@@ -999,8 +1008,11 @@ map <leader>s? z=
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Cope: {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"map <leader>n :cn<cr>
-"map <leader>p :cp<cr>
+nmap + :cn<cr>
+nmap - :cp<cr>
+nmap g+ :cnf<cr>
+nmap g- :cpf<cr>
+com! Cclear :cex[]
 " map <leader>c :botright cw 10<cr>
 " toggle quickfix
 map <silent> <leader>` <ESC>:QFix<cr>

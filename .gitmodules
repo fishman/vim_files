@@ -118,3 +118,9 @@
 [submodule "bundle/slim-lang"]
 	path = bundle/slim-lang
 	url = https://github.com/bbommarito/vim-slim.git
+[submodule "bundle/vimwiki"]
+	path = bundle/vimwiki
+	url = https://github.com/vim-scripts/vimwiki.git
+[submodule "bundle/vimerlang"]
+	path = bundle/vimerlang
+	url = https://github.com/jimenezrick/vimerl
