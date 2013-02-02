@@ -124,3 +124,9 @@
 [submodule "bundle/vimerlang"]
 	path = bundle/vimerlang
 	url = https://github.com/jimenezrick/vimerl
+[submodule "bundle/vim-repeat"]
+	path = bundle/vim-repeat
+	url = https://github.com/tpope/vim-repeat.git
+[submodule "bundle/puppet"]
+	path = bundle/puppet
+	url = git://github.com/rodjek/vim-puppet.git

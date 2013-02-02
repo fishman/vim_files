@@ -266,7 +266,7 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set scrolloff=7         " minimal screen lines above/below cursor
 set wildmenu            " :h and press <Tab> to see what happens
-set wig=*.o,*.pyc,*.tiff,*.jpg,*.tif,*.gif,.git,.svn,*.pdf,*.png,build
+set wig=*.o,*.pyc,*.tiff,*.jpg,*.tif,*.gif,.git,.svn,*.pdf,*.png,build,*.beam
                         " type of file that will not in wildmenu
 set ruler               " show current position along the bottom
 set cmdheight=2         " use 1 screen lines for command-line
@@ -1079,6 +1079,7 @@ augroup development
     autocmd BufNewFile  proguard.cfg        :r ~/.vim/skeletons/proguard.cfg
     autocmd BufNewFile  *Activity.java      :r ~/.vim/skeletons/activity.java
     autocmd BufNewFile  *.jbuilder          :r ~/.vim/skeletons/json.jbuilder
+    autocmd BufNewFile  PKGBUILD            :r ~/.vim/skeletons/PKGBUILD
     autocmd BufNewFile  *.textile           :r ~/.vim/skeletons/blogpost.textile
     " }}}
 
