@@ -182,6 +182,7 @@ else
     set t_Co=256
     "colo desert256
     colo wombatc
+    " colo hybrid
     " colo desertc
     " colo leo
     " colo gardener
@@ -376,12 +377,6 @@ nnoremap Y y$
 " tag next prev
 nmap <leader>tn :tn<cr>
 nmap <leader>tp :tp<cr>
-
-" smart way to switch between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
 
 " To be able to undo these types of deletion in Insert mode.
 inoremap <C-w>  <C-g>u<C-w>
@@ -938,9 +933,23 @@ map <leader>s? z=
   " => vimux.vim
   """"""""""""""""""""""""""""""
   map <leader><space> :call VimuxRunLastCommand()<cr>
-  map <leader>x :call VimuxPromptCommand()<cr>
-  map <leader>X :call VimuxCloseRunner()<cr>
-  map <leader>C :call VimuxInterruptRunner()<cr>
+  " Prompt for a command to run
+  map <Leader>rp :VimuxPromptCommand<CR>
+  " Inspect runner pane
+  map <Leader>ri :VimuxInspectRunner<CR>
+  " Close all other tmux panes in current window
+  map <Leader>rx :VimuxClosePanes<CR>
+  " Close vim tmux runner opened by VimuxRunCommand
+  map <Leader>rq :VimuxCloseRunner<CR>
+  " Interrupt any command running in the runner pane
+  map <Leader>rs :VimuxInterruptRunner<CR>
+  " If text is selected, save it in the v buffer and send that buffer it to tmux
+  vmap <Leader>rv "vy :call VimuxRunCommand(@v . "\n", 0)<CR>
+  " Run the current file with rspec
+  map <Leader>rb :call VimuxRunCommand("clear; rspec " . bufname("%"))<CR>
+
+
+
 
 
   """"""""""""""""""""""""""""""
@@ -1000,8 +1009,26 @@ map <leader>s? z=
   let g:clang_complete_auto = 0
   let g:clang_snippets = 1
   let g:clang_snippets_engine = 'ultisnips'
-  let g:clang_use_library = 1
+  let g:clang_use_library = 0
   " }}}
+
+
+  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  " => dwm {{{
+  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  " smart way to switch between windows
+  let g:dwm_map_keys = 0
+
+  map <C-j> <C-W>j
+  map <C-k> <C-W>k
+  map <C-h> <C-W>h
+  map <C-l> <C-W>l
+  nmap <C-,> <Plug>DWMRotateCounterclockwise
+  nmap <C-N> <Plug>DWMNew
+  nmap <C-C> <Plug>DWMClose
+  nmap <C-_> <Plug>DWMShrinkMaster
+  nmap <C-+> <Plug>DWMGrowMaster
+
 
   " inoremap <C-L> <C-P>
 
