@@ -1228,14 +1228,11 @@ function! ToggleSuperpaste()
   else
     let g:superpaste_on = 1
     " super paste
-    inoremap <C-V> <esc>:set paste<cr>mui<C-R>+<esc>mv'uV'v=:set nopaste<cr>
+    inoremap <C-V> <esc>:set paste<cr>mua<C-R>+<esc>mv'uV'v=:set nopaste<cr>
     " copy into clipboard
     vnoremap <C-C> "+y
   endif
 endfunction
-
-" Cheapo todo management
-noremap <silent><leader>td  :call ToggleSuperpaste()<CR>s<C-V>u2713<C-O>:call ToggleSuperpaste()<CR><esc>
 
 call ToggleSuperpaste()
 
