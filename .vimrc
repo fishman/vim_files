@@ -808,8 +808,8 @@ map <leader>s? z=
   noremap <silent> <leader>t :CtrlP<CR>
   noremap <silent> <leader>tb :CtrlPBuffer<CR>
   noremap <silent> <leader>m :CtrlPMRU<CR>
-  let g:ctrlp_persistence_input = 0
   let g:ctrlp_by_filename = 0
+  let g:ctrlp_working_path_mode = 0
 
   let g:ctrlp_custom_ignore = {
         \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp$\|vendor\/bundle\|bin\|gen\|target',
@@ -928,6 +928,11 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   let g:jedi#use_tabs_not_buffers = 0
   let g:jedi#popup_on_dot = 0
+
+  """"""""""""""""""""""""""""""
+  " => javascript_libraries.vim
+  """"""""""""""""""""""""""""""
+  let g:used_javascript_libs = 'underscore,backbone,jquery'
 
   """"""""""""""""""""""""""""""
   " => vimux.vim

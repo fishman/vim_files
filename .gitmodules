@@ -136,3 +136,9 @@
 [submodule "bundle/fsharp"]
 	path = bundle/fsharp
 	url = https://github.com/kongo2002/fsharp-vim.git
+[submodule "bundle/javascript-libraries"]
+	path = bundle/javascript-libraries
+	url = https://github.com/othree/javascript-libraries-syntax.vim
+[submodule "bundle/ag"]
+	path = bundle/ag
+	url = https://github.com/rking/ag.vim.git
