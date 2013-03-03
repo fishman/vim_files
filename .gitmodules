@@ -142,3 +142,9 @@
 [submodule "bundle/ag"]
 	path = bundle/ag
 	url = https://github.com/rking/ag.vim.git
+[submodule "bundle/vim-less"]
+	path = bundle/vim-less
+	url = https://github.com/groenewege/vim-less.git
+[submodule "bundle/jscomplete"]
+	path = bundle/jscomplete
+	url = https://github.com/teramako/jscomplete-vim
