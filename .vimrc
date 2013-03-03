@@ -867,6 +867,13 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   " let g:java_classpath      = "/opt/android-sdk/platforms/android-16/android.jar"
 
+
+  """"""""""""""""""""""""""""""
+  " => jscomplete.vim
+  """"""""""""""""""""""""""""""
+  let g:jscomplete_use = ['dom', 'moz']
+
+
   """"""""""""""""""""""""""""""
   " => yankring.vim
   """"""""""""""""""""""""""""""
