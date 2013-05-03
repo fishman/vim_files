@@ -3,12 +3,12 @@ setlocal softtabstop=4
 setlocal tabstop=4
 setlocal shiftwidth=4
 setlocal expandtab
-setlocal omnifunc=javacomplete#Complete completefunc=javacomplete#CompleteParamsInfo
+" setlocal omnifunc=javacomplete#Complete completefunc=javacomplete#CompleteParamsInfo
 set cinoptions+=j1
 
 
 " ECLIM stuff
-nnoremap <silent> <buffer> <leader>p :JavaImport<cr>
+nnoremap <silent> <buffer> <leader>p :JavaImportOrganize<cr>
 nnoremap <silent> <buffer> <leader>d :JavaDocSearch -x declarations<cr>
 nnoremap <silent> <buffer> <cr> :JavaSearchContext<cr>
 nnoremap <silent> <leader>jv :Validate<cr>

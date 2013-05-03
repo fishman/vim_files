@@ -142,7 +142,10 @@ if has("win32")
   try | set gfn=Consolas:h11:cANSI | catch | endtry " Vista only
 elseif has("gui_mac")
   set gfn=Consolas:h13,Inconsolata:h14,PanicSans:h12
+else
+  set gfn="Incosolata for Powerline":h11
 endif
+
 
 " matchparentesis is pretty slow on big files :(
 let loaded_matchparen = 1
@@ -157,9 +160,9 @@ if has("gui_running")
   set tabpagemax=30
   set mousehide
 
-  set columns=170
+  set columns=90
   if has("gui_gtk2")
-    set lines=56
+    set lines=30
     set showcmd
   elseif has("gui_macvim") || has("gui_mac")
     set columns=190
@@ -174,6 +177,7 @@ if has("gui_running")
   " colo desert
   colo wombat
 
+  " let g:Powerline_symbols = 'fancy'
 else
   set title
   "set background=light
@@ -214,6 +218,7 @@ else
     "colo desert
     colo wombat256mod
   endif
+  " let g:Powerline_symbols = 'unicode'
 endif
 
 " set runtimepath+=$VIMFILES/runtime/theonevimlib/core
@@ -308,13 +313,13 @@ set laststatus=2        " always show the status line
 " set statusline=\ %F%m%r%h\ %w\ %{&ff}\ \ now:\ %r%{CurDir()}%h\ \ \ pos:\ %l/%L:%c
 
 " default 'statusline' with 'fileencoding'.
-let &statusline = ''
-let &statusline .= '%<%f %h%m%r%w'
-let &statusline .= '%='
-" " temporary disabled.
-" let &statusline .= '(%{' . s:SID_PREFIX() . 'vcs_branch_name(getcwd())}) '
-let &statusline .= '[%{&fileencoding == "" ? &encoding : &fileencoding}]'
-let &statusline .= '  %-14.(%l,%c%V%) %P'
+" let &statusline = ''
+" let &statusline .= '%<%f %h%m%r%w'
+" let &statusline .= '%='
+" " " temporary disabled.
+" " let &statusline .= '(%{' . s:SID_PREFIX() . 'vcs_branch_name(getcwd())}) '
+" let &statusline .= '[%{&fileencoding == "" ? &encoding : &fileencoding}]'
+" let &statusline .= '  %-14.(%l,%c%V%) %P'
 
 set nomore              " more will fill the screen with project.vim
                         " format the statusline
@@ -770,6 +775,8 @@ map <leader>s? z=
 
   autocmd QuickFixCmdPost *grep* cwindow
 
+  let g:gitgutter_enabled = 0
+
 
   """"""""""""""""""""""""""""""
   " => NERD_commenter.vim
@@ -862,10 +869,24 @@ map <leader>s? z=
   let g:html_indent_script1 = "inc"
   let g:html_indent_style1 = "inc"
 
+
+  """"""""""""""""""""""""""""""
+  " => eclim.vim
+  """"""""""""""""""""""""""""""
+  let g:syntastic_java_javac_classpath="/opt/android-sdk/platforms/android-16/android.jar"
+  "use default Taglist instead of Eclim, avoid problem
+  let g:EclimTaglistEnabled=0
+  ""if the current file is in a Eclipse project, open project tree automatically
+  let g:EclimProjectTreeAutoOpen=0
+  let g:EclimProjectTreeExpandPathOnOpen=1
+  let g:EclimProjectTreeSharedInstance=1  "share tree instance through all tabs
+  " use tabnew instead of split for new action
+  let g:EclimCompletionMethod = 'omnifunc'
+
   """"""""""""""""""""""""""""""
   " => javacomplete.vim
   """"""""""""""""""""""""""""""
-  " let g:java_classpath      = "/opt/android-sdk/platforms/android-16/android.jar"
+  let g:java_classpath      = "/opt/android-sdk/platforms/android-16/android.jar"
 
 
   """"""""""""""""""""""""""""""
@@ -940,6 +961,7 @@ map <leader>s? z=
   " => javascript_libraries.vim
   """"""""""""""""""""""""""""""
   let g:used_javascript_libs = 'underscore,backbone,jquery'
+  
 
   """"""""""""""""""""""""""""""
   " => vimux.vim
@@ -980,7 +1002,7 @@ map <leader>s? z=
   map <leader>d :Dox<cr>
   " doxygen.vim    - load doxygen syntax for c/cpp/idl
   "let load_doxygen_syntax = 1
-  map <C-F11> :!/opt/local/gentoo/usr/bin/ctags -f .tmtags -R --c++-kinds=+p --fields=+iaS --extra=+q .<cr>
+  map <C-F11> :!/usr/bin/ctags -f tags -R --c++-kinds=+p --fields=+iaS --extra=+q .<cr>
   map <C-F12> :%!astyle -t -b -S -w -M -p -U<cr>
 
 
@@ -991,6 +1013,10 @@ map <leader>s? z=
   " {{{
   " let g:UltiSnipsSnippetDirectories = [hostname() == 'osse-vb' && hostname() == 'ow-linux' ?
   "       \ "work_snippets" : "osse_snippets", "UltiSnips"]
+  "" YouCompleteMe
+  let g:ycm_key_list_previous_completion=['<Up>']
+  let g:ycm_key_list_select_completion=['<Down>']
+
   let g:UltiSnipsDontReverseSearchPath = "1"
   let g:UltiSnipsExpandTrigger         = "<Tab>"
   let g:UltiSnipsJumpForwardTrigger    = "<Tab>"
@@ -1009,6 +1035,13 @@ map <leader>s? z=
   let g:tex_comment_nospell = 1
   " }}}
 
+  """"""""""""""""""""""""""""""
+  " => omnisharp
+  """"""""""""""""""""""""""""""
+  map <F12> :call OmniSharp#GotoDefinition()<cr>
+  nmap fi :call OmniSharp#FindImplementations()<cr>
+  nmap fu :call OmniSharp#FindUsages()<cr>
+  nmap <leader>tt :call OmniSharp#TypeLookup()<cr>
 
   """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " clang_complete: {{{
@@ -1144,8 +1177,8 @@ augroup END
 command! -bar -nargs=0 Sudow :silent exe "w !sudo tee % > /dev/null" | silent edit!
 
 
-" use jj for esc hh for dvorak
-" imap hh <Esc>
+" use jk for esc
+imap jk <Esc>
 
 " go to newline
 imap <M-o> <Esc>o

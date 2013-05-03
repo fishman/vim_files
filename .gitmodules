@@ -148,3 +148,12 @@
 [submodule "bundle/jscomplete"]
 	path = bundle/jscomplete
 	url = https://github.com/teramako/jscomplete-vim
+[submodule "bundle/gitgutter"]
+	path = bundle/gitgutter
+	url = git://github.com/airblade/vim-gitgutter.git
+[submodule "bundle/expand-region"]
+	path = bundle/expand-region
+	url = https://github.com/terryma/vim-expand-region.git
+[submodule "bundle/xmledit"]
+	path = bundle/xmledit
+	url = https://github.com/sukima/xmledit.git
