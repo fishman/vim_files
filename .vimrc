@@ -112,8 +112,8 @@ imap <F1> <C-O>:w!<cr>
 "nmap <leader>f :find<cr>
 
 if has("win32")         " platform dependent
-  let $VIMDATA  = $HOME.'/vimdata'
-  let $VIMFILES = $HOME.'/vimfiles'
+  let $VIMDATA  = $HOME.'vimdata'
+  let $VIMFILES = $HOME.'vimfiles'
 else
   let $VIMDATA  = $HOME.'/.vim/vimdata'
   let $VIMFILES = $HOME.'/.vim'
@@ -213,6 +213,12 @@ else
     " fix mouse selection dragging and scrolling
     set ttymouse=xterm2
 
+    colo wombat256mod
+  elseif has("win32")
+    set term=xterm
+    set t_Co=256
+    let &t_AB="\e[48;5;%dm"
+    let &t_AF="\e[38;5;%dm"
     colo wombat256mod
   else
     "colo desert
