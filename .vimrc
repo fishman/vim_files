@@ -112,8 +112,8 @@ imap <F1> <C-O>:w!<cr>
 "nmap <leader>f :find<cr>
 
 if has("win32")         " platform dependent
-  let $VIMDATA  = $HOME.'vimdata'
-  let $VIMFILES = $HOME.'vimfiles'
+  let $VIMDATA  = $HOME.'\vimdata'
+  let $VIMFILES = $HOME.'\vimfiles'
 else
   let $VIMDATA  = $HOME.'/.vim/vimdata'
   let $VIMFILES = $HOME.'/.vim'
@@ -146,6 +146,7 @@ else
   set gfn="Incosolata for Powerline":h11
 endif
 
+let g:Powerline_symbols = 'unicode'
 
 " matchparentesis is pretty slow on big files :(
 let loaded_matchparen = 1
@@ -177,7 +178,6 @@ if has("gui_running")
   " colo desert
   colo wombat
 
-  " let g:Powerline_symbols = 'fancy'
 else
   set title
   "set background=light
@@ -619,8 +619,13 @@ map <silent> \ :nohl<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{1
 set nobackup
-set backupdir=$VIMDATA/backup
-set directory=$VIMDATA/temp
+if has("win32")
+  set backupdir=$VIMDATA\backup
+  set directory=$VIMDATA\temp
+else
+  set backupdir=$VIMDATA/backup
+  set directory=$VIMDATA/temp
+endif
 "set nowritebackup
 "set noswapfile
 " }}}1
