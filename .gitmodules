@@ -55,9 +55,6 @@
 [submodule "bundle/session"]
 	path = bundle/session
 	url = git://github.com/xolox/vim-session.git
-[submodule "bundle/zencoding"]
-	path = bundle/zencoding
-	url = http://github.com/mattn/zencoding-vim.git
 [submodule "bundle/unimpaired"]
 	path = bundle/unimpaired
 	url = git://github.com/tpope/vim-unimpaired.git
@@ -100,12 +97,6 @@
 [submodule "bundle/taskpaper"]
 	path = bundle/taskpaper
 	url = https://github.com/davidoc/taskpaper.vim.git
-[submodule "bundle/YankRing"]
-	path = bundle/YankRing
-	url = https://github.com/vim-scripts/YankRing.vim.git
-[submodule "bundle/jedi"]
-	path = bundle/jedi
-	url = https://github.com/davidhalter/jedi-vim.git
 [submodule "bundle/git-grep-qargs"]
 	path = bundle/git-grep-qargs
 	url = https://github.com/henrik/vim-qargs.git
@@ -127,9 +118,9 @@
 [submodule "bundle/vim-repeat"]
 	path = bundle/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git
-[submodule "bundle/puppet"]
-	path = bundle/puppet
-	url = git://github.com/rodjek/vim-puppet.git
+# [submodule "bundle/puppet"]
+# 	path = bundle/puppet
+# 	url = git://github.com/rodjek/vim-puppet.git
 [submodule "bundle/python-indent"]
 	path = bundle/python-indent
 	url = https://github.com/hynek/vim-python-pep8-indent.git
@@ -157,3 +148,6 @@
 [submodule "bundle/xmledit"]
 	path = bundle/xmledit
 	url = https://github.com/sukima/xmledit.git
+[submodule "bundle/emmet"]
+	path = bundle/emmet
+	url = https://github.com/mattn/emmet-vim
