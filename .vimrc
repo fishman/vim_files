@@ -819,17 +819,23 @@ map <leader>s? z=
   " {{{
   noremap <silent> <M-t> :CtrlP<CR>
   noremap <silent> <leader>t :CtrlP<CR>
+  nnoremap <silent> <leader>T :ClearCtrlPCache<cr>\|:CtrlP<cr>
   noremap <silent> <leader>tb :CtrlPBuffer<CR>
   noremap <silent> <leader>m :CtrlPMRU<CR>
+  nnoremap <silent> sz :CtrlPZ<Cr>
+  nnoremap <silent> sf :CtrlPF<Cr>
+  let g:ctrlp_z_nerdtree = 1
+  let g:ctrlp_extensions = ['Z', 'F']
   let g:ctrlp_by_filename = 0
   let g:ctrlp_working_path_mode = 0
 
   let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp$\|vendor\/bundle\|bin\|gen\|target',
-        \ 'file': '\.exe$\|\.so$\|\.dat$|\.gem$\|\.class$\|\.dex$',
-        \ 'link': 'some_bad_symbolic_links'
+        \ 'dir':  '\v[\/](\.git|\.hg|\.svn|\.yardoc|output_.*py$|public|images|public\/system|public\/images|data|log|tmp|vendor\/bundle|bin|gen|target|node_modules)',
+        \ 'file': '\v\.(exe|so|dat|gem|class|dex)',
         \ }
+        " \ 'link': 'some_bad_symbolic_links'
   " }}}
+
 
   """"""""""""""""""""""""""""""
   " => marks_corey.vim
@@ -845,6 +851,7 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   if has("macunix")
     let g:gist_clip_command = 'pbcopy'
+    let g:ycm_path_to_python_interpreter = '/usr/bin/python'
   elseif has("unix")
     let g:gist_clip_command = 'xclip -selection clipboard'
   endif
@@ -1022,6 +1029,10 @@ map <leader>s? z=
   "" YouCompleteMe
   let g:ycm_key_list_previous_completion=['<Up>']
   let g:ycm_key_list_select_completion=['<Down>']
+  let g:ycm_filetype_specific_completion_to_disable = {
+        \ 'ruby' : 1,
+        \ 'objc' : 1,
+        \}
 
   let g:UltiSnipsDontReverseSearchPath = "1"
   let g:UltiSnipsExpandTrigger         = "<Tab>"
