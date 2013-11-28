@@ -1055,10 +1055,8 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   " => omnisharp
   """"""""""""""""""""""""""""""
-  map <F12> :call OmniSharp#GotoDefinition()<cr>
-  nmap fi :call OmniSharp#FindImplementations()<cr>
-  nmap fu :call OmniSharp#FindUsages()<cr>
-  nmap <leader>tt :call OmniSharp#TypeLookup()<cr>
+  let g:Omnisharp_stop_server = 0
+  let g:Omnisharp_start_server = 1
 
   """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " clang_complete: {{{
