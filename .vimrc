@@ -752,15 +752,9 @@ map <leader>s? z=
         \}
         \}
 
-  """"""""""""""""""""""""""""""
-  " => project.vim
-  """"""""""""""""""""""""""""""
-  map <D-L> :Project<CR>
-  map <D-R> :Project<CR>:redraw<CR>/
-  nmap <silent> <leader>p <Plug>ToggleProject
-  "let g:proj_flags = "cimst"    " Close Project window when file selected
-  let g:proj_window_width = 25
-  "let g:proj_window_increment = 50
+  let g:tagbar_type_css = {'ctagstype': 'CSS','kinds': ['c:classes', 's:selectors', 'i:identities'] }
+  " let g:tagbar_type_scss = {'ctagstype': 'scss','kinds': ['c:classes', 's:selectors', 'i:identities'] }
+  let g:tagbar_type_scss = {'ctagstype': 'CSS','kinds': ['c:classes', 's:selectors', 'i:identities'] }
 
   """"""""""""""""""""""""""""""
   " => projtags.vim
