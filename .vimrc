@@ -311,6 +311,7 @@ set ignorecase
 set smartcase           " the case of normal letters is ignored except when upper is used
 set hlsearch            " highlight all searched for phrases
 set incsearch           " highlight where the typed pattern matches
+set nu
 set rnu
 "set novisualbell        " use visual bell instead of beeping
 set visualbell
