@@ -140,8 +140,8 @@ syntax enable           " enable syntax hl
 
 if has("win32")
   try | set gfn=Consolas:h11:cANSI | catch | endtry " Vista only
-elseif has("gui_mac")
-  set gfn=Consolas:h13,Inconsolata:h14,PanicSans:h12
+elseif has("gui_macvim")
+  set gfn=Monaco:h13,Consolas:h13,Inconsolata:h14,PanicSans:h12
 else
   set gfn="Incosolata for Powerline":h11
 endif
