@@ -146,7 +146,20 @@ else
   set gfn="Incosolata for Powerline":h11
 endif
 
-let g:Powerline_symbols = 'unicode'
+" let g:Powerline_symbols = 'fancy'
+" let g:airline_powerline_fonts=1
+
+" Setting the airline symbols
+if !exists('g:airline_symbols')
+  let g:airline_left_sep = '⮀'
+  let g:airline_right_sep = '⮂'
+  let g:airline_right_alt_sep ="❮"
+  let g:airline_left_alt_sep="❯"
+  let g:airline_symbols = {} 
+  let g:airline_symbols.branch = '⭠'
+  let g:airline_symbols.readonly = '⭤'
+  let g:airline_symbols.linenr = '⭡'
+endif
 
 " matchparentesis is pretty slow on big files :(
 let loaded_matchparen = 1
