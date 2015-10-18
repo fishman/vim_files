@@ -1,1 +1,1 @@
-setl omnifunc=jscomplete#CompleteJS
+" setl omnifunc=jscomplete#CompleteJS

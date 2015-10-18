@@ -1,27 +1,13 @@
 setl foldmethod=marker
 " latex settings
-let g:Tex_ViewRule_ps = 'Skim'
-let g:Tex_ViewRule_pdf = 'Skim'
-let g:Tex_ViewRule_dvi = 'TeXniscope'
-let g:Tex_DefaultTargetFormat = 'pdf'
+" silent
+" map <buffer> <silent> <Leader>ls :
+"       \ !/Applications/Skim.app/Contents/SharedSupport/displayline
+"       \ <C-R>=line('.')<CR> "<C-R>=LatexBox_GetOutputFile()<CR>"
+"       \ "%:p" <CR><CR>
+map <buffer> <silent> <Leader>ls :
+      \ !zathura --synctex-forward=<C-R>=line('.')<CR>:1:"%:p"
+      \ "<C-R>=LatexBox_GetOutputFile()<CR>" <CR> <CR>
 
-let g:Tex_CompileRule_dvi = 'latex --interaction=nonstopmode $*'
-let g:Tex_CompileRule_ps = 'dvips -Pwww -o $*.ps $*.dvi'
-let g:Tex_CompileRule_pspdf = 'ps2pdf $*.ps'
-let g:Tex_CompileRule_dvipdf = 'dvipdfm $*.dvi'
-" let g:Tex_CompileRule_pdf = 'pdflatex $*'
-let g:Tex_CompileRule_pdf = 'pdflatex -src-specials -interaction=nonstopmode $*'
 
-let g:Tex_FormatDependency_ps  = 'dvi,ps'
-let g:Tex_FormatDependency_pspdf = 'dvi,ps,pspdf'
-let g:Tex_FormatDependency_dvipdf = 'dvi,dvipdf'
 
-let g:Tex_IgnoredWarnings ='
-      \"Underfull\n".
-      \"Overfull\n".
-      \"specifier changed to\n".
-      \"You have requested\n".
-      \"Missing number, treated as zero.\n".
-      \"There were undefined references\n".
-      \"Citation %.%# undefined\n".
-      \"\oval, \circle, or \line size unavailable\n"' 
