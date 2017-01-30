@@ -154,3 +154,6 @@
 [submodule "bundle/vim-easyclip"]
 	path = bundle/vim-easyclip
 	url = git://github.com/svermeulen/vim-easyclip
+[submodule "bundle/YouCompleteMe"]
+	path = bundle/YouCompleteMe
+	url = git://github.com/Valloric/YouCompleteMe
