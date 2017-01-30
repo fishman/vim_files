@@ -40,7 +40,6 @@
 "   ------ *> project.vim
 "   ------ *> projtags.vim
 "   ------ *> fugitive.vim
-"   ------ *> NERD_commenter.vim
 "   ------ *> NERD_tree.vim
 "   ------ *> winmanager.vim
 "   ------ *> session.vim
@@ -266,7 +265,6 @@ call pathogen#infect()
 "Bundle "git://github.com/tpope/vim-endwise.git"
 "Bundle "git://github.com/tpope/vim-fugitive.git"
 "Bundle "git://github.com/scrooloose/nerdtree.git"
-"Bundle "git://github.com/scrooloose/nerdcommenter.git"
 "Bundle "git://github.com/majutsushi/tagbar.git"
 "Bundle "git://github.com/kien/ctrlp.vim.git"
 "Bundle 'ultrasnips'
@@ -797,12 +795,6 @@ map <leader>s? z=
 
   let g:gitgutter_enabled = 0
 
-
-  """"""""""""""""""""""""""""""
-  " => NERD_commenter.vim
-  """"""""""""""""""""""""""""""
-  let g:NERDComLineMap = ''
-  let g:NERDSpaceDelims = 1
 
   """"""""""""""""""""""""""""""
   " => NERD_tree.vim
