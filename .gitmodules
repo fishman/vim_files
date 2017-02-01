@@ -4,9 +4,6 @@
 [submodule "bundle/ctrlp.vim"]
 	path = bundle/ctrlp.vim
 	url = git://github.com/fishman/ctrlp.vim.git
-[submodule "bundle/syntastic"]
-	path = bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
 [submodule "bundle/tagbar"]
 	path = bundle/tagbar
 	url = git://github.com/majutsushi/tagbar.git
@@ -157,3 +154,6 @@
 [submodule "bundle/vim-misc"]
 	path = bundle/vim-misc
 	url = git://github.com/xolox/vim-misc
+[submodule "bundle/ale"]
+	path = bundle/ale
+	url = https://github.com/w0rp/ale.git
