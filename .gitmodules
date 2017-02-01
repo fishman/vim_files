@@ -28,6 +28,9 @@
 [submodule "bundle/vim-markdown"]
 	path = bundle/vim-markdown
 	url = git://github.com/tpope/vim-markdown.git
+[submodule "bundle/vim-node"]
+	path = bundle/vim-node
+	url = git://github.com/moll/vim-node.js.git
 [submodule "bundle/vim-rspec"]
 	path = bundle/vim-rspec
 	url = git://github.com/skwp/vim-rspec.git
@@ -139,12 +142,18 @@
 [submodule "bundle/emmet"]
 	path = bundle/emmet
 	url = https://github.com/mattn/emmet-vim
-[submodule "bundle/commentary"]
-	path = bundle/commentary
-	url = git://github.com/tpope/vim-commentary.git
 [submodule "bundle/table-mode"]
 	path = bundle/table-mode
 	url = git@github.com:dhruvasagar/vim-table-mode.git
-[submodule "bundle/node"]
-	path = bundle/node
-	url = https://github.com/moll/vim-node
+[submodule "bundle/vim-commentary"]
+	path = bundle/vim-commentary
+	url = git://github.com/tpope/vim-commentary
+[submodule "bundle/vim-easyclip"]
+	path = bundle/vim-easyclip
+	url = git://github.com/svermeulen/vim-easyclip
+[submodule "bundle/YouCompleteMe"]
+	path = bundle/YouCompleteMe
+	url = git://github.com/Valloric/YouCompleteMe
+[submodule "bundle/vim-misc"]
+	path = bundle/vim-misc
+	url = git://github.com/xolox/vim-misc
