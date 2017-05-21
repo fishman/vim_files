@@ -64,9 +64,6 @@
 [submodule "bundle/clang_complete"]
 	path = bundle/clang_complete
 	url = https://github.com/Rip-Rip/clang_complete/
-[submodule "bundle/javacomplete"]
-	path = bundle/javacomplete
-	url = https://github.com/fishman/javacomplete
 [submodule "bundle/surround"]
 	path = bundle/surround
 	url = https://github.com/tpope/vim-surround.git
@@ -163,3 +160,6 @@
 [submodule "bundle/isort"]
 	path = bundle/isort
 	url = git://github.com/fisadev/vim-isort
+[submodule "bundle/javacomplete2"]
+	path = bundle/javacomplete2
+	url = https://github.com/artur-shaik/vim-javacomplete2
