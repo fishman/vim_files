@@ -166,3 +166,6 @@
 [submodule "bundle/grepper"]
 	path = bundle/grepper
 	url = git://github.com/mhinz/vim-grepper
+[submodule "bundle/commentary"]
+	path = bundle/commentary
+	url = git://github.com/tpope/vim-commentary.git
