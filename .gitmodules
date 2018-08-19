@@ -1,168 +1,171 @@
-[submodule "bundle/nerdtree"]
-	path = bundle/nerdtree
+[submodule "pack/plugins/start/nerdtree"]
+	path = pack/plugins/start/nerdtree
 	url = git://github.com/scrooloose/nerdtree.git
-[submodule "bundle/ctrlp.vim"]
-	path = bundle/ctrlp.vim
+[submodule "pack/plugins/start/ctrlp.vim"]
+	path = pack/plugins/start/ctrlp.vim
 	url = git://github.com/fishman/ctrlp.vim.git
-[submodule "bundle/tagbar"]
-	path = bundle/tagbar
+[submodule "pack/plugins/start/tagbar"]
+	path = pack/plugins/start/tagbar
 	url = git://github.com/majutsushi/tagbar.git
-[submodule "bundle/vim-fugitive"]
-	path = bundle/vim-fugitive
+[submodule "pack/plugins/start/vim-fugitive"]
+	path = pack/plugins/start/vim-fugitive
 	url = git://github.com/tpope/vim-fugitive.git
-[submodule "bundle/vim-rails"]
-	path = bundle/vim-rails
+[submodule "pack/plugins/start/vim-rails"]
+	path = pack/plugins/start/vim-rails
 	url = git://github.com/tpope/vim-rails.git
-[submodule "bundle/vim-endwise"]
-	path = bundle/vim-endwise
+[submodule "pack/plugins/start/vim-endwise"]
+	path = pack/plugins/start/vim-endwise
 	url = git://github.com/tpope/vim-endwise.git
-[submodule "bundle/vim-ruby"]
-	path = bundle/vim-ruby
+[submodule "pack/plugins/start/vim-ruby"]
+	path = pack/plugins/start/vim-ruby
 	url = git://github.com/vim-ruby/vim-ruby.git
-[submodule "bundle/gitv"]
-	path = bundle/gitv
+[submodule "pack/plugins/start/gitv"]
+	path = pack/plugins/start/gitv
 	url = git://github.com/gregsexton/gitv.git
-[submodule "bundle/vim-markdown"]
-	path = bundle/vim-markdown
+[submodule "pack/plugins/start/vim-markdown"]
+	path = pack/plugins/start/vim-markdown
 	url = git://github.com/tpope/vim-markdown.git
-[submodule "bundle/vim-node"]
-	path = bundle/vim-node
+[submodule "pack/plugins/start/vim-node"]
+	path = pack/plugins/start/vim-node
 	url = git://github.com/moll/vim-node.js.git
-[submodule "bundle/vim-rspec"]
-	path = bundle/vim-rspec
+[submodule "pack/plugins/start/vim-rspec"]
+	path = pack/plugins/start/vim-rspec
 	url = git://github.com/skwp/vim-rspec.git
-[submodule "bundle/vim-javascript"]
-	path = bundle/vim-javascript
+[submodule "pack/plugins/start/vim-javascript"]
+	path = pack/plugins/start/vim-javascript
 	url = git://github.com/pangloss/vim-javascript.git
-[submodule "bundle/textile"]
-	path = bundle/textile
+[submodule "pack/plugins/start/textile"]
+	path = pack/plugins/start/textile
 	url = git://github.com/timcharper/textile.vim.git
-[submodule "bundle/gist"]
-	path = bundle/gist
+[submodule "pack/plugins/start/gist"]
+	path = pack/plugins/start/gist
 	url = git://github.com/mattn/gist-vim.git
-[submodule "bundle/camelcasemotion"]
-	path = bundle/camelcasemotion
+[submodule "pack/plugins/start/camelcasemotion"]
+	path = pack/plugins/start/camelcasemotion
 	url = git://github.com/bkad/CamelCaseMotion.git
-[submodule "bundle/session"]
-	path = bundle/session
+[submodule "pack/plugins/start/session"]
+	path = pack/plugins/start/session
 	url = git://github.com/xolox/vim-session.git
-[submodule "bundle/unimpaired"]
-	path = bundle/unimpaired
+[submodule "pack/plugins/start/unimpaired"]
+	path = pack/plugins/start/unimpaired
 	url = git://github.com/tpope/vim-unimpaired.git
-[submodule "bundle/mustache"]
-	path = bundle/mustache
+[submodule "pack/plugins/start/mustache"]
+	path = pack/plugins/start/mustache
 	url = git://github.com/juvenn/mustache.vim.git
-[submodule "bundle/coffee-script"]
-	path = bundle/coffee-script
+[submodule "pack/plugins/start/coffee-script"]
+	path = pack/plugins/start/coffee-script
 	url = git://github.com/kchmck/vim-coffee-script.git
-[submodule "bundle/gundo"]
-	path = bundle/gundo
+[submodule "pack/plugins/start/gundo"]
+	path = pack/plugins/start/gundo
 	url = https://github.com/sjl/gundo.vim/
-[submodule "bundle/ultisnips"]
-	path = bundle/ultisnips
+[submodule "pack/plugins/start/ultisnips"]
+	path = pack/plugins/start/ultisnips
 	url = git://github.com/SirVer/ultisnips.git
-[submodule "bundle/clang_complete"]
-	path = bundle/clang_complete
+[submodule "pack/plugins/start/clang_complete"]
+	path = pack/plugins/start/clang_complete
 	url = https://github.com/Rip-Rip/clang_complete/
-[submodule "bundle/surround"]
-	path = bundle/surround
+[submodule "pack/plugins/start/surround"]
+	path = pack/plugins/start/surround
 	url = https://github.com/tpope/vim-surround.git
-[submodule "bundle/javaimp"]
-	path = bundle/javaimp
+[submodule "pack/plugins/start/javaimp"]
+	path = pack/plugins/start/javaimp
 	url = https://github.com/vim-scripts/JavaImp.vim--Lee.git
-[submodule "bundle/logcat"]
-	path = bundle/logcat
+[submodule "pack/plugins/start/logcat"]
+	path = pack/plugins/start/logcat
 	url = https://github.com/thinca/vim-logcat.git
-[submodule "bundle/AsyncCommand"]
-	path = bundle/AsyncCommand
+[submodule "pack/plugins/start/AsyncCommand"]
+	path = pack/plugins/start/AsyncCommand
 	url = https://github.com/pydave/AsyncCommand.git
-[submodule "bundle/dwm.vim"]
-	path = bundle/dwm.vim
+[submodule "pack/plugins/start/dwm.vim"]
+	path = pack/plugins/start/dwm.vim
 	url = https://github.com/spolu/dwm.vim.git
-[submodule "bundle/SingleCompile"]
-	path = bundle/SingleCompile
+[submodule "pack/plugins/start/SingleCompile"]
+	path = pack/plugins/start/SingleCompile
 	url = https://github.com/xuhdev/SingleCompile.git
-[submodule "bundle/taskpaper"]
-	path = bundle/taskpaper
+[submodule "pack/plugins/start/taskpaper"]
+	path = pack/plugins/start/taskpaper
 	url = https://github.com/davidoc/taskpaper.vim.git
-[submodule "bundle/git-grep-qargs"]
-	path = bundle/git-grep-qargs
+[submodule "pack/plugins/start/git-grep-qargs"]
+	path = pack/plugins/start/git-grep-qargs
 	url = https://github.com/henrik/vim-qargs.git
-[submodule "bundle/git-grep"]
-	path = bundle/git-grep
+[submodule "pack/plugins/start/git-grep"]
+	path = pack/plugins/start/git-grep
 	url = https://github.com/henrik/git-grep-vim.git
-[submodule "bundle/vimux"]
-	path = bundle/vimux
+[submodule "pack/plugins/start/vimux"]
+	path = pack/plugins/start/vimux
 	url = https://github.com/benmills/vimux.git
-[submodule "bundle/slim-lang"]
-	path = bundle/slim-lang
+[submodule "pack/plugins/start/slim-lang"]
+	path = pack/plugins/start/slim-lang
 	url = https://github.com/slim-template/vim-slim.git
-[submodule "bundle/vimwiki"]
-	path = bundle/vimwiki
+[submodule "pack/plugins/start/vimwiki"]
+	path = pack/plugins/start/vimwiki
 	url = https://github.com/vim-scripts/vimwiki.git
-[submodule "bundle/vimerlang"]
-	path = bundle/vimerlang
+[submodule "pack/plugins/start/vimerlang"]
+	path = pack/plugins/start/vimerlang
 	url = https://github.com/jimenezrick/vimerl
-[submodule "bundle/vim-repeat"]
-	path = bundle/vim-repeat
+[submodule "pack/plugins/start/vim-repeat"]
+	path = pack/plugins/start/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git
-# [submodule "bundle/puppet"]
-# 	path = bundle/puppet
+# [submodule "pack/plugins/start/puppet"]
+# 	path = pack/plugins/start/puppet
 # 	url = git://github.com/rodjek/vim-puppet.git
-[submodule "bundle/python-indent"]
-	path = bundle/python-indent
+[submodule "pack/plugins/start/python-indent"]
+	path = pack/plugins/start/python-indent
 	url = https://github.com/hynek/vim-python-pep8-indent.git
-[submodule "bundle/fsharp"]
-	path = bundle/fsharp
+[submodule "pack/plugins/start/fsharp"]
+	path = pack/plugins/start/fsharp
 	url = https://github.com/kongo2002/fsharp-vim.git
-[submodule "bundle/javascript-libraries"]
-	path = bundle/javascript-libraries
+[submodule "pack/plugins/start/javascript-libraries"]
+	path = pack/plugins/start/javascript-libraries
 	url = https://github.com/othree/javascript-libraries-syntax.vim
-[submodule "bundle/vim-less"]
-	path = bundle/vim-less
+[submodule "pack/plugins/start/vim-less"]
+	path = pack/plugins/start/vim-less
 	url = https://github.com/groenewege/vim-less.git
-[submodule "bundle/jscomplete"]
-	path = bundle/jscomplete
+[submodule "pack/plugins/start/jscomplete"]
+	path = pack/plugins/start/jscomplete
 	url = https://github.com/teramako/jscomplete-vim
-[submodule "bundle/gitgutter"]
-	path = bundle/gitgutter
+[submodule "pack/plugins/start/gitgutter"]
+	path = pack/plugins/start/gitgutter
 	url = git://github.com/airblade/vim-gitgutter.git
-[submodule "bundle/expand-region"]
-	path = bundle/expand-region
+[submodule "pack/plugins/start/expand-region"]
+	path = pack/plugins/start/expand-region
 	url = https://github.com/terryma/vim-expand-region.git
-[submodule "bundle/xmledit"]
-	path = bundle/xmledit
+[submodule "pack/plugins/start/xmledit"]
+	path = pack/plugins/start/xmledit
 	url = https://github.com/sukima/xmledit.git
-[submodule "bundle/emmet"]
-	path = bundle/emmet
+[submodule "pack/plugins/start/emmet"]
+	path = pack/plugins/start/emmet
 	url = https://github.com/mattn/emmet-vim
-[submodule "bundle/table-mode"]
-	path = bundle/table-mode
+[submodule "pack/plugins/start/table-mode"]
+	path = pack/plugins/start/table-mode
 	url = git@github.com:dhruvasagar/vim-table-mode.git
-[submodule "bundle/vim-commentary"]
-	path = bundle/vim-commentary
+[submodule "pack/plugins/start/vim-commentary"]
+	path = pack/plugins/start/vim-commentary
 	url = git://github.com/tpope/vim-commentary
-[submodule "bundle/vim-easyclip"]
-	path = bundle/vim-easyclip
+[submodule "pack/plugins/start/vim-easyclip"]
+	path = pack/plugins/start/vim-easyclip
 	url = git://github.com/svermeulen/vim-easyclip
-[submodule "bundle/vim-misc"]
-	path = bundle/vim-misc
+[submodule "pack/plugins/start/vim-misc"]
+	path = pack/plugins/start/vim-misc
 	url = git://github.com/xolox/vim-misc
-[submodule "bundle/ale"]
-	path = bundle/ale
+[submodule "pack/plugins/start/ale"]
+	path = pack/plugins/start/ale
 	url = https://github.com/w0rp/ale.git
-[submodule "bundle/ferret"]
-	path = bundle/ferret
+[submodule "pack/plugins/start/ferret"]
+	path = pack/plugins/start/ferret
 	url = git://github.com/wincent/ferret.git
-[submodule "bundle/isort"]
-	path = bundle/isort
+[submodule "pack/plugins/start/isort"]
+	path = pack/plugins/start/isort
 	url = git://github.com/fisadev/vim-isort
-[submodule "bundle/javacomplete2"]
-	path = bundle/javacomplete2
+[submodule "pack/plugins/start/javacomplete2"]
+	path = pack/plugins/start/javacomplete2
 	url = https://github.com/artur-shaik/vim-javacomplete2
-[submodule "bundle/grepper"]
-	path = bundle/grepper
+[submodule "pack/plugins/start/grepper"]
+	path = pack/plugins/start/grepper
 	url = git://github.com/mhinz/vim-grepper
-[submodule "bundle/commentary"]
-	path = bundle/commentary
+[submodule "pack/plugins/start/commentary"]
+	path = pack/plugins/start/commentary
 	url = git://github.com/tpope/vim-commentary.git
+[submodule "pack/plugins/start/YouCompleteMe"]
+	path = pack/plugins/start/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe

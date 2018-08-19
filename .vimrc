@@ -252,7 +252,6 @@ endif
 " set runtimepath+=$VIMFILES/runtime/nerdtree
 " " set runtimepath+=~/.vim/runtime/snipMate
 
-call pathogen#infect()
 "set rtp+=~/.vim/bundle/vundle/
 "call vundle#rc()
 "
@@ -905,6 +904,7 @@ map <leader>s? z=
   """"""""""""""""""""""""""""""
   " => javacomplete.vim
   """"""""""""""""""""""""""""""
+  autocmd FileType java setlocal omnifunc=javacomplete#Complete
   let g:java_classpath      = "/opt/android-sdk/platforms/android-16/android.jar"
 
 
@@ -1340,6 +1340,15 @@ if has("win32")
   set makeprg=for\ \%c\ in\ (\"pushd\ .\"\ \"setenv\ D:\\foo\\WINDDK\\2600\ chk\"\ \"popd\"\ \"build\ -cZ\"\ \"copy\ i386\\ds30xx.sys\ e:\\work\\X\\i386\")\ do\ call\ \%~c
 endif
 
+
+let g:rg_command = '
+  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
+  \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
+  \ -g "!{.git,node_modules,vendor}/*" '
+
+command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
+
+set packpath+=~/.vim/pack
 "if filereadable($VIMDATA."/session.vim")
 "  au VimEnter * so $VIMDATA/session.vim
 "endif
