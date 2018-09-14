@@ -3,7 +3,7 @@
 	url = git://github.com/scrooloose/nerdtree.git
 [submodule "pack/plugins/start/ctrlp.vim"]
 	path = pack/plugins/start/ctrlp.vim
-	url = git://github.com/fishman/ctrlp.vim.git
+	url = git://github.com/ctrlpvim/ctrlp.vim.git
 [submodule "pack/plugins/start/tagbar"]
 	path = pack/plugins/start/tagbar
 	url = git://github.com/majutsushi/tagbar.git
@@ -105,7 +105,7 @@
 	url = https://github.com/jimenezrick/vimerl
 [submodule "pack/plugins/start/vim-repeat"]
 	path = pack/plugins/start/vim-repeat
-	url = https://github.com/tpope/vim-repeat.git
+	url = git://github.com/tpope/vim-repeat.git
 # [submodule "pack/plugins/start/puppet"]
 # 	path = pack/plugins/start/puppet
 # 	url = git://github.com/rodjek/vim-puppet.git
@@ -169,3 +169,30 @@
 [submodule "pack/plugins/start/YouCompleteMe"]
 	path = pack/plugins/start/YouCompleteMe
 	url = https://github.com/Valloric/YouCompleteMe
+[submodule "pack/plugins/start/vim-airline"]
+	path = pack/plugins/start/vim-airline
+	url = git://github.com/vim-airline/vim-airline.git
+[submodule "pack/plugins/start/vim-airline-themes"]
+	path = pack/plugins/start/vim-airline-themes
+	url = git://github.com/vim-airline/vim-airline-themes.git
+[submodule "/home/timebomb/.vim/pack/plugins/start/vim-go"]
+	path = /home/timebomb/.vim/pack/plugins/start/vim-go
+	url = https://github.com/fatih/vim-go.git
+[submodule "pack/plugins/start/gruvbox"]
+	path = pack/plugins/start/gruvbox
+	url = https://github.com/morhetz/gruvbox
+[submodule "pack/plugins/start/vim-polyglot"]
+	path = pack/plugins/start/vim-polyglot
+	url = git://github.com/sheerun/vim-polyglot.git
+[submodule "pack/plugins/start/vim-vinegar"]
+	path = pack/plugins/start/vim-vinegar
+	url = https://github.com/tpope/vim-vinegar
+[submodule "pack/plugins/start/fzf.vim"]
+	path = pack/plugins/start/fzf.vim
+	url = git://github.com/junegunn/fzf.vim.git
+[submodule "pack/plugins/start/fzf-mru.vim"]
+	path = pack/plugins/start/fzf-mru.vim
+	url = git://github.com/pbogut/fzf-mru.vim.git
+[submodule "pack/plugins/start/vim-surround"]
+	path = pack/plugins/start/vim-surround
+	url = git://github.com/tpope/vim-surround.git
