@@ -86,7 +86,7 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible        " use vim as vim, put at the very start
 map Q gq
-                        " do not use Ex-mode, use Q for formatting
+" do not use Ex-mode, use Q for formatting
 set history=400         " lines of Ex commands, search history ...
 set browsedir=buffer    " use the directory of the related buffer
 " set clipboard+=unnamed  " use register '*' for all y, d, c, p ops
@@ -99,27 +99,31 @@ set timeoutlen=200      " Time to wait after ESC (default causes an annoying del
 filetype plugin indent on      " enable filetype plugin
 
 if $TERM != "linux" && $TERM != "screen" && $TERM != "rxvt-unicode"
-  set mouse=a           " except screen & SecureCRT's linux terminal
+    set mouse=a           " except screen & SecureCRT's linux terminal
 endif
 
-let mapleader = ","     " set mapleader, then <leader> will be ,
-let g:mapleader = ","
-                        " fast saving
+let mapleader = " "     " set mapleader, then <leader> will be ,
+let g:mapleader = " "
+let maplocalleader = ","     " set mapleader, then <leader> will be ,
+" fast saving
 "nmap <leader>w :w!<cr>
 nmap <F1> :w!<cr>
 imap <F1> <C-O>:w!<cr>
+nmap <silent> <leader>fs :w<cr>
+map <silent> <leader>s :w!<cr>
 "nmap <leader>f :find<cr>
 
 if has("win32")         " platform dependent
-  let $VIMDATA  = $HOME.'\vimdata'
-  let $VIMFILES = $HOME.'\vimfiles'
+    let $VIMDATA  = $HOME.'\vimdata'
+    let $VIMFILES = $HOME.'\vimfiles'
 else
-  let $VIMDATA  = $HOME.'/.vim/vimdata'
-  let $VIMFILES = $HOME.'/.vim'
+    let $VIMDATA  = $HOME.'/.vim/vimdata'
+    let $VIMFILES = $HOME.'/.vim'
 endif
-                        " fast sourcing and editing of the .vimrc
+" fast sourcing and editing of the .vimrc
 "map <leader>s :source $MYVIMRC<cr>
 map <leader>e :e! $MYVIMRC<cr>
+map <silent> <leader>fed :e $MYVIMRC<cr>
 au! BufWritePost [\._]vimrc source $MYVIMRC
 
 set pastetoggle=<F6>    " when pasting something in, don't indent
@@ -138,105 +142,107 @@ nmap <leader>fu :se ff=unix<cr>
 syntax enable           " enable syntax hl
 
 if has("win32")
-  try | set gfn=Consolas:h11:cANSI | catch | endtry " Vista only
+    try | set gfn=Consolas:h11:cANSI | catch | endtry " Vista only
 elseif has("gui_macvim")
-  set gfn=Monaco:h13,Consolas:h13,Inconsolata:h14,PanicSans:h12
+    set gfn=Monaco:h13,Consolas:h13,Inconsolata:h14,PanicSans:h12
 else
-  set gfn="Incosolata for Powerline":h11
+    set gfn="Incosolata for Powerline":h11
 endif
 
 " let g:Powerline_symbols = 'fancy'
 " let g:airline_powerline_fonts=1
 
+let g:airline_powerline_fonts = 1
+let g:airline_symbols_ascii = 1
 " Setting the airline symbols
-if !exists('g:airline_symbols')
-  let g:airline_left_sep = '⮀'
-  let g:airline_right_sep = '⮂'
-  let g:airline_right_alt_sep ="❮"
-  let g:airline_left_alt_sep="❯"
-  let g:airline_symbols = {} 
-  let g:airline_symbols.branch = '⭠'
-  let g:airline_symbols.readonly = '⭤'
-  let g:airline_symbols.linenr = '⭡'
-endif
+" if !exists('g:airline_symbols')
+"   let g:airline_left_sep = '⮀'
+"   let g:airline_right_sep = '⮂'
+"   let g:airline_right_alt_sep ="❮"
+"   let g:airline_left_alt_sep="❯"
+"   let g:airline_symbols = {}
+"   let g:airline_symbols.branch = '⭠'
+"   let g:airline_symbols.readonly = '⭤'
+"   let g:airline_symbols.linenr = '⭡'
+" endif
 
 " matchparentesis is pretty slow on big files :(
 let loaded_matchparen = 1
 if has("gui_running")
-  " prepare path
-  "set shell=$VIMDATA/path.sh
-  " the `b' puts a scrollbar at the bottom, which has no effect if wrap is set
-  " e sets the gui tabline
-  " r sets the right scrollbar
-  set guioptions-=Tm
-  set guioptions=age
-  set tabpagemax=30
-  set mousehide
+    " prepare path
+    "set shell=$VIMDATA/path.sh
+    " the `b' puts a scrollbar at the bottom, which has no effect if wrap is set
+    " e sets the gui tabline
+    " r sets the right scrollbar
+    set guioptions-=Tm
+    set guioptions=age
+    set tabpagemax=30
+    set mousehide
 
-  set columns=90
-  if has("gui_gtk2")
-    set lines=30
-    set showcmd
-  elseif has("gui_macvim") || has("gui_mac")
-    set columns=190
-    set lines=59
-  else
-    set lines=50
-    set cursorline
-  endif
+    set columns=90
+    if has("gui_gtk2")
+        set lines=30
+        set showcmd
+    elseif has("gui_macvim") || has("gui_mac")
+        set columns=190
+        set lines=59
+    else
+        set lines=50
+        set cursorline
+    endif
 
-  let psc_style='cool'
+    let psc_style='cool'
 
-  " colo desert
-  colo wombat
+    " colo desert
+    colo wombat
 
 else
-  set title
-  "set background=light
-  "colo ir_black
-  if $TERM == "rxvt-unicode"
-    set t_Co=256
-    "colo desert256
-    colo wombatc
-    " colo hybrid
-    " colo desertc
-    " colo leo
-    " colo gardener
-    " colo inkpot
+    set title
+    "set background=light
+    "colo ir_black
+    if $TERM == "rxvt-unicode"
+        set t_Co=256
+        "colo desert256
+        colo wombatc
+        " colo hybrid
+        " colo desertc
+        " colo leo
+        " colo gardener
+        " colo inkpot
 
-  elseif $TERM == "xterm-color"
-    colo desert
-  elseif $TERM == "screen-256color"
-    " simply use c-v to create these maps
-    noremap [1;5D <c-left>
-    noremap [1;5C <c-right>
-    noremap [1;2D <s-left>
-    noremap [1;2C <s-right>
-    inoremap [1;5D <c-left>
-    inoremap [1;5C <c-right>
-    inoremap [1;2D <s-left>
-    inoremap [1;2C <s-right>
-    cnoremap [1;5D <c-left>
-    cnoremap [1;5C <c-right>
-    cnoremap [1;2D <s-left>
-    cnoremap [1;2C <s-right>
-    inoremap OP <C-O>:w!<cr>
+    elseif $TERM == "xterm-color"
+        colo desert
+    elseif $TERM == "screen-256color"
+        " simply use c-v to create these maps
+        noremap [1;5D <c-left>
+        noremap [1;5C <c-right>
+        noremap [1;2D <s-left>
+        noremap [1;2C <s-right>
+        inoremap [1;5D <c-left>
+        inoremap [1;5C <c-right>
+        inoremap [1;2D <s-left>
+        inoremap [1;2C <s-right>
+        cnoremap [1;5D <c-left>
+        cnoremap [1;5C <c-right>
+        cnoremap [1;2D <s-left>
+        cnoremap [1;2C <s-right>
+        inoremap OP <C-O>:w!<cr>
 
-    " fix mouse selection dragging and scrolling
-    set ttymouse=xterm2
+        " fix mouse selection dragging and scrolling
+        set ttymouse=xterm2
 
-    colo wombat256mod
-  elseif has("win32")
-    set term=xterm
-    set t_Co=256
-    let &t_AB="\e[48;5;%dm"
-    let &t_AF="\e[38;5;%dm"
-    colo wombat256mod
-  else
-    "colo desert
-    colo wombat256mod
-  endif
-  " let g:Powerline_symbols = 'unicode'
+        colo wombat256mod
+    elseif has("win32")
+        set term=xterm
+        set t_Co=256
+        let &t_AB="\e[48;5;%dm"
+        let &t_AF="\e[38;5;%dm"
+        colo wombat256mod
+    else
+        "colo desert
+        colo wombat256mod
+    endif
+    " let g:Powerline_symbols = 'unicode'
 endif
 
 " set runtimepath+=$VIMFILES/runtime/theonevimlib/core
@@ -277,8 +283,8 @@ endif
 
 
 if has("win32")
-  set rtp+=$VIMFILES/runtime/win
-  runtime plugin/visual_studio.vim
+    set rtp+=$VIMFILES/runtime/win
+    runtime plugin/visual_studio.vim
 endif
 
 " }}}1
@@ -289,7 +295,7 @@ endif
 set scrolloff=7         " minimal screen lines above/below cursor
 set wildmenu            " :h and press <Tab> to see what happens
 set wig=*.o,*.pyc,*.tiff,*.jpg,*.tif,*.gif,.git,.svn,*.pdf,*.png,build,*.beam
-                        " type of file that will not in wildmenu
+" type of file that will not in wildmenu
 set ruler               " show current position along the bottom
 set cmdheight=2         " use 1 screen lines for command-line
 "set nolazyredraw        " redraw while executing macros (for qbuf)
@@ -300,7 +306,7 @@ set whichwrap+=<,>,h,l  " allow backspace and cursor keys to wrap
 set shortmess=atI       " shorten to avoid 'press a key' prompt
 set report=0            " tell us when anything is changed via :...
 set fillchars=vert:\ ,stl:\ ,stlnc:\
-                        " make splitters between windows be blank
+" make splitters between windows be blank
 set showmatch           " show matching paren when a bracket inserted
 set suffixes=.bak,~,.o,.h,.info,.swp,.obj,.class,.lib,.exp,.pch,.res
 set matchtime=2         " how many tenths of a second to blink
@@ -315,11 +321,11 @@ set visualbell
 set t_vb=
 set noerrorbells        " do not make noise
 if has("multi_byte_encoding")
-  set listchars=tab:»\ ,trail:·,extends:>,precedes:<,eol:¬
+    set listchars=tab:»\ ,trail:·,extends:>,precedes:<,eol:¬
 else
-  set listchars=tab:\|\ ,trail:.,extends:>,precedes:<,eol:$
+    set listchars=tab:\|\ ,trail:.,extends:>,precedes:<,eol:$
 endif
-                        " how :set list show
+" how :set list show
 set list
 set magic               " set magic on
 set completeopt=menu    " use popup menu to show possible completions
@@ -340,10 +346,10 @@ set laststatus=2        " always show the status line
 " let &statusline .= '  %-14.(%l,%c%V%) %P'
 
 set nomore              " more will fill the screen with project.vim
-                        " format the statusline
+" format the statusline
 fu! CurDir()
-  let curdir = tolower(substitute(getcwd(), '$HOME', "~/", "g"))
-  return curdir
+    let curdir = tolower(substitute(getcwd(), '$HOME', "~/", "g"))
+    return curdir
 endf
 
 " if has("gui_running")   " highlight cursor line/column
@@ -365,17 +371,17 @@ endf
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " from an idea by Michael Naumann
 fu! VisualSearch(direction) range
-  let l:saved_reg = @"
-  execute "normal! vgvy"
-  let l:pattern = escape(@", '\\/.*$^~[]')
-  let l:pattern = substitute(l:pattern, "\n$", "", "")
-  if a:direction == 'b'
-    execute "normal ?" . l:pattern . "^M"
-  else
-    execute "normal /" . l:pattern . "^M"
-  endif
-  let @/ = l:pattern
-  let @" = l:saved_reg
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    else
+        execute "normal /" . l:pattern . "^M"
+    endif
+    let @/ = l:pattern
+    let @" = l:saved_reg
 endf
 
 " press * or # to search for the current selection (part of word)
@@ -424,6 +430,7 @@ map <leader>wc <C-W>c
 " bclose function can be found in "Buffer related" section
 "map <leader>bd :Bclose<cr>
 map <leader>bc :Bclose<cr>
+map <leader>bd :Bclose<cr>
 map <leader>bw :bw<cr>
 " map <up> <esc>:NERDTreeToggle<cr>
 " map <down> <esc>:Tlist<cr>
@@ -443,8 +450,8 @@ map <c-PageDown> :tabn<CR>
 map <c-PageUp>   :tabp<CR>
 "FIXME: disabled usetab
 "try
-  "set switchbuf=usetab
-  "if has("gui_running") | set stal=1 | else | set stal=2 | endif
+"set switchbuf=usetab
+"if has("gui_running") | set stal=1 | else | set stal=2 | endif
 "catch
 "endtry
 
@@ -526,9 +533,9 @@ vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 fu! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
 endf
 au BufWrite *.py :call DeleteTrailingWS()
 " }}}1
@@ -537,24 +544,24 @@ au BufWrite *.py :call DeleteTrailingWS()
 " Cmdline Settings: {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 fu! DeleteTillSlash()
-  let g:cmd = getcmdline()
-  if has("unix")
-    let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
-  else
-    let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
-  endif
-  if g:cmd == g:cmd_edited
+    let g:cmd = getcmdline()
     if has("unix")
-      let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
+        let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
     else
-      let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
+        let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
     endif
-  endif
-  return g:cmd_edited
+    if g:cmd == g:cmd_edited
+        if has("unix")
+            let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
+        else
+            let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
+        endif
+    endif
+    return g:cmd_edited
 endf
 
 fu! CurrentFileDir(cmd)
-  return a:cmd . " " . expand("%:p:h") . "/"
+    return a:cmd . " " . expand("%:p:h") . "/"
 endf
 
 " smart mappings on the cmdline
@@ -568,8 +575,8 @@ cno `tc <C-\>eCurrentFileDir("tabnew")<cr>
 cno `th tabnew ~/
 
 fu! CurrentWord(cmd)
-  "return a:cmd . " /" . expand("<cword>") . "/ " . "*.h *.c *.cpp"
-  return a:cmd . " " . expand("<cword>") . " " . "*.h *.c *.cpp"
+    "return a:cmd . " /" . expand("<cword>") . "/ " . "*.h *.c *.cpp"
+    return a:cmd . " " . expand("<cword>") . " " . "*.h *.c *.cpp"
 endf
 cno `v <C-\>eCurrentWord("Rgrep")<cr><Home><S-Right><Right><Right>
 map <c-q> :`v
@@ -601,20 +608,20 @@ map <F8> ggVGg?
 command! Bclose call <SID>BufcloseCloseIt()
 
 fu! <SID>BufcloseCloseIt()
-  let l:currentBufNum = bufnr("%")
-  let l:alternateBufNum = bufnr("#")
+    let l:currentBufNum = bufnr("%")
+    let l:alternateBufNum = bufnr("#")
 
-  if buflisted(l:alternateBufNum)
-    buffer #
-  else
-    bnext
-  endif
-  if bufnr("%") == l:currentBufNum
-    enew
-  endif
-  if buflisted(l:currentBufNum)
-    execute "bdelete! ".l:currentBufNum
-  endif
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
+    if bufnr("%") == l:currentBufNum
+        enew
+    endif
+    if buflisted(l:currentBufNum)
+        execute "bdelete! ".l:currentBufNum
+    endif
 endf
 " }}}1
 
@@ -632,11 +639,11 @@ map <silent> \ :nohl<cr>
 " {{{1
 set nobackup
 if has("win32")
-  set backupdir=$VIMDATA\backup
-  set directory=$VIMDATA\temp
+    set backupdir=$VIMDATA\backup
+    set directory=$VIMDATA\temp
 else
-  set backupdir=$VIMDATA/backup
-  set directory=$VIMDATA/temp
+    set backupdir=$VIMDATA/backup
+    set directory=$VIMDATA/temp
 endif
 "set nowritebackup
 "set noswapfile
@@ -677,261 +684,282 @@ map <leader>s? z=
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Settings: {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-  """"""""""""""""""""""""""""""
-  " => grep.vim
-  """"""""""""""""""""""""""""""
-  let Grep_Skip_Dirs = 'RCS CVS SCCS .svn'
-  let Grep_Skip_Files = '*.obj *.o tags .tmtags'
-  let Grep_Default_Filelist = '*.[ch] *.cpp *.php *.html *.phtml *.rb *.erb *.eco *.coffee'
+""""""""""""""""""""""""""""""
+" => grep.vim
+""""""""""""""""""""""""""""""
+let Grep_Skip_Dirs = 'RCS CVS SCCS .svn'
+let Grep_Skip_Files = '*.obj *.o tags .tmtags'
+let Grep_Default_Filelist = '*.[ch] *.cpp *.php *.html *.phtml *.rb *.erb *.eco *.coffee'
 
-  let Grep_Default_Options = '-i'
-  if has("macunix") || has("gui_macvim")
+let Grep_Default_Options = '-i'
+if has("macunix") || has("gui_macvim")
     let Grep_Xargs_Options = '-0'
-  endif
+endif
 
 
-  if has("win32")
+if has("win32")
     let Grep_Path = 'c:\programme\gnuwin32\bin\grep.exe'
     let Fgrep_Path = 'c:\programme\gnuwin32\bin\fgrep.exe'
     let Egrep_Path = 'c:\programme\gnuwin32\bin\egrep.exe'
     let Agrep_Path = 'c:\programme\gnuwin32\bin\agrep.exe'
     let Grep_Find_Path = 'c:\programme\gnuwin32\bin\find.exe'
     let Grep_Xargs_Path = 'c:\programme\gnuwin32\bin\xargs.exe'
-  endif
+endif
 
 
-  map <S-F3> :Rgrep<cr>
-  "let Grep_Cygwin_Find = 1
+map <S-F3> :Rgrep<cr>
+"let Grep_Cygwin_Find = 1
 
 
-  """"""""""""""""""""""""""""""
-  " => tovl grep
-  """"""""""""""""""""""""""""""
-  " command! -nargs=* BGgrep
-            " \ call tovl#plugin_management#Plugin('plugins#background_processes#grep#PluginBackgroundGrep').Dialog()
+""""""""""""""""""""""""""""""
+" => tovl grep
+""""""""""""""""""""""""""""""
+" command! -nargs=* BGgrep
+" \ call tovl#plugin_management#Plugin('plugins#background_processes#grep#PluginBackgroundGrep').Dialog()
 
 
-  """"""""""""""""""""""""""""""
-  " => a.vim
-  """"""""""""""""""""""""""""""
-  map <silent> <leader>s :A<cr>
+""""""""""""""""""""""""""""""
+" => a.vim
+""""""""""""""""""""""""""""""
+map <silent> <leader>s :A<cr>
 
 
-  """"""""""""""""""""""""""""""
-  " => crefvim.vim
-  """"""""""""""""""""""""""""""
-  map <silent> <Leader>cc <Plug>CRV_CRefVimAsk
-  vmap <silent> <Leader>cr <Plug>CRV_CRefVimVisual
-  nmap <silent> <Leader>cr <Plug>CRV_CRefVimNormal
+""""""""""""""""""""""""""""""
+" => crefvim.vim
+""""""""""""""""""""""""""""""
+map <silent> <Leader>cc <Plug>CRV_CRefVimAsk
+vmap <silent> <Leader>cr <Plug>CRV_CRefVimVisual
+nmap <silent> <Leader>cr <Plug>CRV_CRefVimNormal
 
 
-  """"""""""""""""""""""""""""""
-  " => largefile.vim
-  """"""""""""""""""""""""""""""
-  let g:LargeFile = 3
+""""""""""""""""""""""""""""""
+" => largefile.vim
+""""""""""""""""""""""""""""""
+let g:LargeFile = 3
 
 
-  """"""""""""""""""""""""""""""
-  " => tagbar.vim
-  """"""""""""""""""""""""""""""
-  nnoremap <silent> <F4> :TagbarToggle<CR>
-  let g:tagbar_type_coffee = {
-        \ 'ctagstype' : 'coffee',
-        \ 'kinds' : [
-        \   'n:namespace',
-        \   'c:class',
-        \   'o:object',
-        \   'm:methods',
-        \   'f:functions',
-        \   'i:instance variables',
-        \   'v:var:1',
-        \ ],
-        \ 'sro' : ".",
-        \ 'scope2kind' : {
-        \   'o' : 'object',
-        \   'f' : 'function',
-        \   'm' : 'method',
-        \   'v' : 'var',
-        \   'i' : 'ivar'
-        \ },
-        \ 'kind2scope' : {
-        \  'function' : 'f',
-        \  'method' : 'm',
-        \  'var' : 'v',
-        \  'ivar' : 'i',
-        \ 'object' : 'o'
-        \}
-        \}
+""""""""""""""""""""""""""""""
+" => tagbar.vim
+""""""""""""""""""""""""""""""
+nnoremap <silent> <F4> :TagbarToggle<CR>
+let g:tagbar_type_coffee = {
+            \ 'ctagstype' : 'coffee',
+            \ 'kinds' : [
+            \   'n:namespace',
+            \   'c:class',
+            \   'o:object',
+            \   'm:methods',
+            \   'f:functions',
+            \   'i:instance variables',
+            \   'v:var:1',
+            \ ],
+            \ 'sro' : ".",
+            \ 'scope2kind' : {
+            \   'o' : 'object',
+            \   'f' : 'function',
+            \   'm' : 'method',
+            \   'v' : 'var',
+            \   'i' : 'ivar'
+            \ },
+            \ 'kind2scope' : {
+            \  'function' : 'f',
+            \  'method' : 'm',
+            \  'var' : 'v',
+            \  'ivar' : 'i',
+            \ 'object' : 'o'
+            \}
+            \}
 
-  let g:tagbar_type_css = {'ctagstype': 'CSS','kinds': ['c:classes', 's:selectors', 'i:identities'] }
-  " let g:tagbar_type_scss = {'ctagstype': 'scss','kinds': ['c:classes', 's:selectors', 'i:identities'] }
-  let g:tagbar_type_scss = {'ctagstype': 'CSS','kinds': ['c:classes', 's:selectors', 'i:identities'] }
+let g:tagbar_type_css = {'ctagstype': 'CSS','kinds': ['c:classes', 's:selectors', 'i:identities'] }
+" let g:tagbar_type_scss = {'ctagstype': 'scss','kinds': ['c:classes', 's:selectors', 'i:identities'] }
+let g:tagbar_type_scss = {'ctagstype': 'CSS','kinds': ['c:classes', 's:selectors', 'i:identities'] }
 
-  """"""""""""""""""""""""""""""
-  " => projtags.vim
-  """"""""""""""""""""""""""""""
-  if has("win32")
-   " doesn't seem to work
+""""""""""""""""""""""""""""""
+" => projtags.vim
+""""""""""""""""""""""""""""""
+if has("win32")
+    " doesn't seem to work
     let g:ProjTags = [["C:\Dev\Projects", "c:\dev\tags_psdk2003", "c:\dev\projects\integrator\tags"]]
     set tags=./tags,tags,c:\Dev\Projects\Integrator\tags,c:\Dev\tags_psdk2003    " used by CTRL-] together with ctags
-  else
+else
     let g:ProjTags = [["~/Documents/Projects/Acculogic/Integrator", "~/Documents/Projects/Acculogic/Integrator/.tmtags"]]
     let g:ProjTags += [["~/Sites/talentrun/talentrun", "~/Sites/talentrun/talentrun/.tmtags"]]
     let g:ProjTags += [["~/Sites/Studiblock/Frameworks/cake", "~/Sites/Studiblock/Frameworks/cake/.tmtags"]]
-  endif
+endif
 
 
-  """"""""""""""""""""""""""""""
-  " => fugitive.vim
-  """"""""""""""""""""""""""""""
-  nmap <Leader>va :Gwrite<cr>
-  nmap <Leader>vc :Gcommit<cr>
-  nmap <Leader>vr :Gread<cr>
-  nmap <Leader>vs :Gstatus<cr>
-  nmap <Leader>vd :Gdiff<cr>
+""""""""""""""""""""""""""""""
+" => fugitive.vim
+""""""""""""""""""""""""""""""
+nmap <Leader>va :Gwrite<cr>
+nmap <Leader>vc :Gcommit<cr>
+nmap <Leader>vr :Gread<cr>
+nmap <Leader>vs :Gstatus<cr>
+nmap <Leader>vd :Gdiff<cr>
 
-  autocmd QuickFixCmdPost *grep* cwindow
+autocmd QuickFixCmdPost *grep* cwindow
 
-  let g:gitgutter_enabled = 0
-
-
-  """"""""""""""""""""""""""""""
-  " => NERD_tree.vim
-  """"""""""""""""""""""""""""""
-  "noremap <C-E><C-E> :NERDTreeToggle<CR>
-  nmap <silent> <F3> :execute 'NERDTreeToggle ' . fnameescape(getcwd())<CR>
-  let g:NERDTreeHijackNetrw = 0
-
-  """"""""""""""""""""""""""""""
-  " => winmanager.vim
-  """"""""""""""""""""""""""""""
-  "noremap <silent><F3> :WMToggle<CR>
+let g:gitgutter_enabled = 0
 
 
-  """"""""""""""""""""""""""""""
-  " => imaps.vim
-  """"""""""""""""""""""""""""""
-   nmap <C-I><C-I> <Plug>IMAP_JumpForward
+""""""""""""""""""""""""""""""
+" => NERD_tree.vim
+""""""""""""""""""""""""""""""
+"noremap <C-E><C-E> :NERDTreeToggle<CR>
+nmap <silent><F3> :NERDTreeToggle<cr>
+imap <silent><F3> <C-O>:NERDTreeToggle<cr>
+nmap <silent> \\ :execute 'NERDTreeToggle ' . fnameescape(getcwd())<CR>
+nmap <silent> <leader>nf :NERDTreeFind<CR>
+let g:NERDTreeHijackNetrw = 0
 
-  """"""""""""""""""""""""""""""
-  " => supertab.vim
-  """"""""""""""""""""""""""""""
-  "let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
-
-  """"""""""""""""""""""""""""""
-  " => ctrlp.vim
-  """"""""""""""""""""""""""""""
-  " {{{
-  noremap <silent> <M-t> :CtrlP<CR>
-  noremap <silent> <leader>t :CtrlP<CR>
-  nnoremap <silent> <leader>T :ClearCtrlPCache<cr>\|:CtrlP<cr>
-  noremap <silent> <leader>tb :CtrlPBuffer<CR>
-  noremap <silent> <leader>m :CtrlPMRU<CR>
-  nnoremap <silent> sz :CtrlPZ<Cr>
-  nnoremap <silent> sf :CtrlPF<Cr>
-  let g:ctrlp_z_nerdtree = 1
-  let g:ctrlp_extensions = ['Z', 'F']
-  let g:ctrlp_by_filename = 0
-  let g:ctrlp_working_path_mode = 0
-
-  let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\v[\/](\.git|\.hg|\.svn|\.yardoc|output_.*py$|public|images|public\/system|public\/images|data|log|tmp|vendor\/bundle|bin|gen|target|node_modules)',
-        \ 'file': '\v\.(exe|so|dat|gem|class|dex)',
-        \ }
-        " \ 'link': 'some_bad_symbolic_links'
-  " }}}
+""""""""""""""""""""""""""""""
+" => winmanager.vim
+""""""""""""""""""""""""""""""
+"noremap <silent><F3> :WMToggle<CR>
 
 
-  """"""""""""""""""""""""""""""
-  " => marks_corey.vim
-  """"""""""""""""""""""""""""""
-  nmap <Leader>md <Plug>Remove_all_signs
-  nmap <Leader>mm <Plug>Place_sign
-  nmap <Leader>mn <Plug>Goto_next_sign
-  nmap <Leader>mp <Plug>Goto_prev_sign
-  nmap <Leader>m. <Plug>Move_sign
+""""""""""""""""""""""""""""""
+" => imaps.vim
+""""""""""""""""""""""""""""""
+nmap <C-I><C-I> <Plug>IMAP_JumpForward
 
-  """"""""""""""""""""""""""""""
-  " => gist.vim
-  """"""""""""""""""""""""""""""
-  if has("macunix")
+""""""""""""""""""""""""""""""
+" => supertab.vim
+""""""""""""""""""""""""""""""
+"let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
+
+""""""""""""""""""""""""""""""
+" => ctrlp.vim
+""""""""""""""""""""""""""""""
+" {{{
+let g:fzf_command_prefix = 'Fzf'
+let g:fzf_layout = { 'down': '~30%' }
+" This is the default extra key bindings
+let g:fzf_action = {
+            \ 'ctrl-t': 'tab split',
+            \ 'ctrl-x': 'split',
+            \ 'ctrl-v': 'vsplit' }
+
+noremap <f8> :FzfAg<CR>
+noremap <silent> <leader>/ :FzfAg<CR>
+noremap <silent> <leader>t :FzfFiles<CR>
+noremap <silent> <leader>pf :FzfFiles<CR>
+noremap <silent> <leader>fr :FZFMru<CR>
+noremap <silent> <leader>bs :FzfBuffers<CR>
+noremap <silent> <leader>tS :FzfColors<CR>
+noremap <silent> <leader>gs :Gstatus<CR>
+
+
+" noremap <silent> <M-t> :CtrlP<CR>
+" noremap <silent> <leader>t :CtrlP<CR>
+" nnoremap <silent> <leader>T :ClearCtrlPCache<cr>\|:CtrlP<cr>
+" noremap <silent> <leader>tb :CtrlPBuffer<CR>
+" noremap <silent> <leader>m :CtrlPMRU<CR>
+" nnoremap <silent> sz :CtrlPZ<Cr>
+" nnoremap <silent> sf :CtrlPF<Cr>
+" let g:ctrlp_z_nerdtree = 1
+" let g:ctrlp_extensions = ['Z', 'F']
+" let g:ctrlp_by_filename = 0
+" let g:ctrlp_working_path_mode = 0
+
+" let g:ctrlp_custom_ignore = {
+"       \ 'dir':  '\v[\/](\.git|\.hg|\.svn|\.yardoc|output_.*py$|public|images|public\/system|public\/images|data|log|tmp|vendor\/bundle|bin|gen|target|node_modules)',
+"       \ 'file': '\v\.(exe|so|dat|gem|class|dex)',
+"       \ }
+" \ 'link': 'some_bad_symbolic_links'
+" }}}
+
+
+""""""""""""""""""""""""""""""
+" => marks_corey.vim
+""""""""""""""""""""""""""""""
+nmap <Leader>md <Plug>Remove_all_signs
+nmap <Leader>mm <Plug>Place_sign
+nmap <Leader>mn <Plug>Goto_next_sign
+nmap <Leader>mp <Plug>Goto_prev_sign
+nmap <Leader>m. <Plug>Move_sign
+
+""""""""""""""""""""""""""""""
+" => gist.vim
+""""""""""""""""""""""""""""""
+if has("macunix")
     let g:gist_clip_command = 'pbcopy'
     let g:ycm_path_to_python_interpreter = '/usr/bin/python'
-  elseif has("unix")
+elseif has("unix")
     let g:gist_clip_command = 'xclip -selection clipboard'
-  endif
+endif
 
-  """"""""""""""""""""""""""""""
-  " => bufexplorer.vim
-  """"""""""""""""""""""""""""""
-  "let g:bufExplorerSplitHorzSize = 15
-  let g:bufExplorerDefaultHelp = 0
-  let g:bufExplorerShowRelativePath = 1
+""""""""""""""""""""""""""""""
+" => bufexplorer.vim
+""""""""""""""""""""""""""""""
+"let g:bufExplorerSplitHorzSize = 15
+let g:bufExplorerDefaultHelp = 0
+let g:bufExplorerShowRelativePath = 1
 
-  """"""""""""""""""""""""""""""
-  " => lineup.vim
-  """"""""""""""""""""""""""""""
-  " might as well use alignmaps but thats a bit overkill
-  vnoremap <Leader>t= :Lineup=<CR>
-  vnoremap <Leader>t/ :Lineup/<CR>
+""""""""""""""""""""""""""""""
+" => lineup.vim
+""""""""""""""""""""""""""""""
+" might as well use alignmaps but thats a bit overkill
+vnoremap <Leader>t= :Lineup=<CR>
+vnoremap <Leader>t/ :Lineup/<CR>
 
-  """"""""""""""""""""""""""""""
-  " => xml.vim
-  """"""""""""""""""""""""""""""
-  let xml_tag_completion_map = "<C-l>"
+""""""""""""""""""""""""""""""
+" => xml.vim
+""""""""""""""""""""""""""""""
+let xml_tag_completion_map = "<C-l>"
 
-  """"""""""""""""""""""""""""""
-  " => vim-javascript.vim
-  """"""""""""""""""""""""""""""
-  let g:html_indent_inctags = "html,body,head,tbody"
-  let g:html_indent_script1 = "inc"
-  let g:html_indent_style1 = "inc"
-
-
-  """"""""""""""""""""""""""""""
-  " => eclim.vim
-  """"""""""""""""""""""""""""""
-  let g:syntastic_java_javac_classpath="/opt/android-sdk/platforms/android-16/android.jar"
-  "use default Taglist instead of Eclim, avoid problem
-  let g:EclimTaglistEnabled=0
-  ""if the current file is in a Eclipse project, open project tree automatically
-  let g:EclimProjectTreeAutoOpen=0
-  let g:EclimProjectTreeExpandPathOnOpen=1
-  let g:EclimProjectTreeSharedInstance=1  "share tree instance through all tabs
-  " use tabnew instead of split for new action
-  let g:EclimCompletionMethod = 'omnifunc'
-
-  """"""""""""""""""""""""""""""
-  " => javacomplete.vim
-  """"""""""""""""""""""""""""""
-  autocmd FileType java setlocal omnifunc=javacomplete#Complete
-  let g:java_classpath      = "/opt/android-sdk/platforms/android-16/android.jar"
+""""""""""""""""""""""""""""""
+" => vim-javascript.vim
+""""""""""""""""""""""""""""""
+let g:html_indent_inctags = "html,body,head,tbody"
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
 
 
-  """"""""""""""""""""""""""""""
-  " => jscomplete.vim
-  """"""""""""""""""""""""""""""
-  let g:jscomplete_use = ['dom', 'moz']
+""""""""""""""""""""""""""""""
+" => eclim.vim
+""""""""""""""""""""""""""""""
+let g:syntastic_java_javac_classpath="/opt/android-sdk/platforms/android-16/android.jar"
+"use default Taglist instead of Eclim, avoid problem
+let g:EclimTaglistEnabled=0
+""if the current file is in a Eclipse project, open project tree automatically
+let g:EclimProjectTreeAutoOpen=0
+let g:EclimProjectTreeExpandPathOnOpen=1
+let g:EclimProjectTreeSharedInstance=1  "share tree instance through all tabs
+" use tabnew instead of split for new action
+let g:EclimCompletionMethod = 'omnifunc'
+
+""""""""""""""""""""""""""""""
+" => javacomplete.vim
+""""""""""""""""""""""""""""""
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+let g:java_classpath      = "/opt/android-sdk/platforms/android-16/android.jar"
 
 
-  """"""""""""""""""""""""""""""
-  " => yankring.vim
-  """"""""""""""""""""""""""""""
-  map <leader>y :YRShow<cr>
+""""""""""""""""""""""""""""""
+" => jscomplete.vim
+""""""""""""""""""""""""""""""
+let g:jscomplete_use = ['dom', 'moz']
 
-  """"""""""""""""""""""""""""""
-  " => SingleCompile.vim
-  """"""""""""""""""""""""""""""
-  nnoremap <F9>  :SCCompile<cr>
-  nnoremap <F10> :SCCompileRun<cr>
-  inoremap <F9>  <c-o>:SCCompile<cr>
-  inoremap <F10> <c-o>:SCCompileRun<cr>
 
-  """"""""""""""""""""""""""""""
-  " => C/C++ Stuff
-  """"""""""""""""""""""""""""""
-  autocmd FileType c call <SID>CProgSettings()
-  function! s:CProgSettings()
+""""""""""""""""""""""""""""""
+" => yankring.vim
+""""""""""""""""""""""""""""""
+map <leader>y :YRShow<cr>
+
+""""""""""""""""""""""""""""""
+" => SingleCompile.vim
+""""""""""""""""""""""""""""""
+nnoremap <F9>  :SCCompile<cr>
+nnoremap <F10> :SCCompileRun<cr>
+inoremap <F9>  <c-o>:SCCompile<cr>
+inoremap <F10> <c-o>:SCCompileRun<cr>
+
+""""""""""""""""""""""""""""""
+" => C/C++ Stuff
+""""""""""""""""""""""""""""""
+autocmd FileType c call <SID>CProgSettings()
+function! s:CProgSettings()
     iabbrev stdio #include <stdio.h>
     iabbrev stdlib #include <stdlib.h>
     iabbrev main_ int main ()<CR>{<CR>return 0;<CR>}<ESC>2ka
@@ -945,164 +973,164 @@ map <leader>s? z=
     "      \ start='^{\ze\s*\%(\n}\@!\%(.*\)\@>\)*\n}\s*$'
     "      \ end='^}\s*$'
     "      \ fold transparent
-  endfunction
-  " for some reason this must be outside of CProgSettings()
+endfunction
+" for some reason this must be outside of CProgSettings()
 
- " some C++ shortcuts
-  autocmd FileType cpp call <SID>CppProgSettings()
-  function! s:CppProgSettings()
+" some C++ shortcuts
+autocmd FileType cpp call <SID>CppProgSettings()
+function! s:CppProgSettings()
     "set makeprg=g++\ -ansi\ -pedantic\ -Wall\ -g\ %
     call <SID>CProgSettings()
-  endfunction
+endfunction
 
-  """"""""""""""""""""""""""""""
-  " => session.vim
-  """"""""""""""""""""""""""""""
-  let g:session_autosave = 1
-  " let g:session_default_to_last = 1
-  " let g:session_autoload = 1
-
-
-  """"""""""""""""""""""""""""""
-  " => dbext.vim
-  """"""""""""""""""""""""""""""
-  let g:debext_default_type = 'MYSQL'
-  let g:dbext_default_profile_local_mysql = 'type=MYSQL:user=root:dbname=mysql=-t'
-  let g:dbext_default_MYSQL_bin = 'mysql'
-
-  """"""""""""""""""""""""""""""
-  " => jedi.vim
-  """"""""""""""""""""""""""""""
-  let g:jedi#use_tabs_not_buffers = 0
-  let g:jedi#popup_on_dot = 0
-
-  """"""""""""""""""""""""""""""
-  " => javascript_libraries.vim
-  """"""""""""""""""""""""""""""
-  let g:used_javascript_libs = 'underscore,backbone,jquery'
-  
-
-  """"""""""""""""""""""""""""""
-  " => vimux.vim
-  """"""""""""""""""""""""""""""
-  map <leader><space> :call VimuxRunLastCommand()<cr>
-  " Prompt for a command to run
-  map <Leader>rp :VimuxPromptCommand<CR>
-  " Inspect runner pane
-  map <Leader>ri :VimuxInspectRunner<CR>
-  " Close all other tmux panes in current window
-  map <Leader>rx :VimuxClosePanes<CR>
-  " Close vim tmux runner opened by VimuxRunCommand
-  map <Leader>rq :VimuxCloseRunner<CR>
-  " Interrupt any command running in the runner pane
-  map <Leader>rs :VimuxInterruptRunner<CR>
-  " If text is selected, save it in the v buffer and send that buffer it to tmux
-  vmap <Leader>rv "vy :call VimuxRunCommand(@v . "\n", 0)<CR>
-  " Run the current file with rspec
-  map <Leader>rb :call VimuxRunCommand("clear; rspec " . bufname("%"))<CR>
+""""""""""""""""""""""""""""""
+" => session.vim
+""""""""""""""""""""""""""""""
+let g:session_autosave = 1
+" let g:session_default_to_last = 1
+" let g:session_autoload = 1
 
 
+""""""""""""""""""""""""""""""
+" => dbext.vim
+""""""""""""""""""""""""""""""
+let g:debext_default_type = 'MYSQL'
+let g:dbext_default_profile_local_mysql = 'type=MYSQL:user=root:dbname=mysql=-t'
+let g:dbext_default_MYSQL_bin = 'mysql'
+
+""""""""""""""""""""""""""""""
+" => jedi.vim
+""""""""""""""""""""""""""""""
+let g:jedi#use_tabs_not_buffers = 0
+let g:jedi#popup_on_dot = 0
+
+""""""""""""""""""""""""""""""
+" => javascript_libraries.vim
+""""""""""""""""""""""""""""""
+let g:used_javascript_libs = 'underscore,backbone,jquery'
+
+
+""""""""""""""""""""""""""""""
+" => vimux.vim
+""""""""""""""""""""""""""""""
+map <leader><space> :call VimuxRunLastCommand()<cr>
+" Prompt for a command to run
+map <Leader>rp :VimuxPromptCommand<CR>
+" Inspect runner pane
+map <Leader>ri :VimuxInspectRunner<CR>
+" Close all other tmux panes in current window
+map <Leader>rx :VimuxClosePanes<CR>
+" Close vim tmux runner opened by VimuxRunCommand
+map <Leader>rq :VimuxCloseRunner<CR>
+" Interrupt any command running in the runner pane
+map <Leader>rs :VimuxInterruptRunner<CR>
+" If text is selected, save it in the v buffer and send that buffer it to tmux
+vmap <Leader>rv "vy :call VimuxRunCommand(@v . "\n", 0)<CR>
+" Run the current file with rspec
+map <Leader>rb :call VimuxRunCommand("clear; rspec " . bufname("%"))<CR>
 
 
 
-  """"""""""""""""""""""""""""""
-  " => Others
-  """"""""""""""""""""""""""""""
-  " a.vim          - alternate files fast (.c -> .h)
-  " supertab.vim   - map <Tab> to SuperTab() function
-  " calendar.vim   - folder to store diary
-  let g:calendar_diary = $VIMDATA.'/diary'
-  " mru.vim        - file to save mru entries
-  let MRU_File = $VIMDATA.'/_vim_mru_files'
-  let MRU_Max_Entries = 20
-  " favmenu.vim    - file to save favorite items
-  let FAV_File = $VIMDATA.'/_vim_fav_files'
-  " doxygentoolkit.vim - map :Dox
-  map <leader>d :Dox<cr>
-  " doxygen.vim    - load doxygen syntax for c/cpp/idl
-  "let load_doxygen_syntax = 1
-  map <C-F11> :!/usr/bin/ctags -f tags -R --c++-kinds=+p --fields=+iaS --extra=+q .<cr>
-  map <C-F12> :%!astyle -t -b -S -w -M -p -U<cr>
+
+
+""""""""""""""""""""""""""""""
+" => Others
+""""""""""""""""""""""""""""""
+" a.vim          - alternate files fast (.c -> .h)
+" supertab.vim   - map <Tab> to SuperTab() function
+" calendar.vim   - folder to store diary
+let g:calendar_diary = $VIMDATA.'/diary'
+" mru.vim        - file to save mru entries
+let MRU_File = $VIMDATA.'/_vim_mru_files'
+let MRU_Max_Entries = 20
+" favmenu.vim    - file to save favorite items
+let FAV_File = $VIMDATA.'/_vim_fav_files'
+" doxygentoolkit.vim - map :Dox
+map <leader>d :Dox<cr>
+" doxygen.vim    - load doxygen syntax for c/cpp/idl
+"let load_doxygen_syntax = 1
+map <C-F11> :!/usr/bin/ctags -f tags -R --c++-kinds=+p --fields=+iaS --extra=+q .<cr>
+map <C-F12> :%!astyle -t -b -S -w -M -p -U<cr>
 
 
 
-  """"""""""""""""""""""""""""""
-  " => UltiSnips
-  """"""""""""""""""""""""""""""
-  " {{{
-  " let g:UltiSnipsSnippetDirectories = [hostname() == 'osse-vb' && hostname() == 'ow-linux' ?
-  "       \ "work_snippets" : "osse_snippets", "UltiSnips"]
-  "" YouCompleteMe
-  let g:ycm_key_list_previous_completion=['<Up>']
-  let g:ycm_key_list_select_completion=['<Down>']
-  let g:ycm_filetype_specific_completion_to_disable = {
-        \ 'ruby' : 1,
-        \ 'objc' : 1,
-        \}
+""""""""""""""""""""""""""""""
+" => UltiSnips
+""""""""""""""""""""""""""""""
+" {{{
+" let g:UltiSnipsSnippetDirectories = [hostname() == 'osse-vb' && hostname() == 'ow-linux' ?
+"       \ "work_snippets" : "osse_snippets", "UltiSnips"]
+"" YouCompleteMe
+let g:ycm_key_list_previous_completion=['<Up>']
+let g:ycm_key_list_select_completion=['<Down>']
+let g:ycm_filetype_specific_completion_to_disable = {
+            \ 'ruby' : 1,
+            \ 'objc' : 1,
+            \}
 
-  let g:UltiSnipsDontReverseSearchPath = "1"
-  let g:UltiSnipsExpandTrigger         = "<Tab>"
-  let g:UltiSnipsJumpForwardTrigger    = "<Tab>"
-  let g:UltiSnipsJumpBackwardTrigger   = "<S-tab>"
-  let g:UltiSnipsListSnippets          = "<leader>ls"
-  " }}}
-
-
-  """"""""""""""""""""""""""""""
-  " => latex
-  """"""""""""""""""""""""""""""
-  " {{{
-  let g:tex_fold_enabled = 1
-  let g:tex_flavor = "latex"
-  let g:tex_conceal = 'sgdm'
-  let g:tex_comment_nospell = 1
-  " }}}
-
-  """"""""""""""""""""""""""""""
-  " => omnisharp
-  """"""""""""""""""""""""""""""
-  let g:Omnisharp_stop_server = 0
-  let g:Omnisharp_start_server = 1
-
-  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-  " clang_complete: {{{
-  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-  " map omni complete to ctrl-f
-  inoremap <C-F> <C-X><C-O>
-  " map custom completion to ctrl-j
-  inoremap <C-J> <C-X><C-U>
-  let g:clang_complete_copen = 0
-  let g:clang_complete_auto = 0
-  let g:clang_snippets = 1
-  let g:clang_snippets_engine = 'ultisnips'
-  let g:clang_use_library = 1
-  " }}}
+let g:UltiSnipsDontReverseSearchPath = "1"
+let g:UltiSnipsExpandTrigger         = "<Tab>"
+let g:UltiSnipsJumpForwardTrigger    = "<Tab>"
+let g:UltiSnipsJumpBackwardTrigger   = "<S-tab>"
+let g:UltiSnipsListSnippets          = "<leader>ls"
+" }}}
 
 
-  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-  " => dwm {{{
-  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-  " smart way to switch between windows
-  let g:dwm_map_keys = 0
+""""""""""""""""""""""""""""""
+" => latex
+""""""""""""""""""""""""""""""
+" {{{
+let g:tex_fold_enabled = 1
+let g:tex_flavor = "latex"
+let g:tex_conceal = 'sgdm'
+let g:tex_comment_nospell = 1
+" }}}
 
-  map <C-j> <C-W>j
-  map <C-k> <C-W>k
-  map <C-h> <C-W>h
-  map <C-l> <C-W>l
-  nmap <C-,> <Plug>DWMRotateCounterclockwise
-  nmap <C-N> <Plug>DWMNew
-  nmap <C-C> <Plug>DWMClose
-  nmap <C-_> <Plug>DWMShrinkMaster
-  nmap <C-+> <Plug>DWMGrowMaster
+""""""""""""""""""""""""""""""
+" => omnisharp
+""""""""""""""""""""""""""""""
+let g:Omnisharp_stop_server = 0
+let g:Omnisharp_start_server = 1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" clang_complete: {{{
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" map omni complete to ctrl-f
+inoremap <C-F> <C-X><C-O>
+" map custom completion to ctrl-j
+inoremap <C-J> <C-X><C-U>
+let g:clang_complete_copen = 0
+let g:clang_complete_auto = 0
+let g:clang_snippets = 1
+let g:clang_snippets_engine = 'ultisnips'
+let g:clang_use_library = 1
+" }}}
 
 
-  " inoremap <C-L> <C-P>
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => dwm {{{
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" smart way to switch between windows
+let g:dwm_map_keys = 0
+
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+nmap <C-,> <Plug>DWMRotateCounterclockwise
+nmap <C-N> <Plug>DWMNew
+nmap <C-C> <Plug>DWMClose
+nmap <C-_> <Plug>DWMShrinkMaster
+nmap <C-+> <Plug>DWMGrowMaster
+
+
+" inoremap <C-L> <C-P>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Cope: {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap + :cn<cr>
-nmap - :cp<cr>
+" nmap - :cp<cr>
 nmap g+ :cnf<cr>
 nmap g- :cpf<cr>
 com! Cclear :cex[]
@@ -1181,16 +1209,16 @@ augroup development
 augroup END
 
 augroup TEXT
-  " Allows to read PDF files with VIM by piping them through pdftotext
-  autocmd BufReadPre *.pdf set ro
-  autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk "%" - |fmt -csw78
+    " Allows to read PDF files with VIM by piping them through pdftotext
+    autocmd BufReadPre *.pdf set ro
+    autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk "%" - |fmt -csw78
 
-  " Same for word files with antiword
-  autocmd BufReadPre *.doc set ro
-  autocmd BufReadPost *.doc %!antiword "%"
+    " Same for word files with antiword
+    autocmd BufReadPre *.doc set ro
+    autocmd BufReadPost *.doc %!antiword "%"
 
-  autocmd BufReadPre *.docx set ro
-  autocmd BufReadPost *.docx %!antiword-xp "%"
+    autocmd BufReadPre *.docx set ro
+    autocmd BufReadPost *.docx %!antiword-xp "%"
 augroup END
 
 " this allows us to write to files even when we
@@ -1210,40 +1238,40 @@ imap <c--> <esc>gUiw`]a
 imap <c-_> <esc>gUiw`]a
 
 if has('gui_macvim')
-  " ---------------------------
-  " Some Window Settings
-  " ---------------------------
-  map <D-left> <c-W><left>
-  map <D-up> <c-W><up>
-  map <D-down> <c-W><down>
-  map <D-right> <c-W><right>
-  map <D-=> <c-W>+
-  map <D--> <c-W>-
-  map <D-S-w> <c-W>c
+    " ---------------------------
+    " Some Window Settings
+    " ---------------------------
+    map <D-left> <c-W><left>
+    map <D-up> <c-W><up>
+    map <D-down> <c-W><down>
+    map <D-right> <c-W><right>
+    map <D-=> <c-W>+
+    map <D--> <c-W>-
+    map <D-S-w> <c-W>c
 
-  " ---------------------------------
-  " mimic some of textmates behavior
-  " ---------------------------------
-  " command enter
-  imap <D-cr> <c-o>o
-  " command shift enter
-  imap <D-S-cr> <c-o>o
-  imap <D-A-cr> <c-o>o
-  autocmd FileType c,cpp,objc,objcpp,php imap <D-S-cr> <ESC>A;<ESC>o
-  autocmd FileType c,cpp,objc,objcpp,php imap <D-A-cr> <ESC>A;<ESC>
-  let g:hlrainbow = "[]"
-  " autocmd set tabstop=2 shiftwidth=2
-  imap <D-]> <C-T>
-  imap <D-#> <C-T>
-  imap <D-[> <C-D>
-  imap <D-!> <C-D>
-  " show files
-  nmap <D-t> :e **/
+    " ---------------------------------
+    " mimic some of textmates behavior
+    " ---------------------------------
+    " command enter
+    imap <D-cr> <c-o>o
+    " command shift enter
+    imap <D-S-cr> <c-o>o
+    imap <D-A-cr> <c-o>o
+    autocmd FileType c,cpp,objc,objcpp,php imap <D-S-cr> <ESC>A;<ESC>o
+    autocmd FileType c,cpp,objc,objcpp,php imap <D-A-cr> <ESC>A;<ESC>
+    let g:hlrainbow = "[]"
+    " autocmd set tabstop=2 shiftwidth=2
+    imap <D-]> <C-T>
+    imap <D-#> <C-T>
+    imap <D-[> <C-D>
+    imap <D-!> <C-D>
+    " show files
+    nmap <D-t> :e **/
 else
-  map <M-left> <c-W><left>
-  map <M-up> <c-W><up>
-  map <M-down> <c-W><down>
-  map <M-right> <c-W><right>
+    map <M-left> <c-W><left>
+    map <M-up> <c-W><up>
+    map <M-down> <c-W><down>
+    map <M-right> <c-W><right>
 endif
 
 " toggle folds with space
@@ -1282,24 +1310,24 @@ map <F2> :%s/\s*$//g<cr>:noh<cr>''
 
 
 function! ToggleSuperpaste()
-  if exists("g:superpaste_on")
-    unlet g:superpaste_on
-    iunmap <C-V>
-    vunmap <C-C>
-  else
-    let g:superpaste_on = 1
-    " super paste
-    inoremap <C-V> <esc>:set paste<cr>mua<C-R>+<esc>mv'uV'v=:set nopaste<cr>
-    " copy into clipboard
-    vnoremap <C-C> "+y
-  endif
+    if exists("g:superpaste_on")
+        unlet g:superpaste_on
+        iunmap <C-V>
+        vunmap <C-C>
+    else
+        let g:superpaste_on = 1
+        " super paste
+        inoremap <C-V> <esc>:set paste<cr>mua<C-R>+<esc>mv'uV'v=:set nopaste<cr>
+        " copy into clipboard
+        vnoremap <C-C> "+y
+    endif
 endfunction
 
 call ToggleSuperpaste()
 
 " select range, hit :call SuperRetab($width) - by p0g and FallingCow
 fu! SuperRetab(width) range
-  sil! exe a:firstline.','.a:lastline.'s/\v%(^ *)@<= {'. a:width .'}/\t/g'
+    sil! exe a:firstline.','.a:lastline.'s/\v%(^ *)@<= {'. a:width .'}/\t/g'
 endf
 
 " inserts links & anchors on a TOhtml export.
@@ -1307,17 +1335,17 @@ endf
 "   *> Link
 "   => Anchor
 fu! SmartTOhtml()
-  let g:html_use_encoding = toupper(&fileencoding)
-  let g:html_use_css = 1
-  TOhtml
-  try
-    %s/&quot;\s\+\*&gt; \(.\+\)</" <a href="#\1" style="color: cyan">\1<\/a></g
-    %s/&quot;\(-\|\s\)\+\*&gt; \(.\+\)</" \&nbsp;\&nbsp; <a href="#\2" style="color: cyan;">\2<\/a></g
-    %s/&quot;\s\+=&gt; \(.\+\)</" <a name="\1" style="color: #fff">\1<\/a></g
-  catch
-  endtry
-  exe ":w!"
-  exe ":bd"
+    let g:html_use_encoding = toupper(&fileencoding)
+    let g:html_use_css = 1
+    TOhtml
+    try
+        %s/&quot;\s\+\*&gt; \(.\+\)</" <a href="#\1" style="color: cyan">\1<\/a></g
+        %s/&quot;\(-\|\s\)\+\*&gt; \(.\+\)</" \&nbsp;\&nbsp; <a href="#\2" style="color: cyan;">\2<\/a></g
+        %s/&quot;\s\+=&gt; \(.\+\)</" <a name="\1" style="color: #fff">\1<\/a></g
+    catch
+    endtry
+    exe ":w!"
+    exe ":bd"
 endf
 
 " ------------------------
@@ -1325,30 +1353,34 @@ endf
 " -----------------------
 
 "function! CHANGE_CURR_DIR()
-    "let _dir = expand("%:p:h")
-    "if _dir !~ '^/tmp'
-      "exec "cd %:p:h"
-    "endif
-    "unlet _dir
+"let _dir = expand("%:p:h")
+"if _dir !~ '^/tmp'
+"exec "cd %:p:h"
+"endif
+"unlet _dir
 "endfunction
 
 "autocmd BufEnter * call CHANGE_CURR_DIR()
 
 
 if has("win32")
-  " windows ddk, driver develop kit
-  set makeprg=for\ \%c\ in\ (\"pushd\ .\"\ \"setenv\ D:\\foo\\WINDDK\\2600\ chk\"\ \"popd\"\ \"build\ -cZ\"\ \"copy\ i386\\ds30xx.sys\ e:\\work\\X\\i386\")\ do\ call\ \%~c
+    " windows ddk, driver develop kit
+    set makeprg=for\ \%c\ in\ (\"pushd\ .\"\ \"setenv\ D:\\foo\\WINDDK\\2600\ chk\"\ \"popd\"\ \"build\ -cZ\"\ \"copy\ i386\\ds30xx.sys\ e:\\work\\X\\i386\")\ do\ call\ \%~c
 endif
 
 
 let g:rg_command = '
-  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
-  \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
-  \ -g "!{.git,node_modules,vendor}/*" '
+            \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
+            \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
+            \ -g "!{.git,node_modules,vendor}/*" '
 
 command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
 
+autocmd BufEnter PKGBUILD,.env
+            \   let b:ale_sh_shellcheck_exclusions = 'SC2034,SC2154,SC2164'
+
 set packpath+=~/.vim/pack
+packadd vim-polyglot
 "if filereadable($VIMDATA."/session.vim")
 "  au VimEnter * so $VIMDATA/session.vim
 "endif
