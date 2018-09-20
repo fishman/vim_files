@@ -211,3 +211,6 @@
 [submodule "pack/plugins/opt/vim-go"]
 	path = pack/plugins/opt/vim-go
 	url = git://github.com/fatih/vim-go.git
+[submodule "pack/plugins/opt/vim-LanguageTool"]
+	path = pack/plugins/opt/vim-LanguageTool
+	url = git://github.com/dpelle/vim-LanguageTool.git
