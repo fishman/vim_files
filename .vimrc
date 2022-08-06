@@ -1,64 +1,4 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"   \\|//    _    _  ___  ______
-"    o o      \  /   /   /  /  /
-"     U        \/ __/_ _/ _/ _/_
-" by Leal - http://www.leal.cn/
-"
-
-" Description: vimrc with dozens of scripts, for linux/windows
-" Derive From: Leal <linxiao.li AT gmail DOT com>
-"              Amix - http://www.amix.dk/vim/vimrc.html
-"              MetaCosm - http://vi-improved.org/vimrc.php
-"              Sidney - http://www.afn.org/~afn39695/sidney.htm
-" Last Change:
-" Maintainer:  Reza Jelveh
-" SVN Repo:
-" Version:
-"
-" Section:
-" ------------------------------------------------------------------
-"   *> General
-"   *> Colors and fonts
-"   *> Visual cues
-"   *> Visual search
-"   *> Moving around and tabs
-"   *> Parenthesis/bracket expanding
-"   *> General abbrevs
-"   *> Editing mappings etc.
-"   *> Cmdline settings
-"   *> Buffer related
-"   *> Search related
-"   *> Files and backups
-"   *> Text options
-"   *> Spell checking
-"   *> Plugin settings
-"   ------ *> grep.vim
-"   ------ *> a.vim
-"   ------ *> crefvim.vim
-"   ------ *> largefile.vim
-"   ------ *> tagbar.vim
-"   ------ *> project.vim
-"   ------ *> projtags.vim
-"   ------ *> fugitive.vim
-"   ------ *> NERD_tree.vim
-"   ------ *> winmanager.vim
-"   ------ *> session.vim
-"   ------ *> dbext.vim
-"   ------ *> supertab.vim
-"   ------ *> marks_corey.vim
-"   ------ *> bufexplorer.vim
-"   ------ *> lineup.vim
-"   ------ *> xml.vim
-"   ------ *> yankring.vim
-"   ------ *> SingleCompile.vim
-"   ------ *> C/C++ stuff
-"   ------ *> clang_complete
-"   ------ *> jedi.vim
-"   ------ *> vimux.vim
-"   ------ *> Others
-"   *> Cope
-"   *> Misc
-"
 " Usage:
 "   1. Create necessary folders and files.
 "      $VIMDATA      x:\vim\vimdata on windows, ~/.vim/vimdata on linux
@@ -69,15 +9,6 @@
 "       |     `-- GetLatestVimScripts.dat
 "       |-- _vim_fav_files       file to store favmenu.vim's items
 "       `-- _vim_mru_files       file to store mru.vim's items
-"
-"   2. Get your favorite scripts on www.vim.org thru getscript.vim.
-"
-"   3. Get necessary utilities, especially on windows, such as:
-"      wget  - http://users.ugent.be/~bpuype/wget/
-"      ctags - http://ctags.sf.net/
-"
-"   4. If you find anything that you couldn't understand, do this:
-"      :h keyword OR :helpgrep keyword OR press K (<S-k>) over it.
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -125,6 +56,7 @@ endif
 map <leader>e :e! $MYVIMRC<cr>
 map <silent> <leader>fed :e $MYVIMRC<cr>
 au! BufWritePost [\._]vimrc source $MYVIMRC
+au! BufWritePost init.vim source $MYVIMRC
 
 set pastetoggle=<F6>    " when pasting something in, don't indent
 set rtp+=$VIMDATA       " add this to rtp to satisfy getscript.vim
@@ -137,16 +69,543 @@ nmap <leader>fu :se ff=unix<cr>
 " }}}1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Text Options: {{{1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set expandtab
+" set smarttab            " use tabs at start of a line, spaces elsewhere
+set fo=tcrqnmM		      " see help formatoptions (complex)
+set linebreak           " wrap long lines at a character in 'breakat'
+set textwidth=500       " maximum width of text that is being inserted
+" set ts=2 sts=2 sw=2
+au FileType mail setl textwidth=78
+set ai                  " autoindent
+set si                  " smartindent
+" set copyindent
+set wrap                " wrap lines
+
+map <leader>t2 :set shiftwidth=2<cr>
+map <leader>t8 :set shiftwidth=8<cr>
+
+"noremap <leader>; :make<CR>
+" Map ; to "add ; to the end of the line, when missing"
+noremap <leader>; :s/\([^;]\)$/\1;/<cr>:let @/=""<cr><esc>
+
+" }}}1
+
+let g:python_host_skip_check = 1
+let g:python3_host_skip_check = 1
+let g:python_host_prog = '~/.asdf/shims/python'
+let g:python3_host_prog = '~/.asdf/shims/python3'
+
+if has('conceal')
+    set conceallevel=2 concealcursor=niv
+endif
+
+let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
+
+  " \   'python': [
+  " \       'remove_trailing_lines',
+  " \       'trim_whitespace',
+  " \       'autopep8',
+  " \       'black',
+  " \       'isort',
+  " \       'add_blank_lines_for_python_control_statements',
+  " \   ],
+
+let g:ale_fixers = {
+  \   'python': [
+  \       'remove_trailing_lines',
+  \       'trim_whitespace',
+  \       'autopep8',
+  \       'black',
+  \       'isort',
+  \       'add_blank_lines_for_python_control_statements',
+  \   ],  
+  \   'go': [
+  \       'remove_trailing_lines',
+  \       'trim_whitespace',
+  \       'gofmt',
+  \       'goimports',
+  \   ],
+  \   'json': [
+  \       'prettier',
+  \   ],
+  \   'cpp': [
+  \       'clang-format',
+  \   ],
+  \   'c': [
+  \       'clang-format',
+  \   ],
+  \   'terraform': [
+  \       'terraform',
+  \   ],
+  \   'hcl': [
+  \       'terraform',
+  \   ],
+  \   'typescript': [
+  \       'tslint',
+  \       'prettier',
+  \   ],
+  \   'yaml': [
+  \       'prettier',
+  \   ],
+  \}
+ " let g:ale_python_pylint_use_global = 1
+ " let g:ale_python_pyls_use_global = 1
+ " let g:ale_python_reorder_python_imports_use_global = 1
+ " let g:ale_python_autopep8_use_global = 1
+let g:ycm_semantic_triggers = { 'python' : [] }
+
+let g:ale_linters = {
+            \   'python': [
+            \   ],
+            \ }
+" let g:ale_linters = {
+"             \   'python': [
+"             \        'flake8',
+"             \        'pylint'
+"             \   ],
+"             \ }
+" \   'python': ['flake8', 'mypy', 'pylint'],
+ " let g:ale_python_auto_pipenv=1
+ let g:ale_yaml_yamllint_options = "-d relaxed"
+
+
+ " let g:ale_python_auto_pipenv = 1
+ " let pipenv_venv_path = system('pipenv --venv')
+ let g:ale_yaml_yamllint_options = "-c ~/.config/yamllint.yml"
+ " Plug 'vim-syntastic/syntastic'
+
+ " Plug 'wmvanvliet/jupyter-vim'
+ let g:ale_lint_on_text_changed = 'normal'
+ let g:ale_lint_on_insert_leave = 1
+ let g:pymode_lint = 0
+ let g:pymode_lint_on_write = 0
+ let g:pymode_lint_on_fly = 0
+ let g:pymode_virtualenv = 1
+ " let g:pymode_python = 'python3'
+ " let g:pymode_run = 1
+ " let g:pymode_run_bind = '<leader>r'
+ let test#strategy = "vimterminal"
+ " let test#strategy = "asyncrun"
+ let g:nv_search_paths = ['~/org']
+
+ let g:typescript_indent_disable = 1
+
+ nmap <silent> t<C-n> :TestNearest<CR>
+ nmap <silent> t<C-f> :TestFile<CR>
+ nmap <silent> t<C-s> :TestSuite<CR>
+ nmap <silent> t<C-l> :TestLast<CR>
+ nmap <silent> t<C-g> :TestVisit<CR> fs
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins: {{{1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+call plug#begin('~/.vim/plugged')
+" Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+
+ Plug 'scrooloose/nerdtree'
+
+ Plug 'andymass/vim-matchup'
+ Plug 'jmcantrell/vim-virtualenv'
+ Plug 'voldikss/vim-floaterm'
+ Plug 'vim-scripts/JavaDecompiler.vim'
+ Plug 'tpope/vim-obsession'
+ Plug 'christoomey/vim-tmux-navigator'
+ Plug 'roxma/vim-tmux-clipboard'
+ Plug 'tmux-plugins/vim-tmux-focus-events'
+ Plug 'vim-test/vim-test'
+ Plug 'udalov/kotlin-vim'
+ Plug 'vim-ruby/vim-ruby'
+ Plug 'tpope/vim-endwise'
+ Plug 'tpope/vim-rails'
+ Plug 'tpope/vim-repeat'
+ Plug 'tpope/vim-speeddating'
+ Plug 'tpope/vim-surround'
+ Plug 'tpope/vim-vinegar'
+ Plug 'tpope/vim-fugitive'
+ Plug 'akinsho/git-conflict.nvim'
+ Plug 'idanarye/vim-merginal'
+ Plug 'chriskempson/base16-vim'
+ Plug 'airblade/vim-gitgutter'
+ Plug 'skywind3000/asyncrun.vim'
+ Plug 'tpope/vim-dispatch'
+ Plug 'gregsexton/gitv'
+ Plug 'cespare/vim-toml'
+ Plug 'SirVer/ultisnips'
+ Plug 'honza/vim-snippets'
+
+ Plug 'majutsushi/tagbar'
+ Plug 'joshdick/onedark.vim'
+
+ Plug 'hashivim/vim-terraform'
+ Plug 'vim-scripts/LargeFile'
+ " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+ Plug 'junegunn/vim-easy-align'
+ " Plug 'StanAngeloff/php.vim'
+
+ " Any valid git URLllowed
+ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+ " Plugin outside ~/.vim/plugged with post-update hook
+ " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+ Plug 'rust-lang/rust.vim'
+ Plug 'Alok/notational-fzf-vim'
+ Plug 'junegunn/fzf'
+ Plug 'junegunn/fzf.vim'
+ Plug 'pbogut/fzf-mru.vim'
+ Plug 'morhetz/gruvbox'
+ Plug 'chrisbra/csv.vim'
+ Plug 'airblade/vim-gitgutter'
+ Plug 'towolf/vim-helm'
+ Plug 'ludovicchabant/vim-gutentags'
+ Plug 'juliosueiras/vim-terraform-completion'
+ let g:gutentags_enabled = 0
+ Plug 'elzr/vim-json'
+
+ if has('nvim')
+     Plug 'numToStr/Comment.nvim'
+     Plug 'neovim/nvim-lspconfig'
+     Plug 'hrsh7th/cmp-nvim-lsp'
+     Plug 'hrsh7th/cmp-buffer'
+     Plug 'hrsh7th/cmp-path'
+     Plug 'hrsh7th/cmp-cmdline'
+     Plug 'hrsh7th/nvim-cmp'
+     Plug 'onsails/lspkind-nvim'
+     " Plug 'L3MON4D3/LuaSnip'
+     " Plug 'saadparwaiz1/cmp_luasnip'
+
+     " For vsnip users.
+     Plug 'hrsh7th/cmp-vsnip'
+     Plug 'hrsh7th/vim-vsnip'
+
+     Plug 'williamboman/nvim-lsp-installer'
+     Plug 'nvim-lua/plenary.nvim'
+     Plug 'nvim-telescope/telescope.nvim'
+     " Plug 'tami5/sqlite.lua'
+     " Plug 'nvim-telescope/telescope-frecency.nvim'
+     Plug 'ahmedkhalf/project.nvim'
+     " Plug 'Shatur/neovim-session-manager'
+     Plug 'tversteeg/registers.nvim', { 'branch': 'main' }
+     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+     Plug 'akinsho/toggleterm.nvim'
+     " Plug 'kyazdani42/nvim-web-devicons' " for file icons
+     " Plug 'kyazdani42/nvim-tree.lua'
+     Plug 'nvim-orgmode/orgmode'
+     Plug 'mhartington/formatter.nvim'
+     Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+     " function! UpdateRemotePlugins(...)
+     "     " Needed to refresh runtime files
+     "     let &rtp=&rtp
+     "     UpdateRemotePlugins
+     " endfunction
+     " Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
+     Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+ else
+     Plug 'tpope/vim-commentary'
+     Plug 'autozimu/LanguageClient-neovim', {
+                 \ 'branch': 'next',
+                 \ 'do': 'bash install.sh',
+                 \ }
+     Plug 'jceb/vim-orgmode'
+     " Plug 'gelguy/wilder.nvim'
+
+     " To use Python remote plugin features in Vim, can be skipped
+     Plug 'roxma/nvim-yarp'
+     Plug 'roxma/vim-hug-neovim-rpc'
+ endif
+
+ " Plug 'prabirshrestha/async.vim'
+ " Plug 'prabirshrestha/vim-lsp'
+ " Plug 'ncm2/ncm2'
+ " Plug 'mattn/vim-lsp-settings'
+ " Plug 'prabirshrestha/async.vim'
+ " Plug 'prabirshrestha/vim-lsp'
+ " Plug 'ncm2/ncm2-vim-lsp'
+ " let g:deoplete#enable_at_startup = 1
+ Plug 'Shougo/echodoc.vim'
+
+ " For conceal markers.
+  Plug 'reedes/vim-colors-pencil'
+  " Plug 'itchyny/lightline.vim'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+  " Initialize plugin system
+  Plug 'leafgarland/typescript-vim'
+  Plug 'pangloss/vim-javascript'
+  Plug 'dense-analysis/ale'
+
+ Plug 'editorconfig/editorconfig-vim'
+
+" Plug 'plytophogy/vim-virtualenv'
+
+ call plug#end()
+
+
+ if has('nvim')
+     let test#strategy = "neovim"
+ else
+     let test#strategy = "vimterminal"
+ end
+
+
+ " call wilder#set_option('pipeline', [
+ "      \   wilder#branch(
+ "      \     wilder#cmdline_pipeline({
+ "      \       'language': 'python',
+ "      \       'fuzzy': 1,
+ "      \     }),
+ "      \     wilder#python_search_pipeline({
+ "      \       'pattern': wilder#python_fuzzy_pattern(),
+ "      \       'sorter': wilder#python_difflib_sorter(),
+ "      \       'engine': 're',
+ "      \     }),
+ "      \   ),
+ "      \ ])
+
+ 
+ if has('nvim')
+     " lua require('sqlite')
+     " lua require('telescope').load_extension('frecency')
+
+     set completeopt=menu,menuone,noselect
+
+lua <<EOF
+require('orgmode').setup_ts_grammar()
+require'nvim-treesitter.configs'.setup {
+    ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    -- TODO seems to be broken
+    ignore_install = {"haskell"},
+    highlight = {
+      enable = true, -- false will disable the whole extension
+      disable = {'org'}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
+      additional_vim_regex_highlighting = {'org'}, -- Required since TS highlighter doesn't support all syntax features (conceal)
+    },
+    indent = {
+        enable = true,
+        -- disable = {'typescript'},
+    },
+    playground = {
+        enable = true,
+        disable = {},
+        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+        persist_queries = false -- Whether the query persists across vim sessions
+    },
+    autotag = {enable = true},
+    rainbow = {enable = true},
+    context_commentstring = {enable = true, config = {javascriptreact = {style_element = '{/*%s*/}'}}}
+    -- refactor = {highlight_definitions = {enable = true}}
+}
+
+
+require('orgmode').setup({
+  org_agenda_files = {'~/Dropbox/org/*', '~/my-orgs/**/*'},
+  org_default_notes_file = '~/Dropbox/org/refile.org',
+})
+
+require'nvim-treesitter.configs'.setup {
+  context_commentstring = {
+    enable = true
+  }
+}
+
+local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
+require('Comment').setup()
+require('formatter').setup()
+-- Setup nvim-cmp.
+local cmp = require'cmp'
+
+  -- Setup lspconfig.
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+require("cmp_nvim_ultisnips").setup{}
+
+local lspconfig = require('lspconfig') 
+local servers = { 'rust_analyzer', 'pylsp', 'tsserver', 'terraformls' }
+for _, lsp in ipairs(servers) do
+lspconfig[lsp].setup {
+      -- on_attach = my_custom_on_attach,
+  capabilities = capabilities,
+}
+end
+
+-- local luasnip = require 'luasnip'
+local lspkind = require('lspkind')
+
+cmp.setup({
+  formatting = {
+    format = lspkind.cmp_format({
+      mode = 'text', -- show only symbol annotations
+      maxwidth = 30, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+
+      -- The function below will be called before any actual modifications from lspkind
+      -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+    })
+  },
+  snippet = {
+    -- REQUIRED - you must specify a snippet engine
+    expand = function(args)
+      -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+      -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+      vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
+    end,
+  },
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ["<Tab>"] = cmp.mapping(
+      function(fallback)
+        cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
+      end,
+      { "i", "s", --[[ "c" (to enable the mapping in command mode) ]] }
+    ),
+    ["<S-Tab>"] = cmp.mapping(
+      function(fallback)
+        cmp_ultisnips_mappings.jump_backwards(fallback)
+      end,
+      { "i", "s", --[[ "c" (to enable the mapping in command mode) ]] }
+    ),
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    -- { name = 'vsnip' }, -- For vsnip users.
+    -- { name = 'luasnip' }, -- For luasnip users.
+    { name = 'orgmode' },
+    { name = 'ultisnips' }, -- For ultisnips users.
+    -- { name = 'snippy' }, -- For snippy users.
+  }, {
+    { name = 'buffer' },
+  }
+
+})
+
+  -- -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+  -- cmp.setup.cmdline('/', {
+  --   sources = {
+  --     { name = 'buffer' }
+  --   }
+  -- })
+  --
+  -- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  -- cmp.setup.cmdline(':', {
+  --   sources = cmp.config.sources({
+  --     { name = 'path' }
+  --   }, {
+  --     { name = 'cmdline' }
+  --   })
+  -- })
+
+require("project_nvim").setup {
+  -- your configuration comes here
+  -- or leave it empty to use the default settings
+  -- refer to the configuration section below
+}
+require("toggleterm").setup {
+    open_mapping = [[c\-\-]],
+}
+
+local Terminal  = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new({
+  cmd = "lazygit",
+  dir = "git_dir",
+  direction = "float",
+  float_opts = {
+    border = "double",
+  },
+  -- function to run on opening the terminal
+  on_open = function(term)
+  vim.cmd("startinsert!")
+  vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
+  end,
+  -- function to run on closing the terminal
+  on_close = function(term)
+  vim.cmd("Closing terminal")
+  end,
+})
+
+local bash = Terminal:new({
+  cmd = "bash",
+  hidden = true,
+  dir = "git_dir",
+  direction = "float",
+  float_opts = {
+      border = "double",
+  },
+})
+
+function _bash_toggle()
+  bash:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "<leader>c", "<cmd>lua _bash_toggle()<CR>", {noremap = true, silent = true})
+
+local tig = Terminal:new({
+  cmd = "tig",
+  dir = "git_dir",
+  direction = "float",
+  float_opts = {
+    border = "double",
+  },
+  -- function to run on opening the terminal
+  on_open = function(term)
+  vim.cmd("startinsert!")
+  vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
+  end,
+  -- function to run on closing the terminal
+  on_close = function(term)
+  vim.cmd("Closing terminal")
+  end,
+})
+
+function _lazygit_toggle()
+  lazygit:toggle()
+end
+
+function _tig_toggle()
+  tig:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>t", "<cmd>lua _tig_toggle()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "c-=", "<cmd>lua _tig_toggle()<CR>", {noremap = true, silent = true})
+
+
+vim.api.nvim_set_keymap('n', '\\',
+":<C-u>Tree -columns=mark:indent:git:icon:filename:size:time"..
+" -split=vertical -direction=topleft -winwidth=40 -listed `expand('%:p:h')`<CR>",
+{noremap=true, silent=true})
+
+EOF
+
+endif
+
+command! NNN FloatermNew nnn
+" }}}1
+let g:pencil_higher_contrast_ui = 1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Colors And Fonts: {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax enable           " enable syntax hl
 
 if has("win32")
-    try | set gfn=Consolas:h11:cANSI | catch | endtry " Vista only
+  try | set gfn=Consolas:h11:cANSI | catch | endtry " Vista only
 elseif has("gui_macvim")
-    set gfn=Monaco:h13,Consolas:h13,Inconsolata:h14,PanicSans:h12
+  set gfn=Monaco:h13,Consolas:h13,Inconsolata:h14,PanicSans:h12
 else
-    set gfn="Incosolata for Powerline":h11
+  " set gfn=xos4\ Terminess\ Powerline\ 11
+  " set gfn=Hack\ 11
+  set gfn=Iosevka\ SS08\ Medium\ Extended\ 11
 endif
 
 " let g:Powerline_symbols = 'fancy'
@@ -166,6 +625,10 @@ let g:airline_symbols_ascii = 1
 "   let g:airline_symbols.linenr = '⭡'
 " endif
 
+fu! LightBackground()
+  set background=light
+  color pencil
+endfu
 " matchparentesis is pretty slow on big files :(
 let loaded_matchparen = 1
 if has("gui_running")
@@ -197,24 +660,50 @@ if has("gui_running")
     colo wombat
 
 else
+    colo onedark
     set title
     "set background=light
     "colo ir_black
-    if $TERM == "rxvt-unicode"
-        set t_Co=256
-        "colo desert256
-        colo wombatc
-        " colo hybrid
-        " colo desertc
-        " colo leo
-        " colo gardener
-        " colo inkpot
+    " set background=dark
+    " colo wombat256
+    " colo jellybeans
+    "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+    "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+    "(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+    if (empty($TMUX))
+        if (has("nvim"))
+            "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+            let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+        endif
+        "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+        "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+        " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+        if (has("termguicolors"))
+            set termguicolors
+        endif
+    endif
+    " set termguicolors
 
-    elseif $TERM == "xterm-color"
-        colo desert
+    if has("termguicolors")     " set true colors
+      " change ^[ to real escape!
+      set t_8f=[38;2;%lu;%lu;%lum
+      set t_8b=[48;2;%lu;%lu;%lum
+    endif
+
+    if $TERM == "rxvt-unicode-256color"
+      set t_Co=256
+      "colo desert256
+      " colo wombatc
+      " colo hybrid
+      " colo desertc
+      " colo leo
+      " colo gardener
+      " colo inkpot
+    elseif $TERM == "alacritty"
+      call LightBackground()
     elseif $TERM == "screen-256color"
         " simply use c-v to create these maps
-        noremap [1;5D <c-left>
+        noremap [k;5D <c-left>
         noremap [1;5C <c-right>
         noremap [1;2D <s-left>
         noremap [1;2C <s-right>
@@ -230,56 +719,18 @@ else
 
         " fix mouse selection dragging and scrolling
         set ttymouse=xterm2
+        " set termguicolors
 
-        colo wombat256mod
+        " colo wombat256mod
     elseif has("win32")
         set term=xterm
         set t_Co=256
         let &t_AB="\e[48;5;%dm"
         let &t_AF="\e[38;5;%dm"
         colo wombat256mod
-    else
-        "colo desert
-        colo wombat256mod
     endif
     " let g:Powerline_symbols = 'unicode'
 endif
-
-" set runtimepath+=$VIMFILES/runtime/theonevimlib/core
-" set runtimepath+=$VIMFILES/runtime/theonevimlib/contrib
-" call theonevimlibsetup#Setup()
-
-" set runtimepath+=$VIMFILES/runtime/cocoa.vim
-" " set runtimepath+=$VIMFILES/runtime/cocoa.vim/after
-" set runtimepath+=$VIMFILES/runtime/theonevimlib/contrib
-" set runtimepath+=$VIMFILES/runtime/nerdsnippets
-" set runtimepath+=$VIMFILES/runtime/vimoutliner
-" set runtimepath+=$VIMFILES/runtime/git-vim
-" set runtimepath+=$VIMFILES/runtime/nerdtree
-" " set runtimepath+=~/.vim/runtime/snipMate
-
-"set rtp+=~/.vim/bundle/vundle/
-"call vundle#rc()
-"
-"" let Vundle manage Vundle
-"" required!
-"Bundle 'gmarik/vundle'
-"" stuff
-"Bundle "git://github.com/vim-ruby/vim-ruby.git"
-"Bundle "git://github.com/tpope/vim-rails.git"
-"Bundle "git://github.com/tpope/vim-endwise.git"
-"Bundle "git://github.com/tpope/vim-fugitive.git"
-"Bundle "git://github.com/scrooloose/nerdtree.git"
-"Bundle "git://github.com/majutsushi/tagbar.git"
-"Bundle "git://github.com/kien/ctrlp.vim.git"
-"Bundle 'ultrasnips'
-" go back to old snippets
-" Bundle "git://github.com/MarcWeber/vim-addon-mw-utils.git"
-" Bundle "git://github.com/tomtom/tlib_vim.git"
-" Bundle "git://github.com/honza/snipmate-snippets.git"
-" Bundle "git://github.com/garbas/vim-snipmate.git"
-" Bundle "git://github.com/drmingdrmer/xptemplate.git"
-" Bundle "nerdsnippets"
 
 
 if has("win32")
@@ -321,19 +772,19 @@ set visualbell
 set t_vb=
 set noerrorbells        " do not make noise
 if has("multi_byte_encoding")
-    set listchars=tab:»\ ,trail:·,extends:>,precedes:<,eol:¬
+    set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
 else
     set listchars=tab:\|\ ,trail:.,extends:>,precedes:<,eol:$
 endif
 " how :set list show
-set list
+set nolist
 set magic               " set magic on
-set completeopt=menu    " use popup menu to show possible completions
+" set completeopt=menu    " use popup menu to show possible completions
 " set foldenable          " enable folding, I find it very useful
 set nofen               " enable folding, I find it very useful
 "set foldmethod=syntax   " manual, marker, syntax, try set foldcolumn=2
 set foldmethod=manual   " manual, marker, syntax, try set foldcolumn=2
-set laststatus=2        " always show the status line
+" set laststatus=2        " always show the status line
 " set statusline=\ %F%m%r%h\ %w\ %{&ff}\ \ now:\ %r%{CurDir()}%h\ \ \ pos:\ %l/%L:%c
 
 " default 'statusline' with 'fileencoding'.
@@ -347,10 +798,6 @@ set laststatus=2        " always show the status line
 
 set nomore              " more will fill the screen with project.vim
 " format the statusline
-fu! CurDir()
-    let curdir = tolower(substitute(getcwd(), '$HOME', "~/", "g"))
-    return curdir
-endf
 
 " if has("gui_running")   " highlight cursor line/column
 "   if v:version >= 700
@@ -432,7 +879,6 @@ map <leader>wc <C-W>c
 map <leader>bc :Bclose<cr>
 map <leader>bd :Bclose<cr>
 map <leader>bw :bw<cr>
-" map <up> <esc>:NERDTreeToggle<cr>
 " map <down> <esc>:Tlist<cr>
 " use the arrows to do something useful
 map <right> :bn<cr>
@@ -598,7 +1044,11 @@ cno <Esc>f <S-Right>
 map <leader>q :e ~/buffer<cr>
 
 " restore cursor position in previous editing session, :h 'viminfo'
+if (has("nvim"))
+set viminfo='10,\"100,:20,!,n~/.viminfo-neovim
+else
 set viminfo='10,\"100,:20,!,n~/.viminfo
+endif
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
 " buffer - reverse everything ... :)
@@ -650,29 +1100,6 @@ endif
 " }}}1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Text Options: {{{1
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set expandtab
-" set smarttab            " use tabs at start of a line, spaces elsewhere
-set fo=tcrqnmM		      " see help formatoptions (complex)
-set linebreak           " wrap long lines at a character in 'breakat'
-set textwidth=500       " maximum width of text that is being inserted
-set ts=4 sts=4 sw=4
-au FileType mail setl textwidth=78
-set ai                  " autoindent
-" set si                  " smartindent
-" set copyindent
-set wrap                " wrap lines
-
-map <leader>t2 :set shiftwidth=2<cr>
-map <leader>t8 :set shiftwidth=8<cr>
-
-"noremap <leader>; :make<CR>
-" Map ; to "add ; to the end of the line, when missing"
-noremap <leader>; :s/\([^;]\)$/\1;/<cr>:let @/=""<cr><esc>
-
-" }}}1
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spell Checking: {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <leader>sn ]s
@@ -684,33 +1111,6 @@ map <leader>s? z=
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Settings: {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""
-" => grep.vim
-""""""""""""""""""""""""""""""
-let Grep_Skip_Dirs = 'RCS CVS SCCS .svn'
-let Grep_Skip_Files = '*.obj *.o tags .tmtags'
-let Grep_Default_Filelist = '*.[ch] *.cpp *.php *.html *.phtml *.rb *.erb *.eco *.coffee'
-
-let Grep_Default_Options = '-i'
-if has("macunix") || has("gui_macvim")
-    let Grep_Xargs_Options = '-0'
-endif
-
-
-if has("win32")
-    let Grep_Path = 'c:\programme\gnuwin32\bin\grep.exe'
-    let Fgrep_Path = 'c:\programme\gnuwin32\bin\fgrep.exe'
-    let Egrep_Path = 'c:\programme\gnuwin32\bin\egrep.exe'
-    let Agrep_Path = 'c:\programme\gnuwin32\bin\agrep.exe'
-    let Grep_Find_Path = 'c:\programme\gnuwin32\bin\find.exe'
-    let Grep_Xargs_Path = 'c:\programme\gnuwin32\bin\xargs.exe'
-endif
-
-
-map <S-F3> :Rgrep<cr>
-"let Grep_Cygwin_Find = 1
-
-
 """"""""""""""""""""""""""""""
 " => tovl grep
 """"""""""""""""""""""""""""""
@@ -774,29 +1174,6 @@ let g:tagbar_type_css = {'ctagstype': 'CSS','kinds': ['c:classes', 's:selectors'
 " let g:tagbar_type_scss = {'ctagstype': 'scss','kinds': ['c:classes', 's:selectors', 'i:identities'] }
 let g:tagbar_type_scss = {'ctagstype': 'CSS','kinds': ['c:classes', 's:selectors', 'i:identities'] }
 
-""""""""""""""""""""""""""""""
-" => projtags.vim
-""""""""""""""""""""""""""""""
-if has("win32")
-    " doesn't seem to work
-    let g:ProjTags = [["C:\Dev\Projects", "c:\dev\tags_psdk2003", "c:\dev\projects\integrator\tags"]]
-    set tags=./tags,tags,c:\Dev\Projects\Integrator\tags,c:\Dev\tags_psdk2003    " used by CTRL-] together with ctags
-else
-    let g:ProjTags = [["~/Documents/Projects/Acculogic/Integrator", "~/Documents/Projects/Acculogic/Integrator/.tmtags"]]
-    let g:ProjTags += [["~/Sites/talentrun/talentrun", "~/Sites/talentrun/talentrun/.tmtags"]]
-    let g:ProjTags += [["~/Sites/Studiblock/Frameworks/cake", "~/Sites/Studiblock/Frameworks/cake/.tmtags"]]
-endif
-
-
-""""""""""""""""""""""""""""""
-" => fugitive.vim
-""""""""""""""""""""""""""""""
-nmap <Leader>va :Gwrite<cr>
-nmap <Leader>vc :Gcommit<cr>
-nmap <Leader>vr :Gread<cr>
-nmap <Leader>vs :Gstatus<cr>
-nmap <Leader>vd :Gdiff<cr>
-
 autocmd QuickFixCmdPost *grep* cwindow
 
 let g:gitgutter_enabled = 0
@@ -806,27 +1183,16 @@ let g:gitgutter_enabled = 0
 " => NERD_tree.vim
 """"""""""""""""""""""""""""""
 "noremap <C-E><C-E> :NERDTreeToggle<CR>
+" if !has('nvim')
 nmap <silent><F3> :NERDTreeToggle<cr>
 imap <silent><F3> <C-O>:NERDTreeToggle<cr>
 nmap <silent> \\ :execute 'NERDTreeToggle ' . fnameescape(getcwd())<CR>
 nmap <silent> <leader>nf :NERDTreeFind<CR>
 let g:NERDTreeHijackNetrw = 0
+" else
+"     nmap <silent> \\ :NvimTreeToggle<cr>
+" endif
 
-""""""""""""""""""""""""""""""
-" => winmanager.vim
-""""""""""""""""""""""""""""""
-"noremap <silent><F3> :WMToggle<CR>
-
-
-""""""""""""""""""""""""""""""
-" => imaps.vim
-""""""""""""""""""""""""""""""
-nmap <C-I><C-I> <Plug>IMAP_JumpForward
-
-""""""""""""""""""""""""""""""
-" => supertab.vim
-""""""""""""""""""""""""""""""
-"let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
 
 """"""""""""""""""""""""""""""
 " => ctrlp.vim
@@ -840,15 +1206,37 @@ let g:fzf_action = {
             \ 'ctrl-x': 'split',
             \ 'ctrl-v': 'vsplit' }
 
+" let g:rg_command = '
+"             \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
+"             \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
+"             \ -g "!{.git,node_modules,vendor}/*" '
+let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --color "always" '
+
+" command! -bang -nargs=* FzfRg call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
+
+if has('nvim')
+" Find files using Telescope command-line sugar.
+nnoremap <leader>pf <cmd>Telescope find_files<cr>
+nnoremap <leader>/ <cmd>Telescope live_grep<cr>
+nnoremap <leader>bb <cmd>Telescope buffers<cr>
+nnoremap <leader>hl <cmd>Telescope help_tags<cr>
+" nnoremap <silent><leader>fr :Telescope frecency<CR>
+
+" Using Lua functions
+" nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+" nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+" nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+" nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+else
 noremap <f8> :FzfAg<CR>
-noremap <silent> <leader>/ :FzfAg<CR>
+noremap <silent> <leader>/ :FzfRg<CR>
 noremap <silent> <leader>t :FzfFiles<CR>
 noremap <silent> <leader>pf :FzfFiles<CR>
-noremap <silent> <leader>fr :FZFMru<CR>
 noremap <silent> <leader>bs :FzfBuffers<CR>
 noremap <silent> <leader>tS :FzfColors<CR>
 noremap <silent> <leader>gs :Gstatus<CR>
-
+endif
+noremap <silent> <leader>fr :FZFMru<CR>
 
 " noremap <silent> <M-t> :CtrlP<CR>
 " noremap <silent> <leader>t :CtrlP<CR>
@@ -871,37 +1259,14 @@ noremap <silent> <leader>gs :Gstatus<CR>
 
 
 """"""""""""""""""""""""""""""
-" => marks_corey.vim
-""""""""""""""""""""""""""""""
-nmap <Leader>md <Plug>Remove_all_signs
-nmap <Leader>mm <Plug>Place_sign
-nmap <Leader>mn <Plug>Goto_next_sign
-nmap <Leader>mp <Plug>Goto_prev_sign
-nmap <Leader>m. <Plug>Move_sign
-
-""""""""""""""""""""""""""""""
 " => gist.vim
 """"""""""""""""""""""""""""""
 if has("macunix")
     let g:gist_clip_command = 'pbcopy'
-    let g:ycm_path_to_python_interpreter = '/usr/bin/python'
+    " let g:ycm_path_to_python_interpreter = '/usr/bin/python'
 elseif has("unix")
     let g:gist_clip_command = 'xclip -selection clipboard'
 endif
-
-""""""""""""""""""""""""""""""
-" => bufexplorer.vim
-""""""""""""""""""""""""""""""
-"let g:bufExplorerSplitHorzSize = 15
-let g:bufExplorerDefaultHelp = 0
-let g:bufExplorerShowRelativePath = 1
-
-""""""""""""""""""""""""""""""
-" => lineup.vim
-""""""""""""""""""""""""""""""
-" might as well use alignmaps but thats a bit overkill
-vnoremap <Leader>t= :Lineup=<CR>
-vnoremap <Leader>t/ :Lineup/<CR>
 
 """"""""""""""""""""""""""""""
 " => xml.vim
@@ -917,71 +1282,14 @@ let g:html_indent_style1 = "inc"
 
 
 """"""""""""""""""""""""""""""
-" => eclim.vim
-""""""""""""""""""""""""""""""
-let g:syntastic_java_javac_classpath="/opt/android-sdk/platforms/android-16/android.jar"
-"use default Taglist instead of Eclim, avoid problem
-let g:EclimTaglistEnabled=0
-""if the current file is in a Eclipse project, open project tree automatically
-let g:EclimProjectTreeAutoOpen=0
-let g:EclimProjectTreeExpandPathOnOpen=1
-let g:EclimProjectTreeSharedInstance=1  "share tree instance through all tabs
-" use tabnew instead of split for new action
-let g:EclimCompletionMethod = 'omnifunc'
-
-""""""""""""""""""""""""""""""
-" => javacomplete.vim
-""""""""""""""""""""""""""""""
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
-let g:java_classpath      = "/opt/android-sdk/platforms/android-16/android.jar"
-
-
-""""""""""""""""""""""""""""""
-" => jscomplete.vim
-""""""""""""""""""""""""""""""
-let g:jscomplete_use = ['dom', 'moz']
-
-
-""""""""""""""""""""""""""""""
 " => yankring.vim
 """"""""""""""""""""""""""""""
 map <leader>y :YRShow<cr>
 
-""""""""""""""""""""""""""""""
-" => SingleCompile.vim
-""""""""""""""""""""""""""""""
-nnoremap <F9>  :SCCompile<cr>
-nnoremap <F10> :SCCompileRun<cr>
-inoremap <F9>  <c-o>:SCCompile<cr>
-inoremap <F10> <c-o>:SCCompileRun<cr>
-
-""""""""""""""""""""""""""""""
-" => C/C++ Stuff
-""""""""""""""""""""""""""""""
-autocmd FileType c call <SID>CProgSettings()
-function! s:CProgSettings()
-    iabbrev stdio #include <stdio.h>
-    iabbrev stdlib #include <stdlib.h>
-    iabbrev main_ int main ()<CR>{<CR>return 0;<CR>}<ESC>2ka
-    " used to be useful for test programs, now I almost always use a Makefile
-    " ...maybe a stock Makefile that just compiles any .c files to a.out would
-    " be nice for simple, small tests
-    "set makeprg=gcc\ -Wall\ -pedantic-errors\ -ansi\ -g\ %
-    " syn region Block start="{" end="}" transparent fold
-    "set foldtext=substitute(getline(v:foldstart),'{.*','{...}','')
-    "syn region cFuncBody
-    "      \ start='^{\ze\s*\%(\n}\@!\%(.*\)\@>\)*\n}\s*$'
-    "      \ end='^}\s*$'
-    "      \ fold transparent
-endfunction
-" for some reason this must be outside of CProgSettings()
-
-" some C++ shortcuts
-autocmd FileType cpp call <SID>CppProgSettings()
-function! s:CppProgSettings()
-    "set makeprg=g++\ -ansi\ -pedantic\ -Wall\ -g\ %
-    call <SID>CProgSettings()
-endfunction
+nnoremap <F9>  :TestFile<cr>
+" nnoremap <F10> :ToggleTerm<cr>
+inoremap <F9>  <c-o>:TestFile<cr>
+" inoremap <F10> <c-o>:ToggleTerm<cr>
 
 """"""""""""""""""""""""""""""
 " => session.vim
@@ -1011,29 +1319,6 @@ let g:used_javascript_libs = 'underscore,backbone,jquery'
 
 
 """"""""""""""""""""""""""""""
-" => vimux.vim
-""""""""""""""""""""""""""""""
-map <leader><space> :call VimuxRunLastCommand()<cr>
-" Prompt for a command to run
-map <Leader>rp :VimuxPromptCommand<CR>
-" Inspect runner pane
-map <Leader>ri :VimuxInspectRunner<CR>
-" Close all other tmux panes in current window
-map <Leader>rx :VimuxClosePanes<CR>
-" Close vim tmux runner opened by VimuxRunCommand
-map <Leader>rq :VimuxCloseRunner<CR>
-" Interrupt any command running in the runner pane
-map <Leader>rs :VimuxInterruptRunner<CR>
-" If text is selected, save it in the v buffer and send that buffer it to tmux
-vmap <Leader>rv "vy :call VimuxRunCommand(@v . "\n", 0)<CR>
-" Run the current file with rspec
-map <Leader>rb :call VimuxRunCommand("clear; rspec " . bufname("%"))<CR>
-
-
-
-
-
-""""""""""""""""""""""""""""""
 " => Others
 """"""""""""""""""""""""""""""
 " a.vim          - alternate files fast (.c -> .h)
@@ -1055,28 +1340,6 @@ map <C-F12> :%!astyle -t -b -S -w -M -p -U<cr>
 
 
 """"""""""""""""""""""""""""""
-" => UltiSnips
-""""""""""""""""""""""""""""""
-" {{{
-" let g:UltiSnipsSnippetDirectories = [hostname() == 'osse-vb' && hostname() == 'ow-linux' ?
-"       \ "work_snippets" : "osse_snippets", "UltiSnips"]
-"" YouCompleteMe
-let g:ycm_key_list_previous_completion=['<Up>']
-let g:ycm_key_list_select_completion=['<Down>']
-let g:ycm_filetype_specific_completion_to_disable = {
-            \ 'ruby' : 1,
-            \ 'objc' : 1,
-            \}
-
-let g:UltiSnipsDontReverseSearchPath = "1"
-let g:UltiSnipsExpandTrigger         = "<Tab>"
-let g:UltiSnipsJumpForwardTrigger    = "<Tab>"
-let g:UltiSnipsJumpBackwardTrigger   = "<S-tab>"
-let g:UltiSnipsListSnippets          = "<leader>ls"
-" }}}
-
-
-""""""""""""""""""""""""""""""
 " => latex
 """"""""""""""""""""""""""""""
 " {{{
@@ -1084,26 +1347,6 @@ let g:tex_fold_enabled = 1
 let g:tex_flavor = "latex"
 let g:tex_conceal = 'sgdm'
 let g:tex_comment_nospell = 1
-" }}}
-
-""""""""""""""""""""""""""""""
-" => omnisharp
-""""""""""""""""""""""""""""""
-let g:Omnisharp_stop_server = 0
-let g:Omnisharp_start_server = 1
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" clang_complete: {{{
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" map omni complete to ctrl-f
-inoremap <C-F> <C-X><C-O>
-" map custom completion to ctrl-j
-inoremap <C-J> <C-X><C-U>
-let g:clang_complete_copen = 0
-let g:clang_complete_auto = 0
-let g:clang_snippets = 1
-let g:clang_snippets_engine = 'ultisnips'
-let g:clang_use_library = 1
 " }}}
 
 
@@ -1160,7 +1403,10 @@ augroup development
     autocmd FileType make set noet ts=8 sw=8 nosi
     autocmd FileType mkd set ai formatoptions=tcroqn2 comments=n:>
     au FileType vim setl sw=2 ts=2
-    au FileType python setl tabstop=4 et sw=4 sts=4 nosi omnifunc=pythoncomplete#Complete
+    au FileType typescript setl sw=4 ts=4
+    autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+    au FileType python setl tabstop=4 et sw=4 sts=4 nosi
+    au FileType json setl tabstop=2 et sw=2 sts=2 nosi
     au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
     au BufRead,BufNewFile *.eco setl ft=eco.html sw=2 ts=2 et sts=2
     au BufRead,BufNewFile *.vra set ft=scope syntax=scope
@@ -1184,17 +1430,9 @@ augroup development
     " }}}
 
     " Python Support ------------------------------------ {{{
-    autocmd FileType python setl omnifunc=pythoncomplete#Complete
     autocmd FileType python inoreab <buffer> #! #!/usr/bin/env python
     autocmd FileType python inoreab <buffer> #e # -*- coding: utf=8 -*-
     " }}}
-
-    autocmd User Rails Rnavcommand bmodel app/assets/javascripts/models -glob=**/* -suffix=.js.coffee
-    autocmd User Rails Rnavcommand bcollection app/assets/javascripts/collections -glob=**/* -suffix=.js.coffee
-    autocmd User Rails Rnavcommand brouter app/assets/javascripts/routers -glob=**/* -suffix=.js.coffee
-    autocmd User Rails Rnavcommand bview app/assets/javascripts/views -glob=**/* -suffix=.js.coffee
-    autocmd User Rails Rnavcommand btemplate app/assets/templates -glob=**/* -suffix=.jst.eco
-
 
     " templates {{{
     autocmd BufNewFile  proguard.cfg        :r ~/.vim/skeletons/proguard.cfg
@@ -1221,13 +1459,20 @@ augroup TEXT
     autocmd BufReadPost *.docx %!antiword-xp "%"
 augroup END
 
+augroup PASS
+    au BufNewFile,BufRead /dev/shm/gopass.* setlocal noswapfile nobackup noundofile
+    au BufNewFile,BufRead /private/**/gopass** setlocal noswapfile nobackup noundofile
+    au BufNewFile,BufRead /dev/shm/pass.* setlocal noswapfile nobackup noundofile
+    au BufNewFile,BufRead /private/**/pass** setlocal noswapfile nobackup noundofile
+augroup END
+
 " this allows us to write to files even when we
 " forget to use sudo to launch vim
 command! -bar -nargs=0 Sudow :silent exe "w !sudo tee % > /dev/null" | silent edit!
 
 
 " use jk for esc
-imap jk <Esc>
+" imap jk <Esc>
 
 " go to newline
 imap <M-o> <Esc>o
@@ -1330,24 +1575,6 @@ fu! SuperRetab(width) range
     sil! exe a:firstline.','.a:lastline.'s/\v%(^ *)@<= {'. a:width .'}/\t/g'
 endf
 
-" inserts links & anchors on a TOhtml export.
-" Usage:
-"   *> Link
-"   => Anchor
-fu! SmartTOhtml()
-    let g:html_use_encoding = toupper(&fileencoding)
-    let g:html_use_css = 1
-    TOhtml
-    try
-        %s/&quot;\s\+\*&gt; \(.\+\)</" <a href="#\1" style="color: cyan">\1<\/a></g
-        %s/&quot;\(-\|\s\)\+\*&gt; \(.\+\)</" \&nbsp;\&nbsp; <a href="#\2" style="color: cyan;">\2<\/a></g
-        %s/&quot;\s\+=&gt; \(.\+\)</" <a name="\1" style="color: #fff">\1<\/a></g
-    catch
-    endtry
-    exe ":w!"
-    exe ":bd"
-endf
-
 " ------------------------
 " Change Working Directory: {{{1
 " -----------------------
@@ -1369,23 +1596,45 @@ if has("win32")
 endif
 
 
-let g:rg_command = '
-            \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
-            \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
-            \ -g "!{.git,node_modules,vendor}/*" '
-
-command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
 
 autocmd BufEnter PKGBUILD,.env
             \   let b:ale_sh_shellcheck_exclusions = 'SC2034,SC2154,SC2164'
 
+
 set packpath+=~/.vim/pack
-packadd vim-polyglot
 "if filereadable($VIMDATA."/session.vim")
 "  au VimEnter * so $VIMDATA/session.vim
 "endif
 "au VimLeavePre * mks! $VIMDATA/session.vim
 " don't load the python stuff as root, i.e. sudo
+
+ let g:LanguageClient_serverCommands = {
+       \ 'rust': ['rls'],
+       \ 'python': ['poetry', 'run', 'pyls'],
+       \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+       \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+       \ 'ruby': ['solargraph', 'stdio'],
+       \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
+       \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
+       \ }
+
+
+
+ if executable('pyls')
+     " pip install python-language-server
+     au User lsp_setup call lsp#register_server({
+                 \ 'name': 'pyls',
+                 \ 'cmd': {server_info->['poetry run pyls']},
+                 \ 'whitelist': ['python'],
+                 \ })
+ endif
+ " let g:lsp_diagnostics_enabled = 0         " disable diagnostics support
+ let g:lsp_signs_enabled = 1         " enable signs
+ let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+
+" call deoplete#custom#source('LanguageClient',
+"             \ 'min_pattern_length',
+"             \ 2)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim: set et ft=vim tw=78 path+=$VIMFILES/* tags+=$VIMRUNTIME/doc/tags:
