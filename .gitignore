@@ -5,3 +5,5 @@ vimdata/temp/*.sw?
 *.bundle
 mkmf.log
 doc/tags
+plugged/
+vimdata/

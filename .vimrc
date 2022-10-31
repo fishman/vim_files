@@ -157,9 +157,15 @@ let g:ale_fixers = {
 let g:ycm_semantic_triggers = { 'python' : [] }
 
 let g:ale_linters = {
-            \   'python': [
-            \   ],
-            \ }
+  \   'cpp': [
+  \       'clang-format',
+  \   ],
+  \   'c': [
+  \       'clang-format',
+  \   ],
+  \   'python': [
+  \   ],
+  \ }
 " let g:ale_linters = {
 "             \   'python': [
 "             \        'flake8',
@@ -169,14 +175,10 @@ let g:ale_linters = {
 " \   'python': ['flake8', 'mypy', 'pylint'],
  " let g:ale_python_auto_pipenv=1
  let g:ale_yaml_yamllint_options = "-d relaxed"
-
-
+ let g:ale_yaml_yamllint_options = "-c ~/.config/yamllint.yml"
  " let g:ale_python_auto_pipenv = 1
  " let pipenv_venv_path = system('pipenv --venv')
- let g:ale_yaml_yamllint_options = "-c ~/.config/yamllint.yml"
- " Plug 'vim-syntastic/syntastic'
 
- " Plug 'wmvanvliet/jupyter-vim'
  let g:ale_lint_on_text_changed = 'normal'
  let g:ale_lint_on_insert_leave = 1
  let g:pymode_lint = 0
@@ -186,8 +188,10 @@ let g:ale_linters = {
  " let g:pymode_python = 'python3'
  " let g:pymode_run = 1
  " let g:pymode_run_bind = '<leader>r'
+
  let test#strategy = "vimterminal"
  " let test#strategy = "asyncrun"
+
  let g:nv_search_paths = ['~/org']
 
  let g:typescript_indent_disable = 1
@@ -204,150 +208,163 @@ let g:ale_linters = {
 call plug#begin('~/.vim/plugged')
 " Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 
- Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
 
- Plug 'andymass/vim-matchup'
- Plug 'jmcantrell/vim-virtualenv'
- Plug 'voldikss/vim-floaterm'
- Plug 'vim-scripts/JavaDecompiler.vim'
- Plug 'tpope/vim-obsession'
- Plug 'christoomey/vim-tmux-navigator'
- Plug 'roxma/vim-tmux-clipboard'
- Plug 'tmux-plugins/vim-tmux-focus-events'
- Plug 'vim-test/vim-test'
- Plug 'udalov/kotlin-vim'
- Plug 'vim-ruby/vim-ruby'
- Plug 'tpope/vim-endwise'
- Plug 'tpope/vim-rails'
- Plug 'tpope/vim-repeat'
- Plug 'tpope/vim-speeddating'
- Plug 'tpope/vim-surround'
- Plug 'tpope/vim-vinegar'
- Plug 'tpope/vim-fugitive'
- Plug 'akinsho/git-conflict.nvim'
- Plug 'idanarye/vim-merginal'
- Plug 'chriskempson/base16-vim'
- Plug 'airblade/vim-gitgutter'
- Plug 'skywind3000/asyncrun.vim'
- Plug 'tpope/vim-dispatch'
- Plug 'gregsexton/gitv'
- Plug 'cespare/vim-toml'
- Plug 'SirVer/ultisnips'
- Plug 'honza/vim-snippets'
+Plug 'andymass/vim-matchup'
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'voldikss/vim-floaterm'
+Plug 'tpope/vim-obsession'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'roxma/vim-tmux-clipboard'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-surround'
+Plug 'idanarye/vim-merginal'
+Plug 'skywind3000/asyncrun.vim'
+Plug 'tpope/vim-dispatch'
 
- Plug 'majutsushi/tagbar'
- Plug 'joshdick/onedark.vim'
+Plug 'vim-scripts/LargeFile'
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 
- Plug 'hashivim/vim-terraform'
- Plug 'vim-scripts/LargeFile'
- " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
- Plug 'junegunn/vim-easy-align'
- " Plug 'StanAngeloff/php.vim'
+Plug 'ludovicchabant/vim-gutentags'
+let g:gutentags_enabled = 0
 
- " Any valid git URLllowed
- Plug 'https://github.com/junegunn/vim-github-dashboard.git'
- " Plugin outside ~/.vim/plugged with post-update hook
- " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
- Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
- Plug 'rust-lang/rust.vim'
- Plug 'Alok/notational-fzf-vim'
- Plug 'junegunn/fzf'
- Plug 'junegunn/fzf.vim'
- Plug 'pbogut/fzf-mru.vim'
- Plug 'morhetz/gruvbox'
- Plug 'chrisbra/csv.vim'
- Plug 'airblade/vim-gitgutter'
- Plug 'towolf/vim-helm'
- Plug 'ludovicchabant/vim-gutentags'
- Plug 'juliosueiras/vim-terraform-completion'
- let g:gutentags_enabled = 0
- Plug 'elzr/vim-json'
+" Navigation
+Plug 'tpope/vim-vinegar'
+Plug 'majutsushi/tagbar'
+Plug 'junegunn/vim-easy-align'
+Plug 'Alok/notational-fzf-vim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'pbogut/fzf-mru.vim'
 
- if has('nvim')
-     Plug 'numToStr/Comment.nvim'
-     Plug 'neovim/nvim-lspconfig'
-     Plug 'hrsh7th/cmp-nvim-lsp'
-     Plug 'hrsh7th/cmp-buffer'
-     Plug 'hrsh7th/cmp-path'
-     Plug 'hrsh7th/cmp-cmdline'
-     Plug 'hrsh7th/nvim-cmp'
-     Plug 'onsails/lspkind-nvim'
-     " Plug 'L3MON4D3/LuaSnip'
-     " Plug 'saadparwaiz1/cmp_luasnip'
+" Version control
+Plug 'akinsho/git-conflict.nvim'
+Plug 'airblade/vim-gitgutter'
+let g:gitgutter_enabled = 0
 
-     " For vsnip users.
-     Plug 'hrsh7th/cmp-vsnip'
-     Plug 'hrsh7th/vim-vsnip'
+" Themes
+Plug 'folke/tokyonight.nvim'
+Plug 'reedes/vim-colors-pencil'
+Plug 'chriskempson/base16-vim'
+Plug 'morhetz/gruvbox'
+Plug 'joshdick/onedark.vim'
 
-     Plug 'williamboman/nvim-lsp-installer'
-     Plug 'nvim-lua/plenary.nvim'
-     Plug 'nvim-telescope/telescope.nvim'
-     " Plug 'tami5/sqlite.lua'
-     " Plug 'nvim-telescope/telescope-frecency.nvim'
-     Plug 'ahmedkhalf/project.nvim'
-     " Plug 'Shatur/neovim-session-manager'
-     Plug 'tversteeg/registers.nvim', { 'branch': 'main' }
-     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-     Plug 'akinsho/toggleterm.nvim'
-     " Plug 'kyazdani42/nvim-web-devicons' " for file icons
-     " Plug 'kyazdani42/nvim-tree.lua'
-     Plug 'nvim-orgmode/orgmode'
-     Plug 'mhartington/formatter.nvim'
-     Plug 'quangnguyen30192/cmp-nvim-ultisnips'
-     " function! UpdateRemotePlugins(...)
-     "     " Needed to refresh runtime files
-     "     let &rtp=&rtp
-     "     UpdateRemotePlugins
-     " endfunction
-     " Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
-     Plug 'JoosepAlviste/nvim-ts-context-commentstring'
- else
-     Plug 'tpope/vim-commentary'
-     Plug 'autozimu/LanguageClient-neovim', {
-                 \ 'branch': 'next',
-                 \ 'do': 'bash install.sh',
-                 \ }
-     Plug 'jceb/vim-orgmode'
-     " Plug 'gelguy/wilder.nvim'
+" Languages
+Plug 'leafgarland/typescript-vim'
+Plug 'pangloss/vim-javascript'
+Plug 'cespare/vim-toml'
+Plug 'vim-scripts/JavaDecompiler.vim'
+Plug 'rhysd/vim-clang-format'
+Plug 'udalov/kotlin-vim'
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
+Plug 'hashivim/vim-terraform'
+Plug 'elzr/vim-json'
+Plug 'towolf/vim-helm'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'rust-lang/rust.vim'
 
-     " To use Python remote plugin features in Vim, can be skipped
-     Plug 'roxma/nvim-yarp'
-     Plug 'roxma/vim-hug-neovim-rpc'
- endif
+if has('nvim')
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+  " Plug 'ggandor/leap.nvim'
+  Plug 'numToStr/Comment.nvim'
 
- " Plug 'prabirshrestha/async.vim'
- " Plug 'prabirshrestha/vim-lsp'
- " Plug 'ncm2/ncm2'
- " Plug 'mattn/vim-lsp-settings'
- " Plug 'prabirshrestha/async.vim'
- " Plug 'prabirshrestha/vim-lsp'
- " Plug 'ncm2/ncm2-vim-lsp'
- " let g:deoplete#enable_at_startup = 1
- Plug 'Shougo/echodoc.vim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+  " Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+  " Plug 'smartpde/telescope-recent-files'
+  Plug 'kkharji/sqlite.lua'
+  Plug 'nvim-telescope/telescope-frecency.nvim'
+  Plug 'ahmedkhalf/project.nvim'
+  " Plug 'Shatur/neovim-session-manager'
+  Plug 'tversteeg/registers.nvim', { 'branch': 'main' }
+  Plug 'akinsho/toggleterm.nvim'
+  " Plug 'kyazdani42/nvim-web-devicons' " for file icons
+  " Plug 'kyazdani42/nvim-tree.lua'
+  Plug 'nvim-orgmode/orgmode'
+  Plug 'mhartington/formatter.nvim'
+  "Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+  " function! UpdateRemotePlugins(...)
+  "     " Needed to refresh runtime files
+  "     let &rtp=&rtp
+  "     UpdateRemotePlugins
+  " endfunction
+  " Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
+  Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+  " LSP Support
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
 
- " For conceal markers.
-  Plug 'reedes/vim-colors-pencil'
-  " Plug 'itchyny/lightline.vim'
-  Plug 'vim-airline/vim-airline'
-  Plug 'vim-airline/vim-airline-themes'
-  " Initialize plugin system
-  Plug 'leafgarland/typescript-vim'
-  Plug 'pangloss/vim-javascript'
-  Plug 'dense-analysis/ale'
+  " Autocompletion
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'saadparwaiz1/cmp_luasnip'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-nvim-lua'
 
- Plug 'editorconfig/editorconfig-vim'
+  "  Snippets
+  Plug 'L3MON4D3/LuaSnip'
+  Plug 'rafamadriz/friendly-snippets'
+
+  Plug 'VonHeikemen/lsp-zero.nvim'
+  Plug 'tamago324/nlsp-settings.nvim'
+  Plug 'jose-elias-alvarez/null-ls.nvim'
+  Plug 'nvim-lua/popup.nvim' 
+  Plug 'windwp/nvim-autopairs',
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'antoinemadec/FixCursorHold.nvim'
+  Plug 'klen/nvim-test'
+  Plug 'TimUntersberger/neogit'
+  " Plug 'nvim-neotest/neotest'
+  " Plug 'nvim-neotest/neotest-python'
+  " Plug 'nvim-neotest/neotest-plenary'
+  " Plug 'nvim-neotest/neotest-vim-test'
+else
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-commentary'
+  Plug 'autozimu/LanguageClient-neovim', {
+        \ 'branch': 'next',
+        \ 'do': 'bash install.sh',
+        \ }
+  Plug 'jceb/vim-orgmode'
+  " Plug 'gelguy/wilder.nvim'
+
+  " To use Python remote plugin features in Vim, can be skipped
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+  Plug 'SirVer/ultisnips'
+  Plug 'honza/vim-snippets'
+  " Plug 'dense-analysis/ale'
+  Plug 'vim-test/vim-test'
+endif
+
+
+" Plug 'prabirshrestha/async.vim'
+" Plug 'prabirshrestha/vim-lsp'
+" let g:deoplete#enable_at_startup = 1
+Plug 'Shougo/echodoc.vim'
+
+" For conceal markers.
+" Plug 'itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" Initialize plugin system
+
+Plug 'editorconfig/editorconfig-vim'
 
 " Plug 'plytophogy/vim-virtualenv'
+call plug#end()
 
- call plug#end()
-
-
- if has('nvim')
-     let test#strategy = "neovim"
- else
-     let test#strategy = "vimterminal"
- end
-
+if has('nvim')
+  let test#strategy = "neovim"
+else
+  let test#strategy = "vimterminal"
+endif
 
  " call wilder#set_option('pipeline', [
  "      \   wilder#branch(
@@ -363,19 +380,38 @@ call plug#begin('~/.vim/plugged')
  "      \   ),
  "      \ ])
 
- 
  if has('nvim')
-     " lua require('sqlite')
-     " lua require('telescope').load_extension('frecency')
-
-     set completeopt=menu,menuone,noselect
+   set completeopt=menu,menuone,noselect
 
 lua <<EOF
+require('neogit').setup {}
+require('sqlite')
+require('telescope').setup {
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                       -- the default case_mode is "smart_case"
+    }
+  }
+}
+local npairs = require "nvim-autopairs"
+npairs.setup {
+  check_ts = true,
+}
+npairs.add_rules(require "nvim-autopairs.rules.endwise-lua")
+require('telescope').load_extension('fzf')
+require("telescope").load_extension("frecency")
+-- require("telescope").load_extension("recent_files")
+-- To get fzf loaded and working with telescope, you need to call
+-- load_extension, somewhere after setup function:
 require('orgmode').setup_ts_grammar()
 require'nvim-treesitter.configs'.setup {
     ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     -- TODO seems to be broken
-    ignore_install = {"haskell"},
+    ignore_install = {"haskell", "vala", "markdown"},
     highlight = {
       enable = true, -- false will disable the whole extension
       disable = {'org'}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
@@ -383,7 +419,7 @@ require'nvim-treesitter.configs'.setup {
     },
     indent = {
         enable = true,
-        -- disable = {'typescript'},
+        disable = {'yaml'},
     },
     playground = {
         enable = true,
@@ -397,97 +433,65 @@ require'nvim-treesitter.configs'.setup {
     -- refactor = {highlight_definitions = {enable = true}}
 }
 
+require('nvim-test').setup {
+  term = "toggleterm",          -- a terminal to run ("terminal"|"toggleterm")
+    termOpts = {
+    direction = "float",   -- terminal's direction ("horizontal"|"vertical"|"float")
+    width = float,               -- terminal's width (for vertical|float)
+    height = float,              -- terminal's height (for horizontal|float)
+    go_back = false,          -- return focus to original window after executing
+    stopinsert = "auto",      -- exit from insert mode (true|false|"auto")
+    keep_one = true,          -- keep only one terminal for testing
+  },
+}
+
+-- require("neotest").setup({
+--   adapters = {
+--     require("neotest-python")({
+--       dap = { justMyCode = false },
+--     }),
+--     require("neotest-plenary"),
+--     require("neotest-vim-test")({
+--       ignore_file_types = { "python", "vim", "lua" },
+--     }),
+--   },
+-- })
 
 require('orgmode').setup({
   org_agenda_files = {'~/Dropbox/org/*', '~/my-orgs/**/*'},
   org_default_notes_file = '~/Dropbox/org/refile.org',
 })
 
+require('Comment').setup()
 require'nvim-treesitter.configs'.setup {
   context_commentstring = {
     enable = true
   }
 }
 
-local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
-require('Comment').setup()
-require('formatter').setup()
--- Setup nvim-cmp.
-local cmp = require'cmp'
+local lsp = require('lsp-zero')
 
-  -- Setup lspconfig.
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-require("cmp_nvim_ultisnips").setup{}
+lsp.preset('recommended')
+lsp.setup()
 
-local lspconfig = require('lspconfig') 
-local servers = { 'rust_analyzer', 'pylsp', 'tsserver', 'terraformls' }
-for _, lsp in ipairs(servers) do
-lspconfig[lsp].setup {
-      -- on_attach = my_custom_on_attach,
-  capabilities = capabilities,
-}
-end
+-- require("null-ls").setup({
+--     sources = {
+--         require("null-ls").builtins.formatting.stylua,
+--         require("null-ls").builtins.diagnostics.eslint,
+--         require("null-ls").builtins.completion.spell,
+--     },
+-- })
+--
+local nlspsettings = require("nlspsettings")
 
--- local luasnip = require 'luasnip'
-local lspkind = require('lspkind')
-
-cmp.setup({
-  formatting = {
-    format = lspkind.cmp_format({
-      mode = 'text', -- show only symbol annotations
-      maxwidth = 30, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-
-      -- The function below will be called before any actual modifications from lspkind
-      -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-    })
-  },
-  snippet = {
-    -- REQUIRED - you must specify a snippet engine
-    expand = function(args)
-      -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-      -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-      vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-      -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
-    end,
-  },
-  mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    ["<Tab>"] = cmp.mapping(
-      function(fallback)
-        cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
-      end,
-      { "i", "s", --[[ "c" (to enable the mapping in command mode) ]] }
-    ),
-    ["<S-Tab>"] = cmp.mapping(
-      function(fallback)
-        cmp_ultisnips_mappings.jump_backwards(fallback)
-      end,
-      { "i", "s", --[[ "c" (to enable the mapping in command mode) ]] }
-    ),
-  },
-  sources = {
-    { name = 'nvim_lsp' },
-    -- { name = 'vsnip' }, -- For vsnip users.
-    -- { name = 'luasnip' }, -- For luasnip users.
-    { name = 'orgmode' },
-    { name = 'ultisnips' }, -- For ultisnips users.
-    -- { name = 'snippy' }, -- For snippy users.
-  }, {
-    { name = 'buffer' },
-  }
-
+nlspsettings.setup({
+  config_home = vim.fn.stdpath('config') .. '/nlsp-settings',
+  local_settings_dir = ".nlsp-settings",
+  local_settings_root_markers_fallback = { '.git' },
+  append_default_schemas = true,
+  loader = 'json'
 })
+
 
   -- -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
   -- cmp.setup.cmdline('/', {
@@ -632,110 +636,114 @@ endfu
 " matchparentesis is pretty slow on big files :(
 let loaded_matchparen = 1
 if has("gui_running")
-    " prepare path
-    "set shell=$VIMDATA/path.sh
-    " the `b' puts a scrollbar at the bottom, which has no effect if wrap is set
-    " e sets the gui tabline
-    " r sets the right scrollbar
-    set guioptions-=Tm
-    set guioptions=age
-    set tabpagemax=30
-    set mousehide
+  " prepare path
+  "set shell=$VIMDATA/path.sh
+  " the `b' puts a scrollbar at the bottom, which has no effect if wrap is set
+  " e sets the gui tabline
+  " r sets the right scrollbar
+  set guioptions-=Tm
+  set guioptions=age
+  set tabpagemax=30
+  set mousehide
 
-    set columns=90
-    if has("gui_gtk2")
-        set lines=30
-        set showcmd
-    elseif has("gui_macvim") || has("gui_mac")
-        set columns=190
-        set lines=59
-    else
-        set lines=50
-        set cursorline
-    endif
+  set columns=90
+  if has("gui_gtk2")
+    set lines=30
+    set showcmd
+  elseif has("gui_macvim") || has("gui_mac")
+    set columns=190
+    set lines=59
+  else
+    set lines=50
+    set cursorline
+  endif
 
-    let psc_style='cool'
+  let psc_style='cool'
 
-    " colo desert
-    colo wombat
+  " colo desert
+  colo wombat
 
 else
+  if (has("nvim"))
+    colo tokyonight
+  else
     colo onedark
-    set title
-    "set background=light
-    "colo ir_black
-    " set background=dark
-    " colo wombat256
-    " colo jellybeans
-    "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-    "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-    "(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
-    if (empty($TMUX))
-        if (has("nvim"))
-            "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-            let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-        endif
-        "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-        "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-        " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-        if (has("termguicolors"))
-            set termguicolors
-        endif
+  endif
+  set title
+  "set background=light
+  "colo ir_black
+  " set background=dark
+  " colo wombat256
+  " colo jellybeans
+  "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+  "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+  "(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+  if (empty($TMUX))
+    if (has("nvim"))
+      "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+      let $NVIM_TUI_ENABLE_TRUE_COLOR=1
     endif
+    "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+    "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+    " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+    if (has("termguicolors"))
+      set termguicolors
+    endif
+  endif
+  " set termguicolors
+
+  if has("termguicolors")     " set true colors
+    " change ^[ to real escape!
+    set t_8f=[38;2;%lu;%lu;%lum
+    set t_8b=[48;2;%lu;%lu;%lum
+  endif
+
+  if $TERM == "rxvt-unicode-256color"
+    set t_Co=256
+    "colo desert256
+    " colo wombatc
+    " colo hybrid
+    " colo desertc
+    " colo leo
+    " colo gardener
+    " colo inkpot
+  elseif $TERM == "alacritty"
+    call LightBackground()
+  elseif $TERM == "screen-256color"
+    " simply use c-v to create these maps
+    noremap [k;5D <c-left>
+    noremap [1;5C <c-right>
+    noremap [1;2D <s-left>
+    noremap [1;2C <s-right>
+    inoremap [1;5D <c-left>
+    inoremap [1;5C <c-right>
+    inoremap [1;2D <s-left>
+    inoremap [1;2C <s-right>
+    cnoremap [1;5D <c-left>
+    cnoremap [1;5C <c-right>
+    cnoremap [1;2D <s-left>
+    cnoremap [1;2C <s-right>
+    inoremap OP <C-O>:w!<cr>
+
+    " fix mouse selection dragging and scrolling
+    set ttymouse=xterm2
     " set termguicolors
 
-    if has("termguicolors")     " set true colors
-      " change ^[ to real escape!
-      set t_8f=[38;2;%lu;%lu;%lum
-      set t_8b=[48;2;%lu;%lu;%lum
-    endif
-
-    if $TERM == "rxvt-unicode-256color"
-      set t_Co=256
-      "colo desert256
-      " colo wombatc
-      " colo hybrid
-      " colo desertc
-      " colo leo
-      " colo gardener
-      " colo inkpot
-    elseif $TERM == "alacritty"
-      call LightBackground()
-    elseif $TERM == "screen-256color"
-        " simply use c-v to create these maps
-        noremap [k;5D <c-left>
-        noremap [1;5C <c-right>
-        noremap [1;2D <s-left>
-        noremap [1;2C <s-right>
-        inoremap [1;5D <c-left>
-        inoremap [1;5C <c-right>
-        inoremap [1;2D <s-left>
-        inoremap [1;2C <s-right>
-        cnoremap [1;5D <c-left>
-        cnoremap [1;5C <c-right>
-        cnoremap [1;2D <s-left>
-        cnoremap [1;2C <s-right>
-        inoremap OP <C-O>:w!<cr>
-
-        " fix mouse selection dragging and scrolling
-        set ttymouse=xterm2
-        " set termguicolors
-
-        " colo wombat256mod
-    elseif has("win32")
-        set term=xterm
-        set t_Co=256
-        let &t_AB="\e[48;5;%dm"
-        let &t_AF="\e[38;5;%dm"
-        colo wombat256mod
-    endif
-    " let g:Powerline_symbols = 'unicode'
+    " colo wombat256mod
+  elseif has("win32")
+    set term=xterm
+    set t_Co=256
+    let &t_AB="\e[48;5;%dm"
+    let &t_AF="\e[38;5;%dm"
+    colo wombat256mod
+  endif
+  " let g:Powerline_symbols = 'unicode'
 endif
 
 
 if has("win32")
-    set rtp+=$VIMFILES/runtime/win
-    runtime plugin/visual_studio.vim
+  set rtp+=$VIMFILES/runtime/win
+  runtime plugin/visual_studio.vim
 endif
 
 " }}}1
@@ -859,8 +867,8 @@ inoremap <C-w>  <C-g>u<C-w>
 inoremap <C-u>  <C-g>u<C-u>
 
 
-" faster selection of tags
-map <C-\> :tselect /<C-R><C-W>
+" " faster selection of tags
+" map <C-\> :tselect /<C-R><C-W>
 
 " scroll the viewport faster
 nnoremap <C-e> 3<C-e>
@@ -1176,7 +1184,6 @@ let g:tagbar_type_scss = {'ctagstype': 'CSS','kinds': ['c:classes', 's:selectors
 
 autocmd QuickFixCmdPost *grep* cwindow
 
-let g:gitgutter_enabled = 0
 
 
 """"""""""""""""""""""""""""""
@@ -1220,7 +1227,8 @@ nnoremap <leader>pf <cmd>Telescope find_files<cr>
 nnoremap <leader>/ <cmd>Telescope live_grep<cr>
 nnoremap <leader>bb <cmd>Telescope buffers<cr>
 nnoremap <leader>hl <cmd>Telescope help_tags<cr>
-" nnoremap <silent><leader>fr :Telescope frecency<CR>
+" nnoremap <silent><leader>fr :lua require('telescope').extensions.recent_files.pick()<CR>
+nnoremap <silent><leader>fr :Telescope frecency<CR>
 
 " Using Lua functions
 " nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
@@ -1235,8 +1243,8 @@ noremap <silent> <leader>pf :FzfFiles<CR>
 noremap <silent> <leader>bs :FzfBuffers<CR>
 noremap <silent> <leader>tS :FzfColors<CR>
 noremap <silent> <leader>gs :Gstatus<CR>
-endif
 noremap <silent> <leader>fr :FZFMru<CR>
+endif
 
 " noremap <silent> <M-t> :CtrlP<CR>
 " noremap <silent> <leader>t :CtrlP<CR>
@@ -1393,6 +1401,8 @@ imap <silent> <leader>` <ESC>:QFix<cr>
 " Development
 augroup development
     autocmd!
+    " Fix auto-indentation for YAML files
+    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
     autocmd Filetype c,cpp setl nu cindent cino=(0 nowrap textwidth=0 ts=4 sw=4 sts=4 et
     autocmd Filetype objc,objcpp setl nu cindent cino=(0 nowrap textwidth=0 ts=4 sw=4 sts=4 et
     autocmd FileType make,php,sh,javascript,perl,css,dosbatch,python,xml,idlang setl nowrap textwidth=0
@@ -1608,33 +1618,39 @@ set packpath+=~/.vim/pack
 "au VimLeavePre * mks! $VIMDATA/session.vim
 " don't load the python stuff as root, i.e. sudo
 
- let g:LanguageClient_serverCommands = {
-       \ 'rust': ['rls'],
-       \ 'python': ['poetry', 'run', 'pyls'],
-       \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-       \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-       \ 'ruby': ['solargraph', 'stdio'],
-       \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
-       \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
-       \ }
+let g:LanguageClient_serverCommands = {
+      \ 'rust': ['rls'],
+      \ 'python': ['poetry', 'run', 'pyls'],
+      \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+      \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+      \ 'ruby': ['solargraph', 'stdio'],
+      \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
+      \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
+      \ }
 
 
 
- if executable('pyls')
-     " pip install python-language-server
-     au User lsp_setup call lsp#register_server({
-                 \ 'name': 'pyls',
-                 \ 'cmd': {server_info->['poetry run pyls']},
-                 \ 'whitelist': ['python'],
-                 \ })
- endif
- " let g:lsp_diagnostics_enabled = 0         " disable diagnostics support
- let g:lsp_signs_enabled = 1         " enable signs
- let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+if executable('pyls')
+  " pip install python-language-server
+  au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['poetry run pyls']},
+        \ 'whitelist': ['python'],
+        \ })
+endif
+" let g:lsp_diagnostics_enabled = 0         " disable diagnostics support
+let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 
-" call deoplete#custom#source('LanguageClient',
-"             \ 'min_pattern_length',
-"             \ 2)
+" set
+autocmd TermEnter term://*toggleterm#*
+      \ tnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+
+" By applying the mappings this way you can pass a count to your
+" mapping to open a specific window.
+" For example: 2<C-t> will open terminal 2
+nnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim: set et ft=vim tw=78 path+=$VIMFILES/* tags+=$VIMRUNTIME/doc/tags:
