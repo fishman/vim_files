@@ -50,6 +50,7 @@ if has("win32")         " platform dependent
 else
     let $VIMDATA  = $HOME.'/.vim/vimdata'
     let $VIMFILES = $HOME.'/.vim'
+    " let $SPELLFILE = $VIMDATA.'/spellfile.txt'
 endif
 " fast sourcing and editing of the .vimrc
 "map <leader>s :source $MYVIMRC<cr>
@@ -57,6 +58,8 @@ map <leader>e :e! $MYVIMRC<cr>
 map <silent> <leader>fed :e $MYVIMRC<cr>
 au! BufWritePost [\._]vimrc source $MYVIMRC
 au! BufWritePost init.vim source $MYVIMRC
+
+" set spellfile+=$SPELLFILE
 
 set pastetoggle=<F6>    " when pasting something in, don't indent
 set rtp+=$VIMDATA       " add this to rtp to satisfy getscript.vim
@@ -72,19 +75,19 @@ nmap <leader>fu :se ff=unix<cr>
 " Text Options: {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set expandtab
+set shiftwidth=2
+set tabstop=2
+set numberwidth=4
 " set smarttab            " use tabs at start of a line, spaces elsewhere
 set fo=tcrqnmM		      " see help formatoptions (complex)
 set linebreak           " wrap long lines at a character in 'breakat'
 set textwidth=500       " maximum width of text that is being inserted
 " set ts=2 sts=2 sw=2
 au FileType mail setl textwidth=78
-set ai                  " autoindent
+" set ai                  " autoindent
 set si                  " smartindent
 " set copyindent
 set wrap                " wrap lines
-
-map <leader>t2 :set shiftwidth=2<cr>
-map <leader>t8 :set shiftwidth=8<cr>
 
 "noremap <leader>; :make<CR>
 " Map ; to "add ; to the end of the line, when missing"
@@ -158,36 +161,19 @@ let g:ycm_semantic_triggers = { 'python' : [] }
 
 let g:ale_linters = {
   \   'cpp': [
-  \       'clang-format',
   \   ],
   \   'c': [
-  \       'clang-format',
   \   ],
   \   'python': [
   \   ],
   \ }
-" let g:ale_linters = {
-"             \   'python': [
-"             \        'flake8',
-"             \        'pylint'
-"             \   ],
-"             \ }
-" \   'python': ['flake8', 'mypy', 'pylint'],
  " let g:ale_python_auto_pipenv=1
  let g:ale_yaml_yamllint_options = "-d relaxed"
  let g:ale_yaml_yamllint_options = "-c ~/.config/yamllint.yml"
  " let g:ale_python_auto_pipenv = 1
  " let pipenv_venv_path = system('pipenv --venv')
-
  let g:ale_lint_on_text_changed = 'normal'
- let g:ale_lint_on_insert_leave = 1
- let g:pymode_lint = 0
- let g:pymode_lint_on_write = 0
- let g:pymode_lint_on_fly = 0
- let g:pymode_virtualenv = 1
- " let g:pymode_python = 'python3'
- " let g:pymode_run = 1
- " let g:pymode_run_bind = '<leader>r'
+ let g:ale_lint_on_insert_leave = 0
 
  let test#strategy = "vimterminal"
  " let test#strategy = "asyncrun"
@@ -234,16 +220,25 @@ let g:gutentags_enabled = 0
 Plug 'tpope/vim-vinegar'
 Plug 'majutsushi/tagbar'
 Plug 'junegunn/vim-easy-align'
-Plug 'Alok/notational-fzf-vim'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'pbogut/fzf-mru.vim'
 
 " Version control
 Plug 'akinsho/git-conflict.nvim'
-Plug 'airblade/vim-gitgutter'
-let g:gitgutter_enabled = 0
 
+" Languages
+" Plug 'leafgarland/typescript-vim'
+" Plug 'pangloss/vim-javascript'
+" Plug 'cespare/vim-toml'
+" Plug 'vim-scripts/JavaDecompiler.vim'
+" Plug 'rhysd/vim-clang-format'
+" Plug 'udalov/kotlin-vim'
+" Plug 'vim-ruby/vim-ruby'
+" Plug 'tpope/vim-rails'
+" Plug 'hashivim/vim-terraform'
+" Plug 'elzr/vim-json'
+" Plug 'towolf/vim-helm'
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'rust-lang/rust.vim'
+"
 " Themes
 Plug 'folke/tokyonight.nvim'
 Plug 'reedes/vim-colors-pencil'
@@ -251,22 +246,9 @@ Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox'
 Plug 'joshdick/onedark.vim'
 
-" Languages
-Plug 'leafgarland/typescript-vim'
-Plug 'pangloss/vim-javascript'
-Plug 'cespare/vim-toml'
-Plug 'vim-scripts/JavaDecompiler.vim'
-Plug 'rhysd/vim-clang-format'
-Plug 'udalov/kotlin-vim'
-Plug 'vim-ruby/vim-ruby'
-Plug 'tpope/vim-rails'
-Plug 'hashivim/vim-terraform'
-Plug 'elzr/vim-json'
-Plug 'towolf/vim-helm'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'rust-lang/rust.vim'
 
 if has('nvim')
+  Plug 'lambdalisue/suda.vim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
   " Plug 'ggandor/leap.nvim'
   Plug 'numToStr/Comment.nvim'
@@ -274,17 +256,22 @@ if has('nvim')
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+  Plug 'Shatur/neovim-tasks'
   " Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
-  " Plug 'smartpde/telescope-recent-files'
+  Plug 'smartpde/telescope-recent-files'
   Plug 'kkharji/sqlite.lua'
-  Plug 'nvim-telescope/telescope-frecency.nvim'
+  " Plug 'nvim-telescope/telescope-frecency.nvim'
   Plug 'ahmedkhalf/project.nvim'
   " Plug 'Shatur/neovim-session-manager'
   Plug 'tversteeg/registers.nvim', { 'branch': 'main' }
   Plug 'akinsho/toggleterm.nvim'
-  " Plug 'kyazdani42/nvim-web-devicons' " for file icons
+  Plug 'kyazdani42/nvim-web-devicons' " for file icons
+  Plug 'ryanoasis/vim-devicons'       " vimscript
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-lua/popup.nvim' 
   " Plug 'kyazdani42/nvim-tree.lua'
   Plug 'nvim-orgmode/orgmode'
+  Plug 'akinsho/org-bullets.nvim'
   Plug 'mhartington/formatter.nvim'
   "Plug 'quangnguyen30192/cmp-nvim-ultisnips'
   " function! UpdateRemotePlugins(...)
@@ -314,16 +301,29 @@ if has('nvim')
   Plug 'VonHeikemen/lsp-zero.nvim'
   Plug 'tamago324/nlsp-settings.nvim'
   Plug 'jose-elias-alvarez/null-ls.nvim'
-  Plug 'nvim-lua/popup.nvim' 
   Plug 'windwp/nvim-autopairs',
-  Plug 'nvim-lua/plenary.nvim'
   Plug 'antoinemadec/FixCursorHold.nvim'
   Plug 'klen/nvim-test'
   Plug 'TimUntersberger/neogit'
+  Plug 'folke/neodev.nvim'
+  Plug 'lewis6991/gitsigns.nvim'
+  Plug 'pbogut/fzf-mru.vim'
+  " Plug 'konapun/vacuumline.nvim'
+  " Plug 'glepnir/galaxyline.nvim'
   " Plug 'nvim-neotest/neotest'
   " Plug 'nvim-neotest/neotest-python'
   " Plug 'nvim-neotest/neotest-plenary'
   " Plug 'nvim-neotest/neotest-vim-test'
+
+  " set
+  autocmd TermEnter term://*toggleterm#*
+        \ tnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+
+  " By applying the mappings this way you can pass a count to your
+  " mapping to open a specific window.
+  " For example: 2<C-t> will open terminal 2
+  nnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+  inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
 else
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-commentary'
@@ -339,23 +339,29 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
-  " Plug 'dense-analysis/ale'
   Plug 'vim-test/vim-test'
+  Plug 'Alok/notational-fzf-vim'
+  Plug 'junegunn/fzf'
+  Plug 'junegunn/fzf.vim'
+  Plug 'pbogut/fzf-mru.vim'
+  Plug 'airblade/vim-gitgutter'
+  let g:gitgutter_enabled = 0
+  Plug 'dense-analysis/ale'
 endif
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 
 " Plug 'prabirshrestha/async.vim'
 " Plug 'prabirshrestha/vim-lsp'
 " let g:deoplete#enable_at_startup = 1
-Plug 'Shougo/echodoc.vim'
+" Plug 'Shougo/echodoc.vim'
 
 " For conceal markers.
 " Plug 'itchyny/lightline.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 " Initialize plugin system
 
-Plug 'editorconfig/editorconfig-vim'
+" Plug 'editorconfig/editorconfig-vim'
 
 " Plug 'plytophogy/vim-virtualenv'
 call plug#end()
@@ -381,9 +387,20 @@ endif
  "      \ ])
 
  if has('nvim')
-   set completeopt=menu,menuone,noselect
+   " set completeopt=menu,menuone,noselect
+  let g:airline#extensions#nvimlsp#enabled = 1
+  let g:airline#extensions#nvimlsp#error_symbol = 'E:'
+  let g:airline#extensions#nvimlsp#warning_symbol = 'W:'
+  let g:airline#extensions#nvimlsp#show_line_numbers = 1
+  let g:airline#extensions#nvimlsp#open_lnum_symbol = '(L'
+  let g:airline#extensions#nvimlsp#close_lnum_symbol = ')'
 
 lua <<EOF
+
+
+
+-- require('vacuumline').setup()
+require('gitsigns').setup() 
 require('neogit').setup {}
 require('sqlite')
 require('telescope').setup {
@@ -403,34 +420,79 @@ npairs.setup {
 }
 npairs.add_rules(require "nvim-autopairs.rules.endwise-lua")
 require('telescope').load_extension('fzf')
-require("telescope").load_extension("frecency")
--- require("telescope").load_extension("recent_files")
+-- require("telescope").load_extension("frecency")
+require('telescope').load_extension('projects')
+require("telescope").load_extension("recent_files")
 -- To get fzf loaded and working with telescope, you need to call
 -- load_extension, somewhere after setup function:
 require('orgmode').setup_ts_grammar()
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-    -- TODO seems to be broken
-    ignore_install = {"haskell", "vala", "markdown"},
-    highlight = {
-      enable = true, -- false will disable the whole extension
-      disable = {'org'}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
-      additional_vim_regex_highlighting = {'org'}, -- Required since TS highlighter doesn't support all syntax features (conceal)
+  on_config_done = nil,
+  ensure_installed = {}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ignore_install = {},
+  matchup = {
+    enable = false, -- mandatory, false will disable the whole extension
+    -- disable = { "c", "ruby" },  -- optional, list of language that will be disabled
+  },
+  highlight = {
+    enable = true, -- false will disable the whole extension
+    additional_vim_regex_highlighting = {'org'}, -- Required for spellcheck, some LaTex highlights and code block highlights that do not have ts grammar
+    disable = { "latex" },
+  },
+  context_commentstring = {
+    enable = true,
+    enable_autocmd = false,
+    config = {
+      -- Languages that have a single comment style
+      typescript = "// %s",
+      css = "/* %s */",
+      scss = "/* %s */",
+      html = "<!-- %s -->",
+      svelte = "<!-- %s -->",
+      vue = "<!-- %s -->",
+      json = "",
     },
-    indent = {
-        enable = true,
-        disable = {'yaml'},
+  },
+  indent = { enable = true, disable = { "yaml", "python" } },
+  autotag = { enable = false },
+  textobjects = {
+    swap = {
+      enable = false,
+      -- swap_next = textobj_swap_keymaps,
     },
-    playground = {
-        enable = true,
-        disable = {},
-        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-        persist_queries = false -- Whether the query persists across vim sessions
+    -- move = textobj_move_keymaps,
+    select = {
+      enable = false,
+      -- keymaps = textobj_sel_keymaps,
     },
-    autotag = {enable = true},
-    rainbow = {enable = true},
-    context_commentstring = {enable = true, config = {javascriptreact = {style_element = '{/*%s*/}'}}}
-    -- refactor = {highlight_definitions = {enable = true}}
+  },
+  textsubjects = {
+    enable = false,
+    keymaps = { ["."] = "textsubjects-smart", [";"] = "textsubjects-big" },
+  },
+  playground = {
+    enable = false,
+    disable = {},
+    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+    persist_queries = false, -- Whether the query persists across vim sessions
+    keybindings = {
+      toggle_query_editor = "o",
+      toggle_hl_groups = "i",
+      toggle_injected_languages = "t",
+      toggle_anonymous_nodes = "a",
+      toggle_language_display = "I",
+      focus_language = "f",
+      unfocus_language = "F",
+      update = "R",
+      goto_node = "<cr>",
+      show_help = "?",
+    },
+  },
+  rainbow = {
+    enable = false,
+    extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+    max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
+  },
 }
 
 require('nvim-test').setup {
@@ -445,18 +507,6 @@ require('nvim-test').setup {
   },
 }
 
--- require("neotest").setup({
---   adapters = {
---     require("neotest-python")({
---       dap = { justMyCode = false },
---     }),
---     require("neotest-plenary"),
---     require("neotest-vim-test")({
---       ignore_file_types = { "python", "vim", "lua" },
---     }),
---   },
--- })
-
 require('orgmode').setup({
   org_agenda_files = {'~/Dropbox/org/*', '~/my-orgs/**/*'},
   org_default_notes_file = '~/Dropbox/org/refile.org',
@@ -469,10 +519,101 @@ require'nvim-treesitter.configs'.setup {
   }
 }
 
+require("neodev").setup({})
 local lsp = require('lsp-zero')
 
 lsp.preset('recommended')
+lsp.set_preferences({
+  suggest_lsp_servers = false,
+})
+local lua_opts = {
+  settings = {
+    Lua = {
+      telemetry = { enable = false },
+      runtime = {
+        version = "LuaJIT",
+        special = {
+          reload = "require",
+        },
+      },
+      diagnostics = {
+        globals = { "vim", "lvim", "packer_plugins", "reload" },
+      },
+      workspace = default_workspace,
+    },
+  },
+}
+
+local yaml_opts = {
+  settings = {
+    yaml = {
+      hover = true,
+      completion = true,
+      validate = true,
+      schemaStore = {
+        enable = true,
+        url = "https://www.schemastore.org/api/json/catalog.json",
+      },
+      schemas = {
+        kubernetes = {
+          "daemon.{yml,yaml}",
+          "manager.{yml,yaml}",
+          "restapi.{yml,yaml}",
+          "role.{yml,yaml}",
+          "role_binding.{yml,yaml}",
+          "*onfigma*.{yml,yaml}",
+          "*ngres*.{yml,yaml}",
+          "*ecre*.{yml,yaml}",
+          "*eployment*.{yml,yaml}",
+          "*ervic*.{yml,yaml}",
+          "kubectl-edit*.yaml",
+        },
+      },
+    },
+  },
+}
+
+lsp.ensure_installed({
+  "html",
+  "cssls",
+  "tsserver",
+  "eslint",
+  "rome",
+  -- "ltex-ls",
+  "terraformls",
+  "vimls",
+})
+
+
+local ltexls_opts = {
+  settings = {
+    use_spellfile = true,
+  }
+}
+-- suggest_lsp_servers = false,
+lsp.setup_servers({'yamlls', opts = yaml_opts})
+lsp.setup_servers({'sumneko_lua', opts = lua_opts})
+lsp.setup_servers({'ltex-ls', opts = ltexls_opts})
+
+local null_ls = require('null-ls')
+local null_opts = lsp.build_options('null-ls', {})
+
+
+null_ls.setup({
+  on_attach = null_opts.on_attach,
+  sources = {
+    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.diagnostics.eslint,
+    null_ls.builtins.formatting.black,
+    null_ls.builtins.formatting.isort,
+  }
+})
+
 lsp.setup()
+
+vim.diagnostic.config({
+  virtual_text = true
+})
 
 -- require("null-ls").setup({
 --     sources = {
@@ -492,28 +633,11 @@ nlspsettings.setup({
   loader = 'json'
 })
 
-
-  -- -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-  -- cmp.setup.cmdline('/', {
-  --   sources = {
-  --     { name = 'buffer' }
-  --   }
-  -- })
-  --
-  -- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-  -- cmp.setup.cmdline(':', {
-  --   sources = cmp.config.sources({
-  --     { name = 'path' }
-  --   }, {
-  --     { name = 'cmdline' }
-  --   })
-  -- })
-
 require("project_nvim").setup {
-  -- your configuration comes here
-  -- or leave it empty to use the default settings
-  -- refer to the configuration section below
+  -- detection_methods = {"lsp"},
+  ignore_lsp = {"texlab"},
 }
+
 require("toggleterm").setup {
     open_mapping = [[c\-\-]],
 }
@@ -1059,8 +1183,7 @@ set viminfo='10,\"100,:20,!,n~/.viminfo
 endif
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
-" buffer - reverse everything ... :)
-map <F8> ggVGg?
+nnoremap <F9> :TestNearest<cr>
 
 " don't close window, when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
@@ -1227,8 +1350,8 @@ nnoremap <leader>pf <cmd>Telescope find_files<cr>
 nnoremap <leader>/ <cmd>Telescope live_grep<cr>
 nnoremap <leader>bb <cmd>Telescope buffers<cr>
 nnoremap <leader>hl <cmd>Telescope help_tags<cr>
-" nnoremap <silent><leader>fr :lua require('telescope').extensions.recent_files.pick()<CR>
-nnoremap <silent><leader>fr :Telescope frecency<CR>
+nnoremap <silent><leader>fr :lua require('telescope').extensions.recent_files.pick()<CR>
+" nnoremap <silent><leader>fr :Telescope frecency<CR>
 
 " Using Lua functions
 " nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
@@ -1243,8 +1366,8 @@ noremap <silent> <leader>pf :FzfFiles<CR>
 noremap <silent> <leader>bs :FzfBuffers<CR>
 noremap <silent> <leader>tS :FzfColors<CR>
 noremap <silent> <leader>gs :Gstatus<CR>
-noremap <silent> <leader>fr :FZFMru<CR>
 endif
+noremap <silent> <leader>fr :FZFMru<CR>
 
 " noremap <silent> <M-t> :CtrlP<CR>
 " noremap <silent> <leader>t :CtrlP<CR>
@@ -1639,18 +1762,9 @@ if executable('pyls')
         \ })
 endif
 " let g:lsp_diagnostics_enabled = 0         " disable diagnostics support
-let g:lsp_signs_enabled = 1         " enable signs
-let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+" let g:lsp_signs_enabled = 1         " enable signs
+" let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 
-" set
-autocmd TermEnter term://*toggleterm#*
-      \ tnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
-
-" By applying the mappings this way you can pass a count to your
-" mapping to open a specific window.
-" For example: 2<C-t> will open terminal 2
-nnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
-inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim: set et ft=vim tw=78 path+=$VIMFILES/* tags+=$VIMRUNTIME/doc/tags:
