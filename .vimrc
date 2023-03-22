@@ -248,6 +248,7 @@ Plug 'joshdick/onedark.vim'
 
 
 if has('nvim')
+  Plug 'github/copilot.vim'
   Plug 'lambdalisue/suda.vim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
   " Plug 'ggandor/leap.nvim'
@@ -1601,7 +1602,11 @@ augroup END
 
 " this allows us to write to files even when we
 " forget to use sudo to launch vim
-command! -bar -nargs=0 Sudow :silent exe "w !sudo tee % > /dev/null" | silent edit!
+if has('nvim')
+  command! -bar -nargs=0 Sudow :SudaWrite<cr>
+else
+  command! -bar -nargs=0 Sudow :silent exe "w !sudo tee % > /dev/null" | silent edit!
+endif
 
 
 " use jk for esc
