@@ -83,7 +83,8 @@ set fo=tcrqnmM		      " see help formatoptions (complex)
 set linebreak           " wrap long lines at a character in 'breakat'
 set textwidth=500       " maximum width of text that is being inserted
 " set ts=2 sts=2 sw=2
-au FileType mail setl textwidth=78
+au FileType mail setl textwidth=72 fo=awq comments+=nb:>
+au FileType mail match ErrorMsg '\s\+$'
 " set ai                  " autoindent
 set si                  " smartindent
 " set copyindent
@@ -95,10 +96,10 @@ noremap <leader>; :s/\([^;]\)$/\1;/<cr>:let @/=""<cr><esc>
 
 " }}}1
 
-let g:python_host_skip_check = 1
-let g:python3_host_skip_check = 1
-let g:python_host_prog = '~/.asdf/shims/python'
-let g:python3_host_prog = '~/.asdf/shims/python3'
+" let g:python_host_skip_check = 1
+" let g:python3_host_skip_check = 1
+" let g:python_host_prog = '~/.asdf/shims/python'
+" let g:python3_host_prog = '~/.asdf/shims/python3'
 
 if has('conceal')
     set conceallevel=2 concealcursor=niv
@@ -194,6 +195,8 @@ let g:ale_linters = {
 call plug#begin('~/.vim/plugged')
 " Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 
+Plug 'dhruvasagar/vim-table-mode'
+Plug 'peterhoeg/vim-qml'
 Plug 'scrooloose/nerdtree'
 
 Plug 'andymass/vim-matchup'
@@ -213,8 +216,8 @@ Plug 'tpope/vim-dispatch'
 Plug 'vim-scripts/LargeFile'
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 
-Plug 'ludovicchabant/vim-gutentags'
-let g:gutentags_enabled = 0
+" Plug 'ludovicchabant/vim-gutentags'
+" let g:gutentags_enabled = 0
 
 " Navigation
 Plug 'tpope/vim-vinegar'
@@ -231,9 +234,9 @@ Plug 'akinsho/git-conflict.nvim'
 " Plug 'vim-scripts/JavaDecompiler.vim'
 " Plug 'rhysd/vim-clang-format'
 " Plug 'udalov/kotlin-vim'
-" Plug 'vim-ruby/vim-ruby'
-" Plug 'tpope/vim-rails'
-" Plug 'hashivim/vim-terraform'
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
+Plug 'hashivim/vim-terraform'
 " Plug 'elzr/vim-json'
 " Plug 'towolf/vim-helm'
 " Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -245,10 +248,27 @@ Plug 'reedes/vim-colors-pencil'
 Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox'
 Plug 'joshdick/onedark.vim'
+" Plug 'Exafunction/codeium.vim'
+let g:codeium_no_map_tab = 0
+" imap <script><silent><nowait><expr> <C-g> codeium#Accept()
+let g:codeium_filetypes = {
+      \ '*': v:false,
+      \ "bash": v:false,
+      \ "typescript": v:true,
+      \ "rust": v:true,
+      \ }
+
+let g:copilot_filetypes = {
+      \ '*': v:false,
+      \ 'rust': v:true,
+      \ }
+let g:codeium_enabled = v:false
+" imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
 
 
 if has('nvim')
-  Plug 'github/copilot.vim'
+  " Plug 'github/copilot.vim'
   Plug 'lambdalisue/suda.vim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
   " Plug 'ggandor/leap.nvim'
@@ -274,6 +294,9 @@ if has('nvim')
   Plug 'nvim-orgmode/orgmode'
   Plug 'akinsho/org-bullets.nvim'
   Plug 'mhartington/formatter.nvim'
+  Plug 'mfussenegger/nvim-dap'
+  Plug 'rcarriga/nvim-dap-ui'
+  Plug 'theHamsta/nvim-dap-virtual-text'
   "Plug 'quangnguyen30192/cmp-nvim-ultisnips'
   " function! UpdateRemotePlugins(...)
   "     " Needed to refresh runtime files
@@ -282,31 +305,37 @@ if has('nvim')
   " endfunction
   " Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
   Plug 'JoosepAlviste/nvim-ts-context-commentstring'
-  " LSP Support
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'williamboman/mason.nvim'
-  Plug 'williamboman/mason-lspconfig.nvim'
 
   " Autocompletion
+  Plug 'onsails/lspkind.nvim'
   Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-path'
   Plug 'saadparwaiz1/cmp_luasnip'
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-nvim-lua'
+  Plug 'zbirenbaum/copilot.lua'
+  Plug 'zbirenbaum/copilot-cmp'
+  Plug 'folke/trouble.nvim'
 
   "  Snippets
   Plug 'L3MON4D3/LuaSnip'
   Plug 'rafamadriz/friendly-snippets'
 
+  " LSP Support
   Plug 'VonHeikemen/lsp-zero.nvim'
   Plug 'tamago324/nlsp-settings.nvim'
-  Plug 'jose-elias-alvarez/null-ls.nvim'
   Plug 'windwp/nvim-autopairs',
+  Plug 'neovim/nvim-lspconfig'
+  " Plug 'williamboman/mason.nvim'
+  " Plug 'williamboman/mason-lspconfig.nvim'
+  " Plug 'junnplus/lsp-setup.nvim'
+  " Plug 'jose-elias-alvarez/null-ls.nvim'
+  " Plug 'jay-babu/mason-null-ls.nvim'
+  Plug 'folke/neodev.nvim'
   Plug 'antoinemadec/FixCursorHold.nvim'
   Plug 'klen/nvim-test'
   Plug 'TimUntersberger/neogit'
-  Plug 'folke/neodev.nvim'
   Plug 'lewis6991/gitsigns.nvim'
   Plug 'pbogut/fzf-mru.vim'
   " Plug 'konapun/vacuumline.nvim'
@@ -347,8 +376,8 @@ else
   Plug 'pbogut/fzf-mru.vim'
   Plug 'airblade/vim-gitgutter'
   let g:gitgutter_enabled = 0
-  Plug 'dense-analysis/ale'
 endif
+Plug 'dense-analysis/ale'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -395,12 +424,14 @@ endif
   let g:airline#extensions#nvimlsp#show_line_numbers = 1
   let g:airline#extensions#nvimlsp#open_lnum_symbol = '(L'
   let g:airline#extensions#nvimlsp#close_lnum_symbol = ')'
+  " let g:airline_section_y = '{…}%3{codeium#GetStatusString()}'
 
 lua <<EOF
 
 
 
 -- require('vacuumline').setup()
+-- require('mason').setup()
 require('gitsigns').setup() 
 require('neogit').setup {}
 require('sqlite')
@@ -428,85 +459,178 @@ require("telescope").load_extension("recent_files")
 -- load_extension, somewhere after setup function:
 require('orgmode').setup_ts_grammar()
 require'nvim-treesitter.configs'.setup {
-  on_config_done = nil,
-  ensure_installed = {}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  ignore_install = {},
-  matchup = {
-    enable = false, -- mandatory, false will disable the whole extension
-    -- disable = { "c", "ruby" },  -- optional, list of language that will be disabled
-  },
-  highlight = {
-    enable = true, -- false will disable the whole extension
-    additional_vim_regex_highlighting = {'org'}, -- Required for spellcheck, some LaTex highlights and code block highlights that do not have ts grammar
-    disable = { "latex" },
-  },
-  context_commentstring = {
-    enable = true,
-    enable_autocmd = false,
-    config = {
-      -- Languages that have a single comment style
-      typescript = "// %s",
-      css = "/* %s */",
-      scss = "/* %s */",
-      html = "<!-- %s -->",
-      svelte = "<!-- %s -->",
-      vue = "<!-- %s -->",
-      json = "",
-    },
-  },
-  indent = { enable = true, disable = { "yaml", "python" } },
-  autotag = { enable = false },
-  textobjects = {
-    swap = {
-      enable = false,
-      -- swap_next = textobj_swap_keymaps,
-    },
-    -- move = textobj_move_keymaps,
-    select = {
-      enable = false,
-      -- keymaps = textobj_sel_keymaps,
-    },
-  },
-  textsubjects = {
-    enable = false,
-    keymaps = { ["."] = "textsubjects-smart", [";"] = "textsubjects-big" },
-  },
-  playground = {
-    enable = false,
-    disable = {},
-    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-    persist_queries = false, -- Whether the query persists across vim sessions
-    keybindings = {
-      toggle_query_editor = "o",
-      toggle_hl_groups = "i",
-      toggle_injected_languages = "t",
-      toggle_anonymous_nodes = "a",
-      toggle_language_display = "I",
-      focus_language = "f",
-      unfocus_language = "F",
-      update = "R",
-      goto_node = "<cr>",
-      show_help = "?",
-    },
-  },
-  rainbow = {
-    enable = false,
-    extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
-    max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
-  },
-}
+    on_config_done = nil,
 
-require('nvim-test').setup {
-  term = "toggleterm",          -- a terminal to run ("terminal"|"toggleterm")
-    termOpts = {
-    direction = "float",   -- terminal's direction ("horizontal"|"vertical"|"float")
-    width = float,               -- terminal's width (for vertical|float)
-    height = float,              -- terminal's height (for horizontal|float)
-    go_back = false,          -- return focus to original window after executing
-    stopinsert = "auto",      -- exit from insert mode (true|false|"auto")
-    keep_one = true,          -- keep only one terminal for testing
-  },
-}
+    -- A list of parser names, or "all"
+    ensure_installed = { "comment", "markdown_inline", "regex" },
+
+    -- List of parsers to ignore installing (for "all")
+    ignore_install = {},
+
+    -- A directory to install the parsers into.
+    -- By default parsers are installed to either the package dir, or the "site" dir.
+    -- If a custom path is used (not nil) it must be added to the runtimepath.
+    parser_install_dir = nil,
+
+    -- Install parsers synchronously (only applied to `ensure_installed`)
+    sync_install = false,
+
+    -- Automatically install missing parsers when entering buffer
+    auto_install = true,
+
+    matchup = {
+      enable = false, -- mandatory, false will disable the whole extension
+      -- disable = { "c", "ruby" },  -- optional, list of language that will be disabled
+    },
+    highlight = {
+      enable = true, -- false will disable the whole extension
+      additional_vim_regex_highlighting = false,
+      disable = function(lang, buf)
+        if vim.tbl_contains({ "latex" }, lang) then
+          return true
+        end
+
+        local status_ok, big_file_detected = pcall(vim.api.nvim_buf_get_var, buf, "bigfile_disable_treesitter")
+        return status_ok and big_file_detected
+      end,
+    },
+    indent = { enable = true, disable = { "yaml", "python", "ruby" } },
+    autotag = { enable = false },
+    textobjects = {
+      swap = {
+        enable = false,
+        -- swap_next = textobj_swap_keymaps,
+      },
+      -- move = textobj_move_keymaps,
+      select = {
+        enable = false,
+        -- keymaps = textobj_sel_keymaps,
+      },
+    },
+    textsubjects = {
+      enable = false,
+      keymaps = { ["."] = "textsubjects-smart", [";"] = "textsubjects-big" },
+    },
+    playground = {
+      enable = false,
+      disable = {},
+      updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+      persist_queries = false, -- Whether the query persists across vim sessions
+      keybindings = {
+        toggle_query_editor = "o",
+        toggle_hl_groups = "i",
+        toggle_injected_languages = "t",
+        toggle_anonymous_nodes = "a",
+        toggle_language_display = "I",
+        focus_language = "f",
+        unfocus_language = "F",
+        update = "R",
+        goto_node = "<cr>",
+        show_help = "?",
+      },
+    },
+    rainbow = {
+      enable = false,
+      extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+      max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
+    },
+  }
+-- require'nvim-treesitter.configs'.setup {
+--   on_config_done = nil,
+--   ensure_installed = {}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+--   ignore_install = {},
+--   matchup = {
+--     enable = false, -- mandatory, false will disable the whole extension
+--     -- disable = { "c", "ruby" },  -- optional, list of language that will be disabled
+--   },
+--   highlight = {
+--     enable = true, -- false will disable the whole extension
+--     additional_vim_regex_highlighting = {'org', 'markdown'}, -- Required for spellcheck, some LaTex highlights and code block highlights that do not have ts grammar
+--     disable = { "latex" },
+--   },
+--   indent = {
+--     enable = true,
+--     disable = { "yaml", "python" }
+--   },
+--   autotag = { enable = false },
+--   textobjects = {
+--     swap = {
+--       enable = false,
+--       -- swap_next = textobj_swap_keymaps,
+--     },
+--     -- move = textobj_move_keymaps,
+--     select = {
+--       enable = false,
+--       -- keymaps = textobj_sel_keymaps,
+--     },
+--   },
+--   textsubjects = {
+--     enable = false,
+--     keymaps = { ["."] = "textsubjects-smart", [";"] = "textsubjects-big" },
+--   },
+--   playground = {
+--     enable = false,
+--     disable = {},
+--     updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+--     persist_queries = false, -- Whether the query persists across vim sessions
+--     keybindings = {
+--       toggle_query_editor = "o",
+--       toggle_hl_groups = "i",
+--       toggle_injected_languages = "t",
+--       toggle_anonymous_nodes = "a",
+--       toggle_language_display = "I",
+--       focus_language = "f",
+--       unfocus_language = "F",
+--       update = "R",
+--       goto_node = "<cr>",
+--       show_help = "?",
+--     },
+--   },
+--   rainbow = {
+--     enable = false,
+--     extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+--     max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
+--   },
+-- }
+    -- context_commentstring = {
+    --   enable = true,
+    --   enable_autocmd = false,
+    --   config = {
+    --     -- Languages that have a single comment style
+    --     typescript = "// %s",
+    --     css = "/* %s */",
+    --     scss = "/* %s */",
+    --     html = "<!-- %s -->",
+    --     svelte = "<!-- %s -->",
+    --     vue = "<!-- %s -->",
+    --     json = "",
+    --   },
+    -- },
+require('ts_context_commentstring').setup ()
+    -- enable = true,
+    -- enable_autocmd = false,
+    -- config = {
+    --   -- Languages that have a single comment style
+    --   typescript = "// %s",
+    --   css = "/* %s */",
+    --   scss = "/* %s */",
+    --   html = "<!-- %s -->",
+    --   svelte = "<!-- %s -->",
+    --   vue = "<!-- %s -->",
+    --   json = "",
+    -- },
+
+-- require('nvim-test').setup {
+--   term = "toggleterm",          -- a terminal to run ("terminal"|"toggleterm")
+--     termOpts = {
+--     direction = "float",   -- terminal's direction ("horizontal"|"vertical"|"float")
+--     width = float,               -- terminal's width (for vertical|float)
+--     height = float,              -- terminal's height (for horizontal|float)
+--     go_back = false,          -- return focus to original window after executing
+--     stopinsert = "auto",      -- exit from insert mode (true|false|"auto")
+--     keep_one = true,          -- keep only one terminal for testing
+--   },
+-- }
 
 require('orgmode').setup({
   org_agenda_files = {'~/Dropbox/org/*', '~/my-orgs/**/*'},
@@ -514,17 +638,129 @@ require('orgmode').setup({
 })
 
 require('Comment').setup()
-require'nvim-treesitter.configs'.setup {
-  context_commentstring = {
-    enable = true
-  }
-}
 
-require("neodev").setup({})
-local lsp = require('lsp-zero')
+local lspkind = require("lspkind")
 
-lsp.preset('recommended')
-lsp.set_preferences({
+require('copilot').setup({
+  suggestion = {enabled = false},
+  panel = {enabled = false},
+  filetypes = {
+    javascript = true, -- allow specific filetype
+    typescript = true, -- allow specific filetype
+    -- rust = true, -- allow specific filetype
+    -- vim = true, -- allow specific filetype
+    ["*"] = false, -- disable for all other filetypes and ignore default `filetypes`
+  },
+})
+
+local cmp = require'cmp'
+
+cmp.setup({
+  formatting = {
+    fields = {'abbr', 'kind', 'menu'},
+    format = lspkind.cmp_format({
+      mode = "symbol",
+      max_width = 50,
+      ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+      symbol_map = { Copilot = "" }
+    })
+  },
+  -- view = 'native', -- or 'custom' or 'wildmenu'
+  snippet = {
+    -- REQUIRED - you must specify a snippet engine
+    expand = function(args)
+      -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+      -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+      -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+    end,
+  },
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    -- ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		['<CR>'] = cmp.mapping.confirm({
+      -- documentation says this is important.
+      -- I don't know why.
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = false,
+		})
+  }),
+  sorting = {
+    priority_weight = 2,
+    comparators = {
+      require("copilot_cmp.comparators").prioritize,
+
+      -- Below is the default comparitor list and order for nvim-cmp
+      cmp.config.compare.offset,
+      -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
+      cmp.config.compare.exact,
+      cmp.config.compare.score,
+      cmp.config.compare.recently_used,
+      cmp.config.compare.locality,
+      cmp.config.compare.kind,
+      cmp.config.compare.sort_text,
+      cmp.config.compare.length,
+      cmp.config.compare.order,
+    },
+  },
+  sources = cmp.config.sources({
+      -- Copilot Source
+    { name = "copilot", group_index = 2 },
+    -- Other Sources
+    { name = "nvim_lsp", group_index = 2 },
+    { name = "path", group_index = 2 },
+    { name = "luasnip", group_index = 2 },
+  }, {
+    { name = 'buffer' },
+  })
+})
+
+-- Set configuration for specific filetype.
+cmp.setup.filetype('gitcommit', {
+  sources = cmp.config.sources({
+    { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+  }, {
+    { name = 'buffer' },
+  })
+})
+
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+-- cmp.setup.cmdline({ '/', '?' }, {
+--   mapping = cmp.mapping.preset.cmdline(),
+--   sources = {
+--     { name = 'buffer' }
+--   }
+-- })
+--
+-- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+-- cmp.setup.cmdline(':', {
+--   mapping = cmp.mapping.preset.cmdline(),
+--   sources = cmp.config.sources({
+--     { name = 'path' }
+--   }, {
+--     { name = 'cmdline' }
+--   })
+-- })
+
+-- Set up lspconfig.
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+require("neodev").setup({
+  library = { plugins = { "nvim-dap-ui" }, types = true },
+})
+require("dapui").setup()
+require("nvim-dap-virtual-text").setup()
+local lsp = require('lsp-zero').preset({
+  name = 'minimal',
+  set_lsp_keymaps = true,
+  manage_nvim_cmp = true,
   suggest_lsp_servers = false,
 })
 local lua_opts = {
@@ -574,56 +810,37 @@ local yaml_opts = {
   },
 }
 
-lsp.ensure_installed({
-  "html",
-  "cssls",
-  "tsserver",
-  "eslint",
-  "rome",
-  -- "ltex-ls",
-  "terraformls",
-  "vimls",
-})
+lsp.on_attach(function(client, bufnr)
+  lsp.default_keymaps({buffer = bufnr})
+end)
 
+local lspconfig = require('lspconfig')
+
+lspconfig.pyright.setup {
+  before_init = function(params, config)
+    local Path = require "plenary.path"
+    local venv = Path:new((config.root_dir:gsub("/", Path.path.sep)), ".venv")
+    if venv:joinpath("bin"):is_dir() then
+      config.settings.python.pythonPath = tostring(venv:joinpath("bin", "python"))
+    else
+      config.settings.python.pythonPath = tostring(venv:joinpath("Scripts", "python.exe"))
+    end
+  end
+}
+
+lsp.setup_servers({'rust_analyzer', 'gopls', 'terraformls', 'ruff_lsp', 'ruby_ls', 'vimls', 'lua_ls'})
+require('copilot_cmp').setup()
 
 local ltexls_opts = {
   settings = {
     use_spellfile = true,
   }
 }
--- suggest_lsp_servers = false,
-lsp.setup_servers({'yamlls', opts = yaml_opts})
-lsp.setup_servers({'sumneko_lua', opts = lua_opts})
-lsp.setup_servers({'ltex-ls', opts = ltexls_opts})
-
-local null_ls = require('null-ls')
-local null_opts = lsp.build_options('null-ls', {})
-
-
-null_ls.setup({
-  on_attach = null_opts.on_attach,
-  sources = {
-    null_ls.builtins.formatting.prettier,
-    null_ls.builtins.diagnostics.eslint,
-    null_ls.builtins.formatting.black,
-    null_ls.builtins.formatting.isort,
-  }
-})
-
-lsp.setup()
 
 vim.diagnostic.config({
   virtual_text = true
 })
 
--- require("null-ls").setup({
---     sources = {
---         require("null-ls").builtins.formatting.stylua,
---         require("null-ls").builtins.diagnostics.eslint,
---         require("null-ls").builtins.completion.spell,
---     },
--- })
---
 local nlspsettings = require("nlspsettings")
 
 nlspsettings.setup({
@@ -633,6 +850,7 @@ nlspsettings.setup({
   append_default_schemas = true,
   loader = 'json'
 })
+
 
 require("project_nvim").setup {
   -- detection_methods = {"lsp"},
@@ -851,7 +1069,7 @@ else
     inoremap OP <C-O>:w!<cr>
 
     " fix mouse selection dragging and scrolling
-    set ttymouse=xterm2
+    " set ttymouse=xterm2
     " set termguicolors
 
     " colo wombat256mod
@@ -1673,7 +1891,7 @@ vnoremap <space> zf
 "imap <S-space> <Esc>
 
 "set foldlevel=1
-inoremap <C-G> <Esc>gUiw`]a
+" inoremap <C-G> <Esc>gUiw`]a
 
 " xml
 let g:xml_use_xhtml = 1
@@ -1746,16 +1964,16 @@ set packpath+=~/.vim/pack
 "au VimLeavePre * mks! $VIMDATA/session.vim
 " don't load the python stuff as root, i.e. sudo
 
-let g:LanguageClient_serverCommands = {
-      \ 'rust': ['rls'],
-      \ 'python': ['poetry', 'run', 'pyls'],
-      \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-      \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-      \ 'ruby': ['solargraph', 'stdio'],
-      \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
-      \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
-      \ }
-
+" let g:LanguageClient_serverCommands = {
+"       \ 'rust': ['rls'],
+"       \ 'python': ['poetry', 'run', 'pyls'],
+"       \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+"       \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+"       \ 'ruby': ['solargraph', 'stdio'],
+"       \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
+"       \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
+"       \ }
+"
 
 
 if executable('pyls')
