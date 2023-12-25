@@ -70,6 +70,8 @@ require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
   'roxma/vim-tmux-clipboard',
   'vim-ruby/vim-ruby',
+  -- 'dense-analysis/ale',
+  'mfussenegger/nvim-lint',
 
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -85,12 +87,19 @@ require('lazy').setup({
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v3.x',
+    lazy = true,
+    config = false,
+  },
+  {
     -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs to stdpath for neovim
-      { 'williamboman/mason.nvim', config = true },
-      'williamboman/mason-lspconfig.nvim',
+      -- { 'williamboman/mason.nvim', config = true },
+      -- 'williamboman/mason-lspconfig.nvim',
+
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -303,7 +312,43 @@ require('lazy').setup({
         org_default_notes_file = '~/orgfiles/refile.org',
       })
     end,
-  }
+  },
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {},
+  },
+  {
+    'windwp/nvim-autopairs',
+    config = function()
+      local npairs = require "nvim-autopairs"
+      npairs.setup {
+        check_ts = true,
+      }
+      npairs.add_rules(require "nvim-autopairs.rules.endwise-lua")
+    end
+  },
+  {
+    'ahmedkhalf/project.nvim', config = function()
+    require("project_nvim").setup {
+      ignore_lsp = {"texlab"},
+    }
+    end
+  },
+  {
+    'kylechui/nvim-surround',
+    version = '*', -- Use for stability; omit to use `main` branch for the latest features
+    event = 'VeryLazy',
+    config = function()
+      require('nvim-surround').setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
+  },
+  {
+    'kkoomen/vim-doge',
+    build = ':call doge#install()'
+  },
 }, {})
 
 -- [[ Setting options ]]
@@ -374,6 +419,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+local trouble = require("trouble.providers.telescope")
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
@@ -382,13 +429,16 @@ require('telescope').setup {
       i = {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
+        ["<c-t>"] = trouble.open_with_trouble
       },
+      n = { ["<c-t>"] = trouble.open_with_trouble },
     },
   },
 }
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
+pcall(require('telescope').load_extension, 'projects')
 
 -- Telescope live_grep in git root
 -- Function to find the git root directory based on the current buffer's path
@@ -443,10 +493,10 @@ local function telescope_live_grep_open_files()
     prompt_title = 'Live Grep in Open Files',
   }
 end
-vim.keymap.set('n', '<leader>s/', telescope_live_grep_open_files, { desc = '[S]earch [/] in Open Files' })
-vim.keymap.set('n', '<leader>ss', require('telescope.builtin').builtin, { desc = '[S]earch [S]elect Telescope' })
-vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
+vim.keymap.set('n', '<leader>p/', telescope_live_grep_open_files, { desc = 'Search [Project] [/] in Open Files' })
+vim.keymap.set('n', '<leader>pg', require('telescope.builtin').git_files, { desc = 'Search [P]roject [G]it Files' })
 vim.keymap.set('n', '<leader>pf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>ss', require('telescope.builtin').builtin, { desc = '[S]earch [S]elect Telescope' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
@@ -528,7 +578,15 @@ end, 0)
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(_, bufnr)
+
+local lsp_zero = require('lsp-zero').preset({
+  name = 'minimal',
+  set_lsp_keymaps = false,
+  manage_nvim_cmp = true,
+  suggest_lsp_servers = false,
+})
+
+lsp_zero.on_attach(function(_, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
   -- to define small helper and utility functions so you don't have to repeat yourself
   -- many times.
@@ -569,7 +627,7 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
-end
+end)
 
 -- document existing key chains
 require('which-key').register {
@@ -591,8 +649,8 @@ require('which-key').register({
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
-require('mason').setup()
-require('mason-lspconfig').setup()
+-- require('mason').setup()
+-- require('mason-lspconfig').setup()
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -602,23 +660,23 @@ require('mason-lspconfig').setup()
 --
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
-local servers = {
-  -- clangd = {},
-  -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
-  -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-
-  lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-      -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-      -- diagnostics = { disable = { 'missing-fields' } },
-    },
-  },
-}
+-- local servers = {
+--   -- clangd = {},
+--   -- gopls = {},
+--   -- pyright = {},
+--   -- rust_analyzer = {},
+--   -- tsserver = {},
+--   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+--
+--   lua_ls = {
+--     Lua = {
+--       workspace = { checkThirdParty = false },
+--       telemetry = { enable = false },
+--       -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+--       -- diagnostics = { disable = { 'missing-fields' } },
+--     },
+--   },
+-- }
 
 -- Setup neovim lua configuration
 require('neodev').setup()
@@ -628,22 +686,50 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 -- Ensure the servers above are installed
-local mason_lspconfig = require 'mason-lspconfig'
+-- local mason_lspconfig = require 'mason-lspconfig'
+--
+-- mason_lspconfig.setup {
+--   ensure_installed = vim.tbl_keys(servers),
+-- }
+--
+-- mason_lspconfig.setup_handlers {
+--   function(server_name)
+--     require('lspconfig')[server_name].setup {
+--       capabilities = capabilities,
+--       on_attach = lsp_on_attach,
+--       settings = servers[server_name],
+--       filetypes = (servers[server_name] or {}).filetypes,
+--     }
+--   end,
+-- }
 
-mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(servers),
+local lspconfig = require('lspconfig')
+
+lspconfig.pyright.setup {
+  before_init = function(_params, config)
+    local Path = require "plenary.path"
+    local venv = Path:new((config.root_dir:gsub("/", Path.path.sep)), ".venv")
+    if venv:joinpath("bin"):is_dir() then
+      config.settings.python.pythonPath = tostring(venv:joinpath("bin", "python"))
+    else
+      config.settings.python.pythonPath = tostring(venv:joinpath("Scripts", "python.exe"))
+    end
+  end
 }
 
-mason_lspconfig.setup_handlers {
-  function(server_name)
-    require('lspconfig')[server_name].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
-      filetypes = (servers[server_name] or {}).filetypes,
-    }
-  end,
+lspconfig.lua_ls.setup {
+  settings = {
+    Lua = {
+      workspace = { checkThirdParty = false },
+      telemetry = { enable = false },
+      -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+      -- diagnostics = { disable = { 'missing-fields' } },
+    },
+  },
 }
+
+lsp_zero.setup_servers({'rust_analyzer', 'gopls', 'terraformls', 'ruff_lsp', 'ruby_ls', 'vimls', 'lua_ls'})
+require('copilot_cmp').setup()
 
 local lspkind = require("lspkind")
 
@@ -784,8 +870,8 @@ function _lazygit_toggle()
   lazygit:toggle()
 end
 
-vim.api.nvim_set_keymap('n', '<leader>og', '<cmd>lua _lazygit_toggle()<CR>', {desc = 'Open Lazygit' })
-vim.api.nvim_set_keymap('n', '<leader>ot', '<Cmd>exe v:count1 . "ToggleTerm"<CR>', {desc = 'Open Terminal' })
+vim.keymap.set('n', '<leader>og', '<cmd>lua _lazygit_toggle()<CR>', {desc = 'Open Lazygit' })
+vim.keymap.set('n', '<leader>ot', '<Cmd>exe v:count1 . "ToggleTerm"<CR>', {desc = 'Open Terminal' })
 vim.api.nvim_create_autocmd('TermEnter', {
     pattern = 'term://*toggleterm#*',
     callback = function()
@@ -794,11 +880,20 @@ vim.api.nvim_create_autocmd('TermEnter', {
 })
 
 -- Copy into clipboard
-vim.api.nvim_set_keymap("v", "<C-C>", '"+y', {desc = 'Copy to clipboard' })
-vim.api.nvim_set_keymap("", "C-j>", "<C-W>j", {desc = 'Window Move Down' }) 
-vim.api.nvim_set_keymap("", "C-k>", "<C-W>k", {desc = 'Window Move Up' }) 
-vim.api.nvim_set_keymap("", "C-h>", "<C-W>h", {desc = 'Window Move Left' }) 
-vim.api.nvim_set_keymap("", "C-l>", "<C-W>l", {desc = 'Window Move Right' }) 
+vim.keymap.set('v', '<C-C>', '"+y', {desc = 'Copy to clipboard' })
+vim.keymap.set('n', '<C-j>', '<C-W>j', {desc = 'Window Move Down' })
+vim.keymap.set('n', '<C-k>', '<C-W>k', {desc = 'Window Move Up' })
+vim.keymap.set('n', '<C-h>', '<C-W>h', {desc = 'Window Move Left' })
+vim.keymap.set('n', '<C-l>', '<C-W>l', {desc = 'Window Move Right' })
+
+vim.keymap.set('n', '<leader>xx', function() require('trouble').toggle() end, {desc = 'Toggle trouble' } )
+vim.keymap.set('n', '<leader>xw', function() require('trouble').toggle('workspace_diagnostics') end, {desc = 'Toggle workspace diagnostics' } )
+vim.keymap.set('n', '<leader>xd', function() require('trouble').toggle('document_diagnostics') end, {desc = 'Toggle document diagnostics' } )
+vim.keymap.set('n', '<leader>xq', function() require('trouble').toggle('quickfix') end, {desc = 'Toggle quickfix' } )
+vim.keymap.set('n', '<leader>xl', function() require('trouble').toggle('loclist') end, {desc = 'Toggle loclist' } )
+vim.keymap.set('n', 'gR', function() require('trouble').toggle('lsp_references') end, {desc = 'Toggle lsp references' } )
+
+vim.keymap.set('n', 'X', 'ci"', {desc = "Replace quoted text"})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
