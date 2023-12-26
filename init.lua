@@ -349,6 +349,13 @@ require('lazy').setup({
     'kkoomen/vim-doge',
     build = ':call doge#install()'
   },
+  {
+    "nvim-telescope/telescope-file-browser.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+    config = function ()
+      require("telescope").setup {}
+    end
+  },
 }, {})
 
 -- [[ Setting options ]]
@@ -892,8 +899,17 @@ vim.keymap.set('n', '<leader>xd', function() require('trouble').toggle('document
 vim.keymap.set('n', '<leader>xq', function() require('trouble').toggle('quickfix') end, {desc = 'Toggle quickfix' } )
 vim.keymap.set('n', '<leader>xl', function() require('trouble').toggle('loclist') end, {desc = 'Toggle loclist' } )
 vim.keymap.set('n', 'gR', function() require('trouble').toggle('lsp_references') end, {desc = 'Toggle lsp references' } )
+vim.keymap.set('n', '<leader>fb', ":Telescope file_browser path=%:p:h select_buffer=true<CR>",
+  {desc = "Open file browser with current buffer"}
+)
 
 vim.keymap.set('n', 'X', 'ci"', {desc = "Replace quoted text"})
+vim.env.SUDO_ASKPASS='/usr/bin/ksshaskpass'
+-- vim.cmd [[
+--   command! -bar -nargs=0 Sudo :silent exe "w !sudo tee % > /dev/null" | silent edit!
+-- ]]
+-- command! -bar -nargs=0 Sudow :silent exe "w !sudo tee % > /dev/null" | silent edit!
+
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
