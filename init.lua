@@ -356,6 +356,43 @@ require('lazy').setup({
       require("telescope").setup {}
     end
   },
+  {
+    'stevearc/aerial.nvim',
+    opts = {},
+    -- Optional dependencies
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons"
+    },
+  },
+  {
+    -- "weizheheng/ror.nvim"
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "zidhuss/neotest-minitest",
+      "nvim-neotest/neotest-python",
+    },
+    config = function()
+      require("neotest").setup({
+        adapters = {
+          require("neotest-minitest")({
+            test_cmd = function()
+              return vim.tbl_flatten({
+                "bundle",
+                "exec",
+                "rails",
+                "test",
+              })
+            end
+          }),
+          require("neotest-python"),
+        },
+      })
+    end
+  },
 }, {})
 
 -- [[ Setting options ]]
@@ -367,6 +404,7 @@ vim.o.hlsearch = false
 
 -- Make line numbers default
 vim.wo.number = true
+vim.wo.relativenumber = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -757,6 +795,7 @@ require('copilot').setup({
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
+luasnip.filetype_extend("ruby", {"rails"})
 luasnip.config.setup {}
 
 cmp.setup {
@@ -893,23 +932,18 @@ vim.keymap.set('n', '<C-k>', '<C-W>k', {desc = 'Window Move Up' })
 vim.keymap.set('n', '<C-h>', '<C-W>h', {desc = 'Window Move Left' })
 vim.keymap.set('n', '<C-l>', '<C-W>l', {desc = 'Window Move Right' })
 
-vim.keymap.set('n', '<leader>xx', function() require('trouble').toggle() end, {desc = 'Toggle trouble' } )
+vim.keymap.set('n', '<leader>xx', function() require('trouble').toggle() end, {desc = 'Toggle trouble' })
 vim.keymap.set('n', '<leader>xw', function() require('trouble').toggle('workspace_diagnostics') end, {desc = 'Toggle workspace diagnostics' } )
 vim.keymap.set('n', '<leader>xd', function() require('trouble').toggle('document_diagnostics') end, {desc = 'Toggle document diagnostics' } )
-vim.keymap.set('n', '<leader>xq', function() require('trouble').toggle('quickfix') end, {desc = 'Toggle quickfix' } )
-vim.keymap.set('n', '<leader>xl', function() require('trouble').toggle('loclist') end, {desc = 'Toggle loclist' } )
-vim.keymap.set('n', 'gR', function() require('trouble').toggle('lsp_references') end, {desc = 'Toggle lsp references' } )
-vim.keymap.set('n', '<leader>fb', ":Telescope file_browser path=%:p:h select_buffer=true<CR>",
-  {desc = "Open file browser with current buffer"}
-)
-
-vim.keymap.set('n', 'X', 'ci"', {desc = "Replace quoted text"})
+vim.keymap.set('n', '<leader>xq', function() require('trouble').toggle('quickfix') end, {desc = 'Toggle quickfix' })
+vim.keymap.set('n', '<leader>xl', function() require('trouble').toggle('loclist') end, {desc = 'Toggle loclist' })
+vim.keymap.set('n', 'gR', function() require('trouble').toggle('lsp_references') end, {desc = 'Toggle lsp references' })
+vim.keymap.set('n', '<leader>fb', ':Telescope file_browser path=%:p:h select_buffer=true<CR>',
+  {desc = 'Open file browser with current buffer'})
+vim.keymap.set('n', '<leader>tt', ':AerialToggle<cr>', {desc = 'Toggle tagbar'})
+vim.keymap.set('n', 'X', 'ci"', {desc = 'Replace quoted text'})
 vim.env.SUDO_ASKPASS='/usr/bin/ksshaskpass'
--- vim.cmd [[
---   command! -bar -nargs=0 Sudo :silent exe "w !sudo tee % > /dev/null" | silent edit!
--- ]]
--- command! -bar -nargs=0 Sudow :silent exe "w !sudo tee % > /dev/null" | silent edit!
-
+vim.api.nvim_create_user_command('Sudow', 'w !sudo tee % > /dev/null', {})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
