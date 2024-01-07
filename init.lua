@@ -69,9 +69,17 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
   'roxma/vim-tmux-clipboard',
-  'vim-ruby/vim-ruby',
-  -- 'dense-analysis/ale',
+  'jlcrochet/vim-ruby',
+  'westeri/asl-vim',
+  -- 'sheerun/vim-polyglot',
+
   'mfussenegger/nvim-lint',
+  {
+    'vim-test/vim-test',
+    config = function()
+      vim.api.nvim_command('let test#strategy = "neovim"')
+    end
+  },
 
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -79,7 +87,9 @@ require('lazy').setup({
 
   -- tpope language plugins
   'tpope/vim-rails',
+  'tpope/vim-rake',
   'tpope/vim-vinegar',
+  'tpope/vim-bundler',
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
@@ -287,15 +297,21 @@ require('lazy').setup({
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   -- { import = 'custom.plugins' },
   {'akinsho/toggleterm.nvim', version = "*", config = true},
-  {
-    'luckasRanarison/nvim-devdocs',
-    opts = {},
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope.nvim',
-      'nvim-treesitter/nvim-treesitter',
-    },
-  },
+  -- {
+  --   'https://gitlab.com/ivan-cukic/nvim-telescope-zeal-cli',
+  --   dependencies = {
+  --     { 'rktjmp/hotpot.nvim' },
+  --   },
+  -- },
+  -- {
+  --   'luckasRanarison/nvim-devdocs',
+  --   opts = {},
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim',
+  --     'nvim-telescope/telescope.nvim',
+  --     'nvim-treesitter/nvim-treesitter',
+  --   },
+  -- },
   {
   'nvim-orgmode/orgmode',
     dependencies = {
@@ -314,24 +330,24 @@ require('lazy').setup({
     end,
   },
   {
-    "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    'folke/trouble.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     opts = {},
   },
   {
     'windwp/nvim-autopairs',
     config = function()
-      local npairs = require "nvim-autopairs"
+      local npairs = require 'nvim-autopairs'
       npairs.setup {
         check_ts = true,
       }
-      npairs.add_rules(require "nvim-autopairs.rules.endwise-lua")
+      npairs.add_rules(require 'nvim-autopairs.rules.endwise-lua')
     end
   },
   {
     'ahmedkhalf/project.nvim', config = function()
-    require("project_nvim").setup {
-      ignore_lsp = {"texlab"},
+    require('project_nvim').setup {
+      ignore_lsp = {'texlab'},
     }
     end
   },
@@ -339,60 +355,28 @@ require('lazy').setup({
     'kylechui/nvim-surround',
     version = '*', -- Use for stability; omit to use `main` branch for the latest features
     event = 'VeryLazy',
-    config = function()
-      require('nvim-surround').setup({
-        -- Configuration here, or leave empty to use defaults
-      })
-    end
+    opts = {},
   },
   {
     'kkoomen/vim-doge',
     build = ':call doge#install()'
   },
   {
-    "nvim-telescope/telescope-file-browser.nvim",
-    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-    config = function ()
-      require("telescope").setup {}
-    end
+    'nvim-telescope/telescope-file-browser.nvim',
+    dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
   },
   {
     'stevearc/aerial.nvim',
     opts = {},
     -- Optional dependencies
     dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons"
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-tree/nvim-web-devicons'
     },
   },
-  {
-    -- "weizheheng/ror.nvim"
-    "nvim-neotest/neotest",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "antoinemadec/FixCursorHold.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "zidhuss/neotest-minitest",
-      "nvim-neotest/neotest-python",
-    },
-    config = function()
-      require("neotest").setup({
-        adapters = {
-          require("neotest-minitest")({
-            test_cmd = function()
-              return vim.tbl_flatten({
-                "bundle",
-                "exec",
-                "rails",
-                "test",
-              })
-            end
-          }),
-          require("neotest-python"),
-        },
-      })
-    end
-  },
+  -- {
+  --   -- 'weizheheng/ror.nvim'
+  -- },
 }, {})
 
 -- [[ Setting options ]]
@@ -412,7 +396,7 @@ vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
+-- vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -423,6 +407,10 @@ vim.o.undofile = true
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
+
+-- Highlight all searches for phrases
+vim.o.hlsearch = true
+vim.o.incsearch = true
 
 -- Keep signcolumn on by default
 vim.wo.signcolumn = 'yes'
@@ -464,7 +452,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-local trouble = require("trouble.providers.telescope")
+local trouble = require('trouble.providers.telescope')
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
@@ -474,9 +462,9 @@ require('telescope').setup {
       i = {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
-        ["<c-t>"] = trouble.open_with_trouble
+        ['<c-t>'] = trouble.open_with_trouble
       },
-      n = { ["<c-t>"] = trouble.open_with_trouble },
+      n = { ['<c-t>'] = trouble.open_with_trouble },
     },
   },
 }
@@ -555,7 +543,7 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'html', 'org'},
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'html', 'org', 'terraform'},
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -676,14 +664,19 @@ end)
 
 -- document existing key chains
 require('which-key').register {
+  ['<leader>b'] = { name = '[B]uffer', _ = 'which_key_ignore' },
   ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
   ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
   ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
   ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
   ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-  ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
+  ['<leader>p'] = { name = '[P]roject', _ = 'which_key_ignore' },
+  ['<leader>t'] = { name = '[t]oggle', _ = 'which_key_ignore' },
   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+  ['<leader>T'] = { name = '[T]est', _ = 'which_key_ignore' },
+  ['<leader>x'] = { name = 'Trouble', _ = 'which_key_ignore' },
+  ['<leader>o'] = { name = '[O]pen', _ = 'which_key_ignore' },
 }
 -- register which-key VISUAL mode
 -- required for visual <leader>hs (hunk stage) to work
@@ -752,12 +745,12 @@ local lspconfig = require('lspconfig')
 
 lspconfig.pyright.setup {
   before_init = function(_params, config)
-    local Path = require "plenary.path"
-    local venv = Path:new((config.root_dir:gsub("/", Path.path.sep)), ".venv")
-    if venv:joinpath("bin"):is_dir() then
-      config.settings.python.pythonPath = tostring(venv:joinpath("bin", "python"))
+    local Path = require 'plenary.path'
+    local venv = Path:new((config.root_dir:gsub('/', Path.path.sep)), '.venv')
+    if venv:joinpath('bin'):is_dir() then
+      config.settings.python.pythonPath = tostring(venv:joinpath('bin', 'python'))
     else
-      config.settings.python.pythonPath = tostring(venv:joinpath("Scripts", "python.exe"))
+      config.settings.python.pythonPath = tostring(venv:joinpath('Scripts', 'python.exe'))
     end
   end
 }
@@ -776,7 +769,7 @@ lspconfig.lua_ls.setup {
 lsp_zero.setup_servers({'rust_analyzer', 'gopls', 'terraformls', 'ruff_lsp', 'ruby_ls', 'vimls', 'lua_ls'})
 require('copilot_cmp').setup()
 
-local lspkind = require("lspkind")
+local lspkind = require('lspkind')
 
 require('copilot').setup({
   suggestion = {enabled = false},
@@ -786,7 +779,7 @@ require('copilot').setup({
     typescript = true, -- allow specific filetype
     -- rust = true, -- allow specific filetype
     -- vim = true, -- allow specific filetype
-    ["*"] = false, -- disable for all other filetypes and ignore default `filetypes`
+    ['*'] = false, -- disable for all other filetypes and ignore default `filetypes`
   },
 })
 
@@ -795,7 +788,7 @@ require('copilot').setup({
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
-luasnip.filetype_extend("ruby", {"rails"})
+luasnip.filetype_extend('ruby', {'rails'})
 luasnip.config.setup {}
 
 cmp.setup {
@@ -807,10 +800,10 @@ cmp.setup {
   formatting = {
     fields = {'abbr', 'kind', 'menu'},
     format = lspkind.cmp_format({
-      mode = "symbol",
+      mode = 'symbol',
       max_width = 50,
       ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-      symbol_map = { Copilot = "" }
+      symbol_map = { Copilot = '' }
     })
   },
   completion = {
@@ -846,7 +839,7 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   comparators = {
-    require("copilot_cmp.comparators").prioritize,
+    require('copilot_cmp.comparators').prioritize,
 
     -- Below is the default comparitor list and order for nvim-cmp
     cmp.config.compare.offset,
@@ -861,10 +854,10 @@ cmp.setup {
     cmp.config.compare.order,
   },
   sources = {
-    { name = "copilot", group_index = 2 },
-    { name = "nvim_lsp", group_index = 2 },
-    { name = "path", group_index = 2 },
-    { name = "luasnip", group_index = 2 },
+    { name = 'copilot', group_index = 2 },
+    { name = 'nvim_lsp', group_index = 2 },
+    { name = 'path', group_index = 2 },
+    { name = 'luasnip', group_index = 2 },
     { name = 'path' },
   },
 }
@@ -890,24 +883,24 @@ vim.keymap.set('n', '<leader>fs', function ()
     else
         vim.ui.input({ prompt = 'filename: ' }, save_file)
     end
-end, { desc = "save file" })
+end, { desc = 'save file' })
 
 vim.keymap.set('n', '<leader>bd', function ()
   vim.api.nvim_buf_delete(vim.api.nvim_get_current_buf(), {force = false})
-end, { desc = "delete buffer" })
+end, { desc = 'delete buffer' })
 vim.keymap.set('n', '<leader>tc', ':Copilot! toggle<cr>', { desc = 'toggle copilot' })
 
 local Terminal  = require('toggleterm.terminal').Terminal
 local lazygit = Terminal:new({
-  cmd = "lazygit",
-  dir = "git_dir",
-  direction = "float",
+  cmd = 'lazygit',
+  dir = 'git_dir',
+  direction = 'float',
   float_opts = {
-    border = "double",
+    border = 'double',
   },
   -- function to run on opening the terminal
   on_open = function(term)
-    vim.cmd("startinsert!")
+    vim.cmd('startinsert!')
     vim.api.nvim_buf_set_keymap(term.bufnr, 'n', 'q', '<cmd>close<CR>', {noremap = true, silent = true})
   end,
 })
@@ -940,10 +933,17 @@ vim.keymap.set('n', '<leader>xl', function() require('trouble').toggle('loclist'
 vim.keymap.set('n', 'gR', function() require('trouble').toggle('lsp_references') end, {desc = 'Toggle lsp references' })
 vim.keymap.set('n', '<leader>fb', ':Telescope file_browser path=%:p:h select_buffer=true<CR>',
   {desc = 'Open file browser with current buffer'})
-vim.keymap.set('n', '<leader>tt', ':AerialToggle<cr>', {desc = 'Toggle tagbar'})
+vim.keymap.set('n', '<leader>tt', ':AerialToggle<cr>', {desc = 'Toggle tagbar', silent = true})
 vim.keymap.set('n', 'X', 'ci"', {desc = 'Replace quoted text'})
 vim.env.SUDO_ASKPASS='/usr/bin/ksshaskpass'
 vim.api.nvim_create_user_command('Sudow', 'w !sudo tee % > /dev/null', {})
+
+vim.keymap.set('n', '<leader>Tc', ':TestClass<cr>', {desc = 'Test Class'})
+vim.keymap.set('n', '<leader>Tf', ':TestFile<cr>', {desc = 'Test File'})
+vim.keymap.set('n', '<leader>Tl', ':TestLast<cr>', {desc = 'Test Last'})
+vim.keymap.set('n', '<leader>Tn', ':TestNearest<cr>', {desc = 'Test Nearest'})
+vim.keymap.set('n', '<leader>Ts', ':TestSuite<cr>', {desc = 'Test Suite'})
+vim.keymap.set('n', '<leader>Tv', ':TestVisit<cr>', {desc = 'Test Visit'})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
