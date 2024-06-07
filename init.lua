@@ -68,25 +68,33 @@ vim.opt.rtp:prepend(lazypath)
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
+  { 'tiagovla/scope.nvim',  opts = {} },
+  -- 'dense-analysis/ale',
   'roxma/vim-tmux-clipboard',
-  'jlcrochet/vim-ruby',
+  'tmux-plugins/vim-tmux-focus-events',
+  -- 'jlcrochet/vim-ruby',
   'westeri/asl-vim',
+  'vimwiki/vimwiki',
+  'tools-life/taskwiki',
+  'michal-h21/vimwiki-sync',
   -- 'sheerun/vim-polyglot',
+  { 'echasnovski/mini.nvim', version = '*' }, 
+  'bfredl/nvim-ipy',
 
-  'mfussenegger/nvim-lint',
-  {
-    'vim-test/vim-test',
-    config = function()
-      vim.api.nvim_command('let test#strategy = "neovim"')
-    end
-  },
+  'google/vim-jsonnet',
 
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
 
   -- tpope language plugins
-  'tpope/vim-rails',
+  {
+    'tpope/vim-rails',
+    config = function()
+      vim.api.nvim_create_autocmd("FileType", { pattern = "eruby.yaml", command = "set filetype=yaml", })
+    end
+  },
+  'preservim/tagbar',
   'tpope/vim-rake',
   'tpope/vim-vinegar',
   'tpope/vim-bundler',
@@ -115,14 +123,32 @@ require('lazy').setup({
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', opts = {} },
 
-      -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
     },
   },
 
   {
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
+      },
+    },
+  },
+  { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+
+  {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
+    opts = function(_, opts)
+      opts.sources = opts.sources or {}
+      table.insert(opts.sources, {
+        name = "lazydev",
+        group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+      })
+    end,
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
       'L3MON4D3/LuaSnip',
@@ -241,6 +267,22 @@ require('lazy').setup({
     },
   },
 
+  -- {
+  --   'romgrk/barbar.nvim',
+  --   dependencies = {
+  --     'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
+  --     'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+  --   },
+  --   init = function() vim.g.barbar_auto_setup = false end,
+  --   opts = {
+  --     -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+  --     -- animation = true,
+  --     -- insert_at_start = true,
+  --     -- …etc.
+  --   },
+  --   version = '^1.0.0', -- optional: only update when a new 1.x version is released
+  -- },
+
   {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
@@ -249,9 +291,6 @@ require('lazy').setup({
     main = 'ibl',
     opts = {},
   },
-
-  -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
   {
@@ -271,6 +310,34 @@ require('lazy').setup({
           return vim.fn.executable 'make' == 1
         end,
       },
+    },
+  },
+
+  {
+    'jvgrootveld/telescope-zoxide',
+    config = function()
+      require('telescope').load_extension 'zoxide'
+    end,
+  },
+
+  {
+    'linux-cultist/venv-selector.nvim',
+    dependencies = {
+      'neovim/nvim-lspconfig',
+      'nvim-telescope/telescope.nvim',
+      'mfussenegger/nvim-dap-python'
+    },
+    opts = {
+      -- Your options go here
+      name = ".venv",
+      -- auto_refresh = false
+    },
+    event = 'VeryLazy', -- Optional: needed only if you want to type `:VenvSelect` without a keymapping
+    keys = {
+      -- Keymap to open VenvSelector to pick a venv.
+      { '<leader>vs', '<cmd>VenvSelect<cr>' },
+      -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
+      { '<leader>vc', '<cmd>VenvSelectCached<cr>' },
     },
   },
 
@@ -296,7 +363,7 @@ require('lazy').setup({
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   -- { import = 'custom.plugins' },
-  {'akinsho/toggleterm.nvim', version = "*", config = true},
+  { 'akinsho/toggleterm.nvim', version = "*", config = true },
   -- {
   --   'https://gitlab.com/ivan-cukic/nvim-telescope-zeal-cli',
   --   dependencies = {
@@ -313,22 +380,35 @@ require('lazy').setup({
   --   },
   -- },
   {
-  'nvim-orgmode/orgmode',
+    'nvim-orgmode/orgmode',
     dependencies = {
       { 'nvim-treesitter/nvim-treesitter', lazy = true },
     },
     event = 'VeryLazy',
     config = function()
       -- Load treesitter grammar for org
-      require('orgmode').setup_ts_grammar()
-
       -- Setup orgmode
       require('orgmode').setup({
-        org_agenda_files = '~/orgfiles/**/*',
-        org_default_notes_file = '~/orgfiles/refile.org',
+        org_agenda_files = '~/org/roam/*',
+        org_default_notes_file = '~/org/refile.org',
       })
     end,
   },
+  -- {
+  --   "chipsenkbeil/org-roam.nvim",
+  --   tag = "0.1.0",
+  --   dependencies = {
+  --     {
+  --       "nvim-orgmode/orgmode",
+  --       tag = "0.3.4",
+  --     },
+  --   },
+  --   config = function()
+  --     require("org-roam").setup({
+  --       directory = "~/org/roam",
+  --     })
+  --   end
+  -- },
   {
     'folke/trouble.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -345,10 +425,12 @@ require('lazy').setup({
     end
   },
   {
-    'ahmedkhalf/project.nvim', config = function()
-    require('project_nvim').setup {
-      ignore_lsp = {'texlab'},
-    }
+    'ahmedkhalf/project.nvim',
+    config = function()
+      require('project_nvim').setup {
+        ignore_lsp = { 'texlab' },
+        scope_chdir = 'tab',
+      }
     end
   },
   {
@@ -358,8 +440,7 @@ require('lazy').setup({
     opts = {},
   },
   {
-    'kkoomen/vim-doge',
-    build = ':call doge#install()'
+  "kkoomen/vim-doge",
   },
   {
     'nvim-telescope/telescope-file-browser.nvim',
@@ -374,9 +455,64 @@ require('lazy').setup({
       'nvim-tree/nvim-web-devicons'
     },
   },
+
+  -- {
+  --   'mfussenegger/nvim-lint',
+  --   config = function ()
+  --     vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+  --       callback = function()
+  --         require("lint").try_lint()
+  --       end,
+  --     })
+  --   end
+  -- },
+  {
+    'vim-test/vim-test',
+    config = function()
+      vim.api.nvim_command('let test#strategy = "neovim"')
+    end
+  },
+  {
+    "christoomey/vim-tmux-navigator",
+    cmd = {
+      "TmuxNavigateLeft",
+      "TmuxNavigateDown",
+      "TmuxNavigateUp",
+      "TmuxNavigateRight",
+      "TmuxNavigatePrevious",
+    },
+    keys = {
+      { "<c-h>",  "<cmd><C-U>TmuxNavigateLeft<cr>" },
+      { "<c-j>",  "<cmd><C-U>TmuxNavigateDown<cr>" },
+      { "<c-k>",  "<cmd><C-U>TmuxNavigateUp<cr>" },
+      { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
+      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+    },
+  },
+  {
+    "cuducos/yaml.nvim",
+    ft = { "yaml" }, -- optional
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-telescope/telescope.nvim", -- optional
+    },
+  },
+
   -- {
   --   -- 'weizheheng/ror.nvim'
   -- },
+
+  -- 'preservim/nerdtree',
+  {
+    "nvim-tree/nvim-tree.lua",
+    opts = {
+      sync_root_with_cwd = true,
+      hijack_netrw = false,
+    },
+    dependencies = {
+      'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+    },
+  },
 }, {})
 
 -- [[ Setting options ]]
@@ -425,6 +561,9 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
+-- vim.g.loaded_netrw       = 1
+-- vim.g.loaded_netrwPlugin = 1
+
 -- [[ Basic Keymaps ]]
 
 -- Keymaps for better default experience
@@ -471,7 +610,7 @@ require('telescope').setup {
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
-pcall(require('telescope').load_extension, 'projects')
+require('telescope').load_extension('projects')
 
 -- Telescope live_grep in git root
 -- Function to find the git root directory based on the current buffer's path
@@ -510,7 +649,15 @@ end
 vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
 
 -- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>fr', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
+vim.keymap.set('n', '<leader>fr', function ()
+  require('telescope.builtin').oldfiles({
+    tiebreak = function(current_entry, existing_entry, _)
+      -- This ensures that when you are filtering, it's also sorted by last opened time.
+      -- https://github.com/nvim-telescope/telescope.nvim/issues/2539#issuecomment-1562510095
+      return current_entry.index < existing_entry.index
+    end,
+  })
+end, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
@@ -526,9 +673,18 @@ local function telescope_live_grep_open_files()
     prompt_title = 'Live Grep in Open Files',
   }
 end
-vim.keymap.set('n', '<leader>p/', telescope_live_grep_open_files, { desc = 'Search [Project] [/] in Open Files' })
+local function telescope_live_grep()
+  require('telescope.builtin').live_grep {
+    grep_open_files = false,
+    prompt_title = 'Live Grep in Project',
+  }
+end
+vim.keymap.set('n', '<leader>po', require 'telescope'.extensions.projects.projects, { desc = '[O]pen [Project]' })
+vim.keymap.set('n', '<leader>pz', require("telescope").extensions.zoxide.list, { desc = '[P]roject [z]' })
+vim.keymap.set('n', '<leader>p/', telescope_live_grep, { desc = 'Search [P]roject [/]' })
 vim.keymap.set('n', '<leader>pg', require('telescope.builtin').git_files, { desc = 'Search [P]roject [G]it Files' })
 vim.keymap.set('n', '<leader>pf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>s/', telescope_live_grep_open_files, { desc = '[S]earch [/] in Open Files' })
 vim.keymap.set('n', '<leader>ss', require('telescope.builtin').builtin, { desc = '[S]earch [S]elect Telescope' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
@@ -543,7 +699,7 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'html', 'org', 'terraform'},
+    ensure_installed = { 'jsonnet', 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'html', 'org', 'terraform', 'hcl', 'ruby' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -552,7 +708,10 @@ vim.defer_fn(function()
       enable = true,
       additional_vim_regex_highlighting = { 'org' },
     },
-    indent = { enable = true },
+    indent = {
+      enable = true,
+      -- disable = { 'python' }
+    },
     incremental_selection = {
       enable = true,
       keymaps = {
@@ -636,6 +795,7 @@ lsp_zero.on_attach(function(_, bufnr)
 
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  nmap('<leader>cf', ":Format<cr>", '[C]ode [F]ormat')
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -716,9 +876,6 @@ require('which-key').register({
 --   },
 -- }
 
--- Setup neovim lua configuration
-require('neodev').setup()
-
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
@@ -743,37 +900,27 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 local lspconfig = require('lspconfig')
 
-lspconfig.pyright.setup {
-  before_init = function(_params, config)
-    local Path = require 'plenary.path'
-    local venv = Path:new((config.root_dir:gsub('/', Path.path.sep)), '.venv')
-    if venv:joinpath('bin'):is_dir() then
-      config.settings.python.pythonPath = tostring(venv:joinpath('bin', 'python'))
-    else
-      config.settings.python.pythonPath = tostring(venv:joinpath('Scripts', 'python.exe'))
-    end
-  end
-}
+lspconfig.pyright.setup {}
+lspconfig.ruff_lsp.setup {}
+  -- before_init = function(_params, config)
+  --   local Path = require 'plenary.path'
+  --   local venv = Path:new(util.root_pattern(".venv", ".git") or vim.fn.getcwd())
+  --   if venv:joinpath('bin'):is_dir() then
+  --     config.settings.python.pythonPath = tostring(venv:joinpath('bin', 'python'))
+  --   else
+  --     config.settings.python.pythonPath = tostring(venv:joinpath('Scripts', 'python.exe'))
+  --   end
+  -- end
 
-lspconfig.lua_ls.setup {
-  settings = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-      -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-      -- diagnostics = { disable = { 'missing-fields' } },
-    },
-  },
-}
-
-lsp_zero.setup_servers({'rust_analyzer', 'gopls', 'terraformls', 'ruff_lsp', 'ruby_ls', 'vimls', 'lua_ls'})
+lsp_zero.setup_servers({ 'jsonnet_ls', 'rust_analyzer', 'gopls', 'terraformls', 'html', 'emmet_language_server',
+  'ruby_lsp', 'vimls', 'lua_ls' })
 require('copilot_cmp').setup()
 
 local lspkind = require('lspkind')
 
 require('copilot').setup({
-  suggestion = {enabled = false},
-  panel = {enabled = false},
+  suggestion = { enabled = false },
+  panel = { enabled = false },
   filetypes = {
     javascript = true, -- allow specific filetype
     typescript = true, -- allow specific filetype
@@ -788,7 +935,7 @@ require('copilot').setup({
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
-luasnip.filetype_extend('ruby', {'rails'})
+luasnip.filetype_extend('ruby', { 'rails' })
 luasnip.config.setup {}
 
 cmp.setup {
@@ -798,7 +945,7 @@ cmp.setup {
     end,
   },
   formatting = {
-    fields = {'abbr', 'kind', 'menu'},
+    fields = { 'abbr', 'kind', 'menu' },
     format = lspkind.cmp_format({
       mode = 'symbol',
       max_width = 50,
@@ -854,10 +1001,10 @@ cmp.setup {
     cmp.config.compare.order,
   },
   sources = {
-    { name = 'copilot', group_index = 2 },
+    { name = 'copilot',  group_index = 2 },
     { name = 'nvim_lsp', group_index = 2 },
-    { name = 'path', group_index = 2 },
-    { name = 'luasnip', group_index = 2 },
+    { name = 'path',     group_index = 2 },
+    { name = 'luasnip',  group_index = 2 },
     { name = 'path' },
   },
 }
@@ -865,33 +1012,33 @@ cmp.setup {
 require('copilot_cmp').setup()
 vim.keymap.set('n', '<leader>fed', ':e ~/.config/nvim/init.lua<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>hrr', ':source ~/.config/nvim/init.lua<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>fs', function ()
-    local save_file = function (path)
-        local ok, err = pcall(vim.cmd.w, path)
+vim.keymap.set('n', '<leader>fs', function()
+  local save_file = function(path)
+    local ok, err = pcall(vim.cmd.w, path)
 
-        if not ok then
-            -- clear `vim.ui.input` from cmdline to make space for an error
-            vim.cmd.redraw()
-            vim.notify(err, vim.log.levels.ERROR, {
-                title = 'error while saving file',
-            })
-        end
+    if not ok then
+      -- clear `vim.ui.input` from cmdline to make space for an error
+      vim.cmd.redraw()
+      vim.notify(err, vim.log.levels.ERROR, {
+        title = 'error while saving file',
+      })
     end
+  end
 
-    if vim.api.nvim_buf_get_name(0) ~= '' then
-        save_file()
-    else
-        vim.ui.input({ prompt = 'filename: ' }, save_file)
-    end
+  if vim.api.nvim_buf_get_name(0) ~= '' then
+    save_file()
+  else
+    vim.ui.input({ prompt = 'filename: ' }, save_file)
+  end
 end, { desc = 'save file' })
 
-vim.keymap.set('n', '<leader>bd', function ()
-  vim.api.nvim_buf_delete(vim.api.nvim_get_current_buf(), {force = false})
+vim.keymap.set('n', '<leader>bd', function()
+  vim.api.nvim_buf_delete(vim.api.nvim_get_current_buf(), { force = false })
 end, { desc = 'delete buffer' })
 vim.keymap.set('n', '<leader>tc', ':Copilot! toggle<cr>', { desc = 'toggle copilot' })
 
-local Terminal  = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new({
+local Terminal = require('toggleterm.terminal').Terminal
+local lazygit  = Terminal:new({
   cmd = 'lazygit',
   dir = 'git_dir',
   direction = 'float',
@@ -901,7 +1048,7 @@ local lazygit = Terminal:new({
   -- function to run on opening the terminal
   on_open = function(term)
     vim.cmd('startinsert!')
-    vim.api.nvim_buf_set_keymap(term.bufnr, 'n', 'q', '<cmd>close<CR>', {noremap = true, silent = true})
+    vim.api.nvim_buf_set_keymap(term.bufnr, 'n', 'q', '<cmd>close<CR>', { noremap = true, silent = true })
   end,
 })
 
@@ -909,41 +1056,87 @@ function _lazygit_toggle()
   lazygit:toggle()
 end
 
-vim.keymap.set('n', '<leader>og', '<cmd>lua _lazygit_toggle()<CR>', {desc = 'Open Lazygit' })
-vim.keymap.set('n', '<leader>ot', '<Cmd>exe v:count1 . "ToggleTerm"<CR>', {desc = 'Open Terminal' })
+vim.keymap.set('n', '<leader>og', '<cmd>lua _lazygit_toggle()<CR>', { desc = 'Open Lazygit' })
+vim.keymap.set('n', '<leader>ot', '<Cmd>exe v:count1 . "ToggleTerm"<CR>', { desc = 'Open Terminal' })
 vim.api.nvim_create_autocmd('TermEnter', {
-    pattern = 'term://*toggleterm#*',
-    callback = function()
-        vim.api.nvim_buf_set_keymap(0, 't', '<C-t>', '<Cmd>exe v:count1 . "ToggleTerm"<CR>', { silent = true })
-    end,
+  pattern = 'term://*toggleterm#*',
+  callback = function()
+    vim.api.nvim_buf_set_keymap(0, 't', '<C-t>', '<Cmd>exe v:count1 . "ToggleTerm"<CR>', { silent = true })
+  end,
 })
 
 -- Copy into clipboard
-vim.keymap.set('v', '<C-C>', '"+y', {desc = 'Copy to clipboard' })
-vim.keymap.set('n', '<C-j>', '<C-W>j', {desc = 'Window Move Down' })
-vim.keymap.set('n', '<C-k>', '<C-W>k', {desc = 'Window Move Up' })
-vim.keymap.set('n', '<C-h>', '<C-W>h', {desc = 'Window Move Left' })
-vim.keymap.set('n', '<C-l>', '<C-W>l', {desc = 'Window Move Right' })
+vim.keymap.set('v', '<C-C>', '"+y', { desc = 'Copy to clipboard' })
+vim.keymap.set('n', '<C-j>', '<C-W>j', { desc = 'Window Move Down' })
+vim.keymap.set('n', '<C-k>', '<C-W>k', { desc = 'Window Move Up' })
+vim.keymap.set('n', '<C-h>', '<C-W>h', { desc = 'Window Move Left' })
+vim.keymap.set('n', '<C-l>', '<C-W>l', { desc = 'Window Move Right' })
 
-vim.keymap.set('n', '<leader>xx', function() require('trouble').toggle() end, {desc = 'Toggle trouble' })
-vim.keymap.set('n', '<leader>xw', function() require('trouble').toggle('workspace_diagnostics') end, {desc = 'Toggle workspace diagnostics' } )
-vim.keymap.set('n', '<leader>xd', function() require('trouble').toggle('document_diagnostics') end, {desc = 'Toggle document diagnostics' } )
-vim.keymap.set('n', '<leader>xq', function() require('trouble').toggle('quickfix') end, {desc = 'Toggle quickfix' })
-vim.keymap.set('n', '<leader>xl', function() require('trouble').toggle('loclist') end, {desc = 'Toggle loclist' })
-vim.keymap.set('n', 'gR', function() require('trouble').toggle('lsp_references') end, {desc = 'Toggle lsp references' })
+vim.keymap.set('n', '<leader>xx', function() require('trouble').toggle() end, { desc = 'Toggle trouble' })
+vim.keymap.set('n', '<leader>xw', function() require('trouble').toggle('workspace_diagnostics') end,
+  { desc = 'Toggle workspace diagnostics' })
+vim.keymap.set('n', '<leader>xd', function() require('trouble').toggle('document_diagnostics') end,
+  { desc = 'Toggle document diagnostics' })
+vim.keymap.set('n', '<leader>xq', function() require('trouble').toggle('quickfix') end, { desc = 'Toggle quickfix' })
+vim.keymap.set('n', '<leader>xl', function() require('trouble').toggle('loclist') end, { desc = 'Toggle loclist' })
+vim.keymap.set('n', 'gR', function() require('trouble').toggle('lsp_references') end, { desc = 'Toggle lsp references' })
 vim.keymap.set('n', '<leader>fb', ':Telescope file_browser path=%:p:h select_buffer=true<CR>',
-  {desc = 'Open file browser with current buffer'})
-vim.keymap.set('n', '<leader>tt', ':AerialToggle<cr>', {desc = 'Toggle tagbar', silent = true})
-vim.keymap.set('n', 'X', 'ci"', {desc = 'Replace quoted text'})
-vim.env.SUDO_ASKPASS='/usr/bin/ksshaskpass'
+  { desc = 'Open file browser with current buffer' })
+vim.keymap.set('n', '<leader>tt', ':AerialToggle<cr>', { desc = 'Toggle tagbar', silent = true })
+vim.keymap.set('n', 'X', 'ci"', { desc = 'Replace quoted text' })
+vim.env.SUDO_ASKPASS = '/usr/bin/ksshaskpass'
 vim.api.nvim_create_user_command('Sudow', 'w !sudo tee % > /dev/null', {})
 
-vim.keymap.set('n', '<leader>Tc', ':TestClass<cr>', {desc = 'Test Class'})
-vim.keymap.set('n', '<leader>Tf', ':TestFile<cr>', {desc = 'Test File'})
-vim.keymap.set('n', '<leader>Tl', ':TestLast<cr>', {desc = 'Test Last'})
-vim.keymap.set('n', '<leader>Tn', ':TestNearest<cr>', {desc = 'Test Nearest'})
-vim.keymap.set('n', '<leader>Ts', ':TestSuite<cr>', {desc = 'Test Suite'})
-vim.keymap.set('n', '<leader>Tv', ':TestVisit<cr>', {desc = 'Test Visit'})
+vim.keymap.set('n', '<leader>Tc', ':TestClass<cr>', { desc = 'Test Class' })
+vim.keymap.set('n', '<leader>Tf', ':TestFile<cr>', { desc = 'Test File' })
+vim.keymap.set('n', '<leader>Tl', ':TestLast<cr>', { desc = 'Test Last' })
+vim.keymap.set('n', '<leader>Tn', ':TestNearest<cr>', { desc = 'Test Nearest' })
+vim.keymap.set('n', '<leader>Ts', ':TestSuite<cr>', { desc = 'Test Suite' })
+vim.keymap.set('n', '<leader>Tv', ':TestVisit<cr>', { desc = 'Test Visit' })
+
+vim.keymap.set('n', '<left>', ':bp<cr>', { silent = true })
+vim.keymap.set('n', '<right>', ':bn<cr>', { silent = true })
+
+-- vim.keymap.set('n', '\\\\', ":NERDTreeToggle<cr>", {silent = true, noremap = true})
+-- vim.keymap.set('n', '<leader>ff', ':NERDTreeFind<CR>', {desc = 'Find file', silent = true})
+vim.keymap.set('n', '\\\\', ":NvimTreeToggle<cr>", { silent = true, noremap = true })
+vim.keymap.set('n', '<leader>ff', ':NvimTreeFindFile<CR>', { desc = 'Find file', silent = true })
+
+vim.keymap.set('n', '<leader>do', ":DevdocsOpen<cr>", { desc = '[D]evdocs [O]pen', silent = true, noremap = true })
+vim.keymap.set('n', '<leader>di', ":DevdocsInstall<cr>", { desc = '[D]evdocs [I]nstall', silent = true, noremap = true })
+vim.keymap.set('n', '<leader>dg', ":DogeGenerate<cr>", { desc = '[D]ocstring [G]enerate', silent = true, noremap = true })
+
+vim.lsp.set_log_level('debug')
+
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*.tf", "*.tfvars" },
+  callback = function()
+    vim.lsp.buf.format()
+  end,
+})
+
+-- vim.g.ale_fixers = {
+--   python = {
+--     'remove_trailing_lines',
+--     'trim_whitespace',
+--     'autopep8',
+--     'black',
+--     'isort',
+--     'add_blank_lines_for_python_control_statements',
+--   }
+-- }
+--
+-- vim.g.ale_linters = {
+--   lua = {},
+--   cpp = {},
+--   c = {},
+--   python = {},
+--   javascript = {},
+--   typescript = {},
+--   ruby = {},
+-- }
+--
+vim.g.NERDTreeHijackNetrw = 0
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
