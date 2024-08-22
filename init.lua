@@ -116,7 +116,7 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
-  { 'tiagovla/scope.nvim',  opts = {} },
+  { 'tiagovla/scope.nvim',   opts = {} },
   -- 'dense-analysis/ale',
   'roxma/vim-tmux-clipboard',
   'tmux-plugins/vim-tmux-focus-events',
@@ -132,7 +132,7 @@ require('lazy').setup({
     end,
   },
   -- 'sheerun/vim-polyglot',
-  { 'echasnovski/mini.nvim', version = '*' }, 
+  { 'echasnovski/mini.nvim', version = '*' },
   'bfredl/nvim-ipy',
 
   'google/vim-jsonnet',
@@ -382,7 +382,7 @@ require('lazy').setup({
   {
     "linux-cultist/venv-selector.nvim",
     dependencies = {
-      "neovim/nvim-lspconfig", 
+      "neovim/nvim-lspconfig",
       "mfussenegger/nvim-dap", "mfussenegger/nvim-dap-python", --optional
       { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
     },
@@ -404,7 +404,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
-       'windwp/nvim-ts-autotag',
+      'windwp/nvim-ts-autotag',
     },
     build = ':TSUpdate',
   },
@@ -532,7 +532,7 @@ require('lazy').setup({
     opts = {},
   },
   {
-  "kkoomen/vim-doge",
+    "kkoomen/vim-doge",
   },
   {
     'nvim-telescope/telescope-file-browser.nvim',
@@ -550,8 +550,12 @@ require('lazy').setup({
 
   {
     'stevearc/conform.nvim',
+    -- This will provide type hinting with LuaLS
+    ---@module "conform"
+    ---@type conform.setupOpts
     opts = {
       formatters_by_ft = {
+        javascript = { "prettierd", "prettier", stop_after_first = true },
         lua = { "stylua" },
         -- Conform will run multiple formatters sequentially
         go = { "goimports", "gofmt" },
@@ -576,6 +580,29 @@ require('lazy').setup({
         },
       },
     },
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    keys = {
+      {
+        -- Customize or remove this keymap to your liking
+        "<leader>f",
+        function()
+          require("conform").format({ async = true })
+        end,
+        mode = "",
+        desc = "Format buffer",
+      },
+      formatters = {
+        shfmt = {
+          prepend_args = { "-i", "2" },
+        },
+      },
+    },
+    init = function()
+      -- If you want the formatexpr, here is the place to set it
+      vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+    end,
   },
 
   {
@@ -746,7 +773,7 @@ end
 vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
 
 -- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>fr', function ()
+vim.keymap.set('n', '<leader>fr', function()
   require('telescope.builtin').oldfiles({
     tiebreak = function(current_entry, existing_entry, _)
       -- This ensures that when you are filtering, it's also sorted by last opened time.
@@ -794,23 +821,23 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
-  local parser_config = require'nvim-treesitter.parsers'.get_parser_configs()
+  local parser_config = require 'nvim-treesitter.parsers'.get_parser_configs()
   parser_config.gotmpl = {
     install_info = {
       url = "https://github.com/ngalaiko/tree-sitter-go-template",
-      files = {"src/parser.c"}
+      files = { "src/parser.c" }
     },
     filetype = "gotmpl",
-    used_by = {"gohtmltmpl", "gotexttmpl", "gotmpl", "yaml"}
+    used_by = { "gohtmltmpl", "gotexttmpl", "gotmpl", "yaml" }
   }
   local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
   parser_config.embedded_template = {
     install_info = {
-      url = 'https://github.com/tree-sitter/tree-sitter-embedded-template',
-      files =  { 'src/parser.c' },
-      requires_generate_from_grammar  = true,
+      url                            = 'https://github.com/tree-sitter/tree-sitter-embedded-template',
+      files                          = { 'src/parser.c' },
+      requires_generate_from_grammar = true,
     },
-    used_by = {'eelixir', 'eex', 'leex', 'erb', 'ejs'}
+    used_by = { 'eelixir', 'eex', 'leex', 'erb', 'ejs' }
   }
 
   require('nvim-treesitter.configs').setup {
@@ -1022,23 +1049,23 @@ lspconfig.pyright.setup {}
 lspconfig.ruff_lsp.setup {}
 
 server_config.kcl = {
-	default_config = {},
+  default_config = {},
 }
 
 require("lspconfig").kcl.setup({
-	cmd = { "kcl-language-server" },
-	filetypes = { "kcl" },
-	root_dir = util.root_pattern(".git"),
+  cmd = { "kcl-language-server" },
+  filetypes = { "kcl" },
+  root_dir = util.root_pattern(".git"),
 })
-  -- before_init = function(_params, config)
-  --   local Path = require 'plenary.path'
-  --   local venv = Path:new(util.root_pattern(".venv", ".git") or vim.fn.getcwd())
-  --   if venv:joinpath('bin'):is_dir() then
-  --     config.settings.python.pythonPath = tostring(venv:joinpath('bin', 'python'))
-  --   else
-  --     config.settings.python.pythonPath = tostring(venv:joinpath('Scripts', 'python.exe'))
-  --   end
-  -- end
+-- before_init = function(_params, config)
+--   local Path = require 'plenary.path'
+--   local venv = Path:new(util.root_pattern(".venv", ".git") or vim.fn.getcwd())
+--   if venv:joinpath('bin'):is_dir() then
+--     config.settings.python.pythonPath = tostring(venv:joinpath('bin', 'python'))
+--   else
+--     config.settings.python.pythonPath = tostring(venv:joinpath('Scripts', 'python.exe'))
+--   end
+-- end
 
 lsp_zero.setup_servers({ 'jsonnet_ls', 'rust_analyzer', 'gopls', 'terraformls', 'html', 'emmet_language_server',
   'ruby_lsp', 'vimls', 'lua_ls', 'intelephense', 'psalm', 'dockerls' })
