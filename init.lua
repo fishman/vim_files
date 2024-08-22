@@ -3,71 +3,119 @@
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
+========                                    .-----.          ========
+========         .----------------------.   | === |          ========
+========         |.-""""""""""""""""""-.|   |-----|          ========
+========         ||                    ||   | === |          ========
+========         ||   KICKSTART.NVIM   ||   |-----|          ========
+========         ||                    ||   | === |          ========
+========         ||                    ||   |-----|          ========
+========         ||:Tutor              ||   |:::::|          ========
+========         |'-..................-'|   |____o|          ========
+========         `"")----------------(""`   ___________      ========
+========        /::::::::::|  |::::::::::\  \ no mouse \     ========
+========       /:::========|  |==hjkl==:::\  \ required \    ========
+========      '""""""""""""'  '""""""""""""'  '""""""""""'   ========
+========                                                     ========
+=====================================================================
+=====================================================================
 
-Kickstart.nvim is *not* a distribution.
+What is Kickstart?
 
-Kickstart.nvim is a template for your own configuration.
-  The goal is that you can read every line of code, top-to-bottom, understand
-  what your configuration is doing, and modify it to suit your needs.
+  Kickstart.nvim is *not* a distribution.
 
-  Once you've done that, you should start exploring, configuring and tinkering to
-  explore Neovim!
+  Kickstart.nvim is a starting point for your own configuration.
+    The goal is that you can read every line of code, top-to-bottom, understand
+    what your configuration is doing, and modify it to suit your needs.
 
-  If you don't know anything about Lua, I recommend taking some time to read through
-  a guide. One possible example:
-  - https://learnxinyminutes.com/docs/lua/
+    Once you've done that, you can start exploring, configuring and tinkering to
+    make Neovim your own! That might mean leaving Kickstart just the way it is for a while
+    or immediately breaking it into modular pieces. It's up to you!
 
+    If you don't know anything about Lua, I recommend taking some time to read through
+    a guide. One possible example which will only take 10-15 minutes:
+      - https://learnxinyminutes.com/docs/lua/
 
-  And then you can explore or search through `:help lua-guide`
-  - https://neovim.io/doc/user/lua-guide.html
-
+    After understanding a bit more about Lua, you can use `:help lua-guide` as a
+    reference for how Neovim integrates Lua.
+    - :help lua-guide
+    - (or HTML version): https://neovim.io/doc/user/lua-guide.html
 
 Kickstart Guide:
 
-I have left several `:help X` comments throughout the init.lua
-You should run that command and read that help section for more information.
+  TODO: The very first thing you should do is to run the command `:Tutor` in Neovim.
 
-In addition, I have some `NOTE:` items throughout the file.
-These are for you, the reader to help understand what is happening. Feel free to delete
-them once you know what you're doing, but they should serve as a guide for when you
-are first encountering a few different constructs in your nvim config.
+    If you don't know what this means, type the following:
+      - <escape key>
+      - :
+      - Tutor
+      - <enter key>
+
+    (If you already know the Neovim basics, you can skip this step.)
+
+  Once you've completed that, you can continue working through **AND READING** the rest
+  of the kickstart init.lua.
+
+  Next, run AND READ `:help`.
+    This will open up a help window with some basic information
+    about reading, navigating and searching the builtin help documentation.
+
+    This should be the first place you go to look when you're stuck or confused
+    with something. It's one of my favorite Neovim features.
+
+    MOST IMPORTANTLY, we provide a keymap "<space>sh" to [s]earch the [h]elp documentation,
+    which is very useful when you're not exactly sure of what you're looking for.
+
+  I have left several `:help X` comments throughout the init.lua
+    These are hints about where to find more information about the relevant settings,
+    plugins or Neovim features used in Kickstart.
+
+   NOTE: Look for lines like this
+
+    Throughout the file. These are for you, the reader, to help you understand what is happening.
+    Feel free to delete them once you know what you're doing, but they should serve as a guide
+    for when you are first encountering a few different constructs in your Neovim config.
+
+If you experience any errors while trying to install kickstart, run `:checkhealth` for more info.
 
 I hope you enjoy your Neovim journey,
 - TJ
 
-P.S. You can delete this when you're done too. It's your config now :)
+P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+--  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Set to true if you have a Nerd Font installed and selected in the terminal
+vim.g.have_nerd_font = true
 -- [[ Install `lazy.nvim` plugin manager ]]
---    https://github.com/folke/lazy.nvim
---    `:help lazy.nvim.txt` for more info
+--    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system {
-    'git',
-    'clone',
-    '--filter=blob:none',
-    'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', -- latest stable release
-    lazypath,
-  }
-end
+  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
+  vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
+end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure plugins ]]
--- NOTE: Here is where you install your plugins.
---  You can configure plugins using the `config` key.
+-- [[ Configure and install plugins ]]
 --
---  You can also configure plugins after the setup call,
---    as they will be available in your neovim runtime.
+--  To check the current status of your plugins, run
+--    :Lazy
+--
+--  You can press `?` in this menu for help. Use `:q` to close the window
+--
+--  To update plugins you can run
+--    :Lazy update
+--
+-- NOTE: Here is where you install your plugins.
 require('lazy').setup({
-  -- NOTE: First, some plugins that don't require any configuration
+  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+
   { 'tiagovla/scope.nvim',  opts = {} },
   -- 'dense-analysis/ale',
   'roxma/vim-tmux-clipboard',
@@ -77,6 +125,12 @@ require('lazy').setup({
   'vimwiki/vimwiki',
   'tools-life/taskwiki',
   'michal-h21/vimwiki-sync',
+  {
+    'pasky/claude.vim',
+    config = function()
+      vim.g.claude_api_key = "helloworld"
+    end,
+  },
   -- 'sheerun/vim-polyglot',
   { 'echasnovski/mini.nvim', version = '*' }, 
   'bfredl/nvim-ipy',
@@ -98,9 +152,6 @@ require('lazy').setup({
   'tpope/vim-rake',
   'tpope/vim-vinegar',
   'tpope/vim-bundler',
-
-  -- Detect tabstop and shiftwidth automatically
-  'tpope/vim-sleuth',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
@@ -167,13 +218,19 @@ require('lazy').setup({
     },
   },
 
+  {
+    "kcl-lang/kcl.nvim",
+    ft = {
+      "kcl",
+    },
+  },
+
   -- Useful plugin to show you pending keybinds.
   { 'folke/which-key.nvim', opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
-      -- See `:help gitsigns.txt`
       signs = {
         add = { text = '+' },
         change = { text = '~' },
@@ -295,17 +352,19 @@ require('lazy').setup({
   -- Fuzzy Finder (files, lsp, etc)
   {
     'nvim-telescope/telescope.nvim',
+    event = 'VimEnter',
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-      -- Only load if `make` is available. Make sure you have the system
-      -- requirements installed.
-      {
+      { -- If encountering errors, see telescope-fzf-native README for installation instructions
         'nvim-telescope/telescope-fzf-native.nvim',
-        -- NOTE: If you are having trouble with this installation,
-        --       refer to the README for telescope-fzf-native for more instructions.
+
+        -- `build` is used to run some command when the plugin is installed/updated.
+        -- This is only run then, not every time Neovim starts up.
         build = 'make',
+
+        -- `cond` is a condition used to determine whether this plugin should be
+        -- installed and loaded.
         cond = function()
           return vim.fn.executable 'make' == 1
         end,
@@ -321,18 +380,17 @@ require('lazy').setup({
   },
 
   {
-    'linux-cultist/venv-selector.nvim',
+    "linux-cultist/venv-selector.nvim",
     dependencies = {
-      'neovim/nvim-lspconfig',
-      'nvim-telescope/telescope.nvim',
-      'mfussenegger/nvim-dap-python'
+      "neovim/nvim-lspconfig", 
+      "mfussenegger/nvim-dap", "mfussenegger/nvim-dap-python", --optional
+      { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
     },
-    opts = {
-      -- Your options go here
-      name = ".venv",
-      -- auto_refresh = false
-    },
-    event = 'VeryLazy', -- Optional: needed only if you want to type `:VenvSelect` without a keymapping
+    lazy = false,
+    branch = "regexp", -- This is the regexp branch, use this for the new version
+    config = function()
+      require("venv-selector").setup()
+    end,
     keys = {
       -- Keymap to open VenvSelector to pick a venv.
       { '<leader>vs', '<cmd>VenvSelect<cr>' },
@@ -346,6 +404,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
+       'windwp/nvim-ts-autotag',
     },
     build = ':TSUpdate',
   },
@@ -410,9 +469,42 @@ require('lazy').setup({
   --   end
   -- },
   {
-    'folke/trouble.nvim',
+    "folke/trouble.nvim",
+    opts = {}, -- for default options, refer to the configuration section for custom setup.
+    cmd = "Trouble",
+    keys = {
+      {
+        "<leader>xx",
+        "<cmd>Trouble diagnostics toggle<cr>",
+        desc = "Diagnostics (Trouble)",
+      },
+      {
+        "<leader>xX",
+        "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+        desc = "Buffer Diagnostics (Trouble)",
+      },
+      {
+        "<leader>cs",
+        "<cmd>Trouble symbols toggle focus=false<cr>",
+        desc = "Symbols (Trouble)",
+      },
+      {
+        "<leader>cl",
+        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+        desc = "LSP Definitions / references / ... (Trouble)",
+      },
+      {
+        "<leader>xL",
+        "<cmd>Trouble loclist toggle<cr>",
+        desc = "Location List (Trouble)",
+      },
+      {
+        "<leader>xQ",
+        "<cmd>Trouble qflist toggle<cr>",
+        desc = "Quickfix List (Trouble)",
+      },
+    },
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    opts = {},
   },
   {
     'windwp/nvim-autopairs',
@@ -456,16 +548,36 @@ require('lazy').setup({
     },
   },
 
-  -- {
-  --   'mfussenegger/nvim-lint',
-  --   config = function ()
-  --     vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  --       callback = function()
-  --         require("lint").try_lint()
-  --       end,
-  --     })
-  --   end
-  -- },
+  {
+    'stevearc/conform.nvim',
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+        -- Conform will run multiple formatters sequentially
+        go = { "goimports", "gofmt" },
+        -- You can also customize some of the format options for the filetype
+        rust = { "rustfmt", lsp_format = "fallback" },
+        php = { "tlint" },
+        python = function(bufnr)
+          if require("conform").get_formatter_info("ruff_format", bufnr).available then
+            return { "ruff_format" }
+          else
+            return { "isort", "black" }
+          end
+        end,
+        ["_"] = { "trim_whitespace" },
+        default_format_opts = {
+          lsp_format = "fallback",
+        },
+        format_on_save = {
+          -- I recommend these options. See :help conform.format for details.
+          lsp_format = "fallback",
+          timeout_ms = 500,
+        },
+      },
+    },
+  },
+
   {
     'vim-test/vim-test',
     config = function()
@@ -591,22 +703,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-local trouble = require('trouble.providers.telescope')
-
--- [[ Configure Telescope ]]
--- See `:help telescope` and `:help telescope.setup()`
-require('telescope').setup {
-  defaults = {
-    mappings = {
-      i = {
-        ['<C-u>'] = false,
-        ['<C-d>'] = false,
-        ['<c-t>'] = trouble.open_with_trouble
-      },
-      n = { ['<c-t>'] = trouble.open_with_trouble },
-    },
-  },
-}
+-- local trouble = require('trouble.sources.telescope')
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
@@ -697,9 +794,28 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
+  local parser_config = require'nvim-treesitter.parsers'.get_parser_configs()
+  parser_config.gotmpl = {
+    install_info = {
+      url = "https://github.com/ngalaiko/tree-sitter-go-template",
+      files = {"src/parser.c"}
+    },
+    filetype = "gotmpl",
+    used_by = {"gohtmltmpl", "gotexttmpl", "gotmpl", "yaml"}
+  }
+  local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+  parser_config.embedded_template = {
+    install_info = {
+      url = 'https://github.com/tree-sitter/tree-sitter-embedded-template',
+      files =  { 'src/parser.c' },
+      requires_generate_from_grammar  = true,
+    },
+    used_by = {'eelixir', 'eex', 'leex', 'erb', 'ejs'}
+  }
+
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'jsonnet', 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'html', 'org', 'terraform', 'hcl', 'ruby' },
+    ensure_installed = { 'jsonnet', 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'html', 'org', 'terraform', 'nix', 'hcl', 'ruby', 'gotmpl', 'php', 'twig' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -899,9 +1015,21 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 -- }
 
 local lspconfig = require('lspconfig')
+local server_config = require("lspconfig.configs")
+local util = require("lspconfig.util")
 
 lspconfig.pyright.setup {}
 lspconfig.ruff_lsp.setup {}
+
+server_config.kcl = {
+	default_config = {},
+}
+
+require("lspconfig").kcl.setup({
+	cmd = { "kcl-language-server" },
+	filetypes = { "kcl" },
+	root_dir = util.root_pattern(".git"),
+})
   -- before_init = function(_params, config)
   --   local Path = require 'plenary.path'
   --   local venv = Path:new(util.root_pattern(".venv", ".git") or vim.fn.getcwd())
@@ -913,7 +1041,7 @@ lspconfig.ruff_lsp.setup {}
   -- end
 
 lsp_zero.setup_servers({ 'jsonnet_ls', 'rust_analyzer', 'gopls', 'terraformls', 'html', 'emmet_language_server',
-  'ruby_lsp', 'vimls', 'lua_ls' })
+  'ruby_lsp', 'vimls', 'lua_ls', 'intelephense', 'psalm', 'dockerls' })
 require('copilot_cmp').setup()
 
 local lspkind = require('lspkind')
@@ -935,6 +1063,7 @@ require('copilot').setup({
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
+require("luasnip.loaders.from_snipmate").lazy_load()
 luasnip.filetype_extend('ruby', { 'rails' })
 luasnip.config.setup {}
 
@@ -1072,14 +1201,6 @@ vim.keymap.set('n', '<C-k>', '<C-W>k', { desc = 'Window Move Up' })
 vim.keymap.set('n', '<C-h>', '<C-W>h', { desc = 'Window Move Left' })
 vim.keymap.set('n', '<C-l>', '<C-W>l', { desc = 'Window Move Right' })
 
-vim.keymap.set('n', '<leader>xx', function() require('trouble').toggle() end, { desc = 'Toggle trouble' })
-vim.keymap.set('n', '<leader>xw', function() require('trouble').toggle('workspace_diagnostics') end,
-  { desc = 'Toggle workspace diagnostics' })
-vim.keymap.set('n', '<leader>xd', function() require('trouble').toggle('document_diagnostics') end,
-  { desc = 'Toggle document diagnostics' })
-vim.keymap.set('n', '<leader>xq', function() require('trouble').toggle('quickfix') end, { desc = 'Toggle quickfix' })
-vim.keymap.set('n', '<leader>xl', function() require('trouble').toggle('loclist') end, { desc = 'Toggle loclist' })
-vim.keymap.set('n', 'gR', function() require('trouble').toggle('lsp_references') end, { desc = 'Toggle lsp references' })
 vim.keymap.set('n', '<leader>fb', ':Telescope file_browser path=%:p:h select_buffer=true<CR>',
   { desc = 'Open file browser with current buffer' })
 vim.keymap.set('n', '<leader>tt', ':AerialToggle<cr>', { desc = 'Toggle tagbar', silent = true })
@@ -1106,7 +1227,7 @@ vim.keymap.set('n', '<leader>do', ":DevdocsOpen<cr>", { desc = '[D]evdocs [O]pen
 vim.keymap.set('n', '<leader>di', ":DevdocsInstall<cr>", { desc = '[D]evdocs [I]nstall', silent = true, noremap = true })
 vim.keymap.set('n', '<leader>dg', ":DogeGenerate<cr>", { desc = '[D]ocstring [G]enerate', silent = true, noremap = true })
 
-vim.lsp.set_log_level('debug')
+-- vim.lsp.set_log_level('off')
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   pattern = { "*.tf", "*.tfvars" },
@@ -1115,27 +1236,6 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   end,
 })
 
--- vim.g.ale_fixers = {
---   python = {
---     'remove_trailing_lines',
---     'trim_whitespace',
---     'autopep8',
---     'black',
---     'isort',
---     'add_blank_lines_for_python_control_statements',
---   }
--- }
---
--- vim.g.ale_linters = {
---   lua = {},
---   cpp = {},
---   c = {},
---   python = {},
---   javascript = {},
---   typescript = {},
---   ruby = {},
--- }
---
 vim.g.NERDTreeHijackNetrw = 0
 
 -- The line beneath this is called `modeline`. See `:help modeline`
