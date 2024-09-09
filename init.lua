@@ -253,7 +253,7 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
-  { 'tiagovla/scope.nvim',   opts = {} },
+  { 'tiagovla/scope.nvim', opts = {} },
   -- 'dense-analysis/ale',
   'roxma/vim-tmux-clipboard',
   'tmux-plugins/vim-tmux-focus-events',
@@ -265,7 +265,7 @@ require('lazy').setup({
   {
     'pasky/claude.vim',
     config = function()
-      vim.g.claude_api_key = "helloworld"
+      vim.g.claude_api_key = 'helloworld'
     end,
   },
   -- 'sheerun/vim-polyglot',
@@ -281,8 +281,8 @@ require('lazy').setup({
   {
     'tpope/vim-rails',
     config = function()
-      vim.api.nvim_create_autocmd("FileType", { pattern = "eruby.yaml", command = "set filetype=yaml", })
-    end
+      vim.api.nvim_create_autocmd('FileType', { pattern = 'eruby.yaml', command = 'set filetype=yaml' })
+    end,
   },
   'preservim/tagbar',
   'tpope/vim-rake',
@@ -307,19 +307,16 @@ require('lazy').setup({
       -- { 'williamboman/mason.nvim', config = true },
       -- 'williamboman/mason-lspconfig.nvim',
 
-
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', opts = {} },
-
     },
   },
 
-
   {
-    "kcl-lang/kcl.nvim",
+    'kcl-lang/kcl.nvim',
     ft = {
-      "kcl",
+      'kcl',
     },
   },
 
@@ -591,10 +588,18 @@ require('lazy').setup({
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
-      pcall(require('telescope').load_extension 'zoxide')
+      pcall(require('telescope').load_extension, 'zoxide')
+      pcall(require('telescope').load_extension, 'projects')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
+      -- vim.keymap.set('n', '<leader>p/', telescope_live_grep, { desc = 'Search [P]roject [/]' })
+      -- vim.keymap.set('n', '<leader>pg', require('telescope.builtin').git_files, { desc = 'Search [P]roject [G]it Files' })
+      -- vim.keymap.set('n', '<leader>pf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+      -- vim.keymap.set('n', '<leader>s/', telescope_live_grep_open_files, { desc = '[S]earch [/] in Open Files' })
+      -- vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
+      vim.keymap.set('n', '<leader>po', require('telescope').extensions.projects.projects, { desc = '[O]pen [Project]' })
+      vim.keymap.set('n', '<leader>pz', require('telescope').extensions.zoxide.list, { desc = '[P]roject [z]' })
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
@@ -645,106 +650,6 @@ require('lazy').setup({
     },
   },
   { 'Bilal2453/luvit-meta', lazy = true },
-  {
-    "linux-cultist/venv-selector.nvim",
-    dependencies = {
-      "neovim/nvim-lspconfig",
-      "mfussenegger/nvim-dap", "mfussenegger/nvim-dap-python", --optional
-      { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
-    },
-    lazy = false,
-    branch = "regexp", -- This is the regexp branch, use this for the new version
-    config = function()
-      require("venv-selector").setup()
-    end,
-    keys = {
-      -- Keymap to open VenvSelector to pick a venv.
-      { '<leader>vs', '<cmd>VenvSelect<cr>' },
-      -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
-      { '<leader>vc', '<cmd>VenvSelectCached<cr>' },
-    },
-  },
-
-  {
-    "rcarriga/nvim-dap-ui",
-    dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"},
-    config = function()
-      -- local dap, dapui =require("dap"),require("dapui")
-      -- dap.listeners.after.event_initialized["dapui_config"]=function()
-      --   dapui.open()
-      -- end
-      -- dap.listeners.before.event_terminated["dapui_config"]=function()
-      --   dapui.close()
-      -- end
-      -- dap.listeners.before.event_exited["dapui_config"]=function()
-      --   dapui.close()
-      -- end
-
-      vim.fn.sign_define('DapBreakpoint',{ text ='🟥', texthl ='', linehl ='', numhl =''})
-      vim.fn.sign_define('DapStopped',{ text ='▶️', texthl ='', linehl ='', numhl =''})
-
-      vim.keymap.set('n', '<F5>', require 'dap'.continue)
-      vim.keymap.set('n', '<F10>', require 'dap'.step_over)
-      vim.keymap.set('n', '<F11>', require 'dap'.step_into)
-      vim.keymap.set('n', '<F12>', require 'dap'.step_out)
-      vim.keymap.set('n', '<leader>bb', require 'dap'.toggle_breakpoint)
-    end,
-  },
-
-  {
-    -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-      'windwp/nvim-ts-autotag',
-    },
-    build = ':TSUpdate',
-  },
-
-  -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
-  --       These are some example plugins that I've included in the kickstart repository.
-  --       Uncomment any of the lines below to enable them.
-  -- require 'kickstart.plugins.autoformat',
-  -- require 'kickstart.plugins.debug',
-
-  -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-  --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
-  --    up-to-date with whatever is in the kickstart repo.
-  --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  --
-  --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  -- { import = 'custom.plugins' },
-  { 'akinsho/toggleterm.nvim', version = "*", config = true },
-  -- {
-  --   'https://gitlab.com/ivan-cukic/nvim-telescope-zeal-cli',
-  --   dependencies = {
-  --     { 'rktjmp/hotpot.nvim' },
-  --   },
-  -- },
-  -- {
-  --   'luckasRanarison/nvim-devdocs',
-  --   opts = {},
-  --   dependencies = {
-  --     'nvim-lua/plenary.nvim',
-  --     'nvim-telescope/telescope.nvim',
-  --     'nvim-treesitter/nvim-treesitter',
-  --   },
-  -- },
-  {
-    'nvim-orgmode/orgmode',
-    dependencies = {
-      { 'nvim-treesitter/nvim-treesitter', lazy = true },
-    },
-    event = 'VeryLazy',
-    config = function()
-      -- Load treesitter grammar for org
-      -- Setup orgmode
-      require('orgmode').setup({
-        org_agenda_files = '~/org/roam/*',
-        org_default_notes_file = '~/org/refile.org',
-      })
-    end,
-  },
 
   { -- Autoformat
     'stevearc/conform.nvim',
@@ -970,6 +875,75 @@ require('lazy').setup({
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
+  { -- Highlight, edit, and navigate code
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
+    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+    opts = {
+      ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'cpp',
+        'go',
+        'python',
+        'rust',
+        'tsx',
+        'javascript',
+        'typescript',
+        'org',
+        'terraform',
+        'nix',
+        'hcl',
+        'ruby',
+        'gotmpl',
+        'php',
+        'jsonnet',
+        'twig',
+      },
+      -- Autoinstall languages that are not installed
+      auto_install = true,
+      highlight = {
+        enable = true,
+        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
+        --  If you are experiencing weird indenting issues, add the language to
+        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
+        additional_vim_regex_highlighting = { 'ruby', 'org' },
+      },
+      indent = { enable = true, disable = { 'ruby' } },
+    },
+    -- There are additional nvim-treesitter modules that you can use to interact
+    -- with nvim-treesitter. You should go explore a few and see what interests you:
+    --
+    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
+    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
+    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  },
+
+  -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
+  -- init.lua. If you want these files, they are in the repository, so you can just download them and
+  -- place them in the correct locations.
+
+  -- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
+  --
+  --  Here are some example plugins that I've included in the Kickstart repository.
+  --  Uncomment any of the lines below to enable them (you will need to restart nvim).
+  --
+  require 'kickstart.plugins.debug',
+  -- require 'kickstart.plugins.indent_line',
+  -- require 'kickstart.plugins.lint',
+  -- require 'kickstart.plugins.autopairs',
+  -- require 'kickstart.plugins.neo-tree',
+  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   -- {
   --   "chipsenkbeil/org-roam.nvim",
   --   tag = "0.1.0",
@@ -985,40 +959,91 @@ require('lazy').setup({
   --     })
   --   end
   -- },
+  { 'akinsho/toggleterm.nvim', version = '*', config = true },
+  -- {
+  --   'https://gitlab.com/ivan-cukic/nvim-telescope-zeal-cli',
+  --   dependencies = {
+  --     { 'rktjmp/hotpot.nvim' },
+  --   },
+  -- },
+  -- {
+  --   'luckasRanarison/nvim-devdocs',
+  --   opts = {},
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim',
+  --     'nvim-telescope/telescope.nvim',
+  --     'nvim-treesitter/nvim-treesitter',
+  --   },
+  -- },
   {
-    "folke/trouble.nvim",
+    'nvim-orgmode/orgmode',
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter', lazy = true },
+    },
+    event = 'VeryLazy',
+    config = function()
+      -- Load treesitter grammar for org
+      -- Setup orgmode
+      require('orgmode').setup {
+        org_agenda_files = '~/org/roam/*',
+        org_default_notes_file = '~/org/refile.org',
+      }
+    end,
+  },
+  {
+    'linux-cultist/venv-selector.nvim',
+    dependencies = {
+      'neovim/nvim-lspconfig',
+      'mfussenegger/nvim-dap',
+      'mfussenegger/nvim-dap-python', --optional
+      { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
+    },
+    lazy = false,
+    branch = 'regexp', -- This is the regexp branch, use this for the new version
+    config = function()
+      require('venv-selector').setup()
+    end,
+    keys = {
+      -- Keymap to open VenvSelector to pick a venv.
+      { '<leader>vs', '<cmd>VenvSelect<cr>' },
+      -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
+      { '<leader>vc', '<cmd>VenvSelectCached<cr>' },
+    },
+  },
+  {
+    'folke/trouble.nvim',
     opts = {}, -- for default options, refer to the configuration section for custom setup.
-    cmd = "Trouble",
+    cmd = 'Trouble',
     keys = {
       {
-        "<leader>xx",
-        "<cmd>Trouble diagnostics toggle<cr>",
-        desc = "Diagnostics (Trouble)",
+        '<leader>xx',
+        '<cmd>Trouble diagnostics toggle<cr>',
+        desc = 'Diagnostics (Trouble)',
       },
       {
-        "<leader>xX",
-        "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-        desc = "Buffer Diagnostics (Trouble)",
+        '<leader>xX',
+        '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
+        desc = 'Buffer Diagnostics (Trouble)',
       },
       {
-        "<leader>cs",
-        "<cmd>Trouble symbols toggle focus=false<cr>",
-        desc = "Symbols (Trouble)",
+        '<leader>cs',
+        '<cmd>Trouble symbols toggle focus=false<cr>',
+        desc = 'Symbols (Trouble)',
       },
       {
-        "<leader>cl",
-        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-        desc = "LSP Definitions / references / ... (Trouble)",
+        '<leader>cl',
+        '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
+        desc = 'LSP Definitions / references / ... (Trouble)',
       },
       {
-        "<leader>xL",
-        "<cmd>Trouble loclist toggle<cr>",
-        desc = "Location List (Trouble)",
+        '<leader>xL',
+        '<cmd>Trouble loclist toggle<cr>',
+        desc = 'Location List (Trouble)',
       },
       {
-        "<leader>xQ",
-        "<cmd>Trouble qflist toggle<cr>",
-        desc = "Quickfix List (Trouble)",
+        '<leader>xQ',
+        '<cmd>Trouble qflist toggle<cr>',
+        desc = 'Quickfix List (Trouble)',
       },
     },
     dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -1031,7 +1056,7 @@ require('lazy').setup({
         check_ts = true,
       }
       npairs.add_rules(require 'nvim-autopairs.rules.endwise-lua')
-    end
+    end,
   },
   {
     'ahmedkhalf/project.nvim',
@@ -1040,7 +1065,7 @@ require('lazy').setup({
         ignore_lsp = { 'texlab' },
         scope_chdir = 'tab',
       }
-    end
+    end,
   },
   {
     'kylechui/nvim-surround',
@@ -1049,7 +1074,7 @@ require('lazy').setup({
     opts = {},
   },
   {
-    "kkoomen/vim-doge",
+    'kkoomen/vim-doge',
   },
   {
     'nvim-telescope/telescope-file-browser.nvim',
@@ -1061,40 +1086,39 @@ require('lazy').setup({
     -- Optional dependencies
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
-      'nvim-tree/nvim-web-devicons'
+      'nvim-tree/nvim-web-devicons',
     },
   },
-
 
   {
     'vim-test/vim-test',
     config = function()
-      vim.api.nvim_command('let test#strategy = "neovim"')
-    end
+      vim.api.nvim_command 'let test#strategy = "neovim"'
+    end,
   },
   {
-    "christoomey/vim-tmux-navigator",
+    'christoomey/vim-tmux-navigator',
     cmd = {
-      "TmuxNavigateLeft",
-      "TmuxNavigateDown",
-      "TmuxNavigateUp",
-      "TmuxNavigateRight",
-      "TmuxNavigatePrevious",
+      'TmuxNavigateLeft',
+      'TmuxNavigateDown',
+      'TmuxNavigateUp',
+      'TmuxNavigateRight',
+      'TmuxNavigatePrevious',
     },
     keys = {
-      { "<c-h>",  "<cmd><C-U>TmuxNavigateLeft<cr>" },
-      { "<c-j>",  "<cmd><C-U>TmuxNavigateDown<cr>" },
-      { "<c-k>",  "<cmd><C-U>TmuxNavigateUp<cr>" },
-      { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
-      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+      { '<c-h>', '<cmd><C-U>TmuxNavigateLeft<cr>' },
+      { '<c-j>', '<cmd><C-U>TmuxNavigateDown<cr>' },
+      { '<c-k>', '<cmd><C-U>TmuxNavigateUp<cr>' },
+      { '<c-l>', '<cmd><C-U>TmuxNavigateRight<cr>' },
+      { '<c-\\>', '<cmd><C-U>TmuxNavigatePrevious<cr>' },
     },
   },
   {
-    "cuducos/yaml.nvim",
-    ft = { "yaml" }, -- optional
+    'cuducos/yaml.nvim',
+    ft = { 'yaml' }, -- optional
     dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-telescope/telescope.nvim", -- optional
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-telescope/telescope.nvim', -- optional
     },
   },
 
@@ -1104,7 +1128,7 @@ require('lazy').setup({
 
   -- 'preservim/nerdtree',
   {
-    "nvim-tree/nvim-tree.lua",
+    'nvim-tree/nvim-tree.lua',
     opts = {
       sync_root_with_cwd = true,
       hijack_netrw = false,
@@ -1116,10 +1140,6 @@ require('lazy').setup({
 }, {})
 
 -- local trouble = require('trouble.sources.telescope')
-
--- Enable telescope fzf native, if installed
-pcall(require('telescope').load_extension, 'fzf')
-require('telescope').load_extension('projects')
 
 -- Telescope live_grep in git root
 -- Function to find the git root directory based on the current buffer's path
@@ -1159,13 +1179,13 @@ vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>fr', function()
-  require('telescope.builtin').oldfiles({
+  require('telescope.builtin').oldfiles {
     tiebreak = function(current_entry, existing_entry, _)
       -- This ensures that when you are filtering, it's also sorted by last opened time.
       -- https://github.com/nvim-telescope/telescope.nvim/issues/2539#issuecomment-1562510095
       return current_entry.index < existing_entry.index
     end,
-  })
+  }
 end, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
@@ -1188,8 +1208,8 @@ local function telescope_live_grep()
     prompt_title = 'Live Grep in Project',
   }
 end
-vim.keymap.set('n', '<leader>po', require 'telescope'.extensions.projects.projects, { desc = '[O]pen [Project]' })
-vim.keymap.set('n', '<leader>pz', require("telescope").extensions.zoxide.list, { desc = '[P]roject [z]' })
+vim.keymap.set('n', '<leader>po', require('telescope').extensions.projects.projects, { desc = '[O]pen [Project]' })
+vim.keymap.set('n', '<leader>pz', require('telescope').extensions.zoxide.list, { desc = '[P]roject [z]' })
 vim.keymap.set('n', '<leader>p/', telescope_live_grep, { desc = 'Search [P]roject [/]' })
 vim.keymap.set('n', '<leader>pg', require('telescope.builtin').git_files, { desc = 'Search [P]roject [G]it Files' })
 vim.keymap.set('n', '<leader>pf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
@@ -1206,105 +1226,35 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
-  local parser_config = require 'nvim-treesitter.parsers'.get_parser_configs()
+  local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
   parser_config.gotmpl = {
     install_info = {
-      url = "https://github.com/ngalaiko/tree-sitter-go-template",
-      files = { "src/parser.c" }
+      url = 'https://github.com/ngalaiko/tree-sitter-go-template',
+      files = { 'src/parser.c' },
     },
-    filetype = "gotmpl",
-    used_by = { "gohtmltmpl", "gotexttmpl", "gotmpl", "yaml" }
+    filetype = 'gotmpl',
+    used_by = { 'gohtmltmpl', 'gotexttmpl', 'gotmpl', 'yaml' },
   }
   local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
   parser_config.embedded_template = {
     install_info = {
-      url                            = 'https://github.com/tree-sitter/tree-sitter-embedded-template',
-      files                          = { 'src/parser.c' },
+      url = 'https://github.com/tree-sitter/tree-sitter-embedded-template',
+      files = { 'src/parser.c' },
       requires_generate_from_grammar = true,
     },
-    used_by = { 'eelixir', 'eex', 'leex', 'erb', 'ejs' }
-  }
-
-  require('nvim-treesitter.configs').setup {
-    -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'jsonnet', 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'html', 'org', 'terraform', 'nix', 'hcl', 'ruby', 'gotmpl', 'php', 'twig' },
-
-    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-    auto_install = false,
-
-    highlight = {
-      enable = true,
-      additional_vim_regex_highlighting = { 'org' },
-    },
-    indent = {
-      enable = true,
-      -- disable = { 'python' }
-    },
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = '<c-space>',
-        node_incremental = '<c-space>',
-        scope_incremental = '<c-s>',
-        node_decremental = '<M-space>',
-      },
-    },
-    textobjects = {
-      select = {
-        enable = true,
-        lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-        keymaps = {
-          -- You can use the capture groups defined in textobjects.scm
-          ['aa'] = '@parameter.outer',
-          ['ia'] = '@parameter.inner',
-          ['af'] = '@function.outer',
-          ['if'] = '@function.inner',
-          ['ac'] = '@class.outer',
-          ['ic'] = '@class.inner',
-        },
-      },
-      move = {
-        enable = true,
-        set_jumps = true, -- whether to set jumps in the jumplist
-        goto_next_start = {
-          [']m'] = '@function.outer',
-          [']]'] = '@class.outer',
-        },
-        goto_next_end = {
-          [']M'] = '@function.outer',
-          [']['] = '@class.outer',
-        },
-        goto_previous_start = {
-          ['[m'] = '@function.outer',
-          ['[['] = '@class.outer',
-        },
-        goto_previous_end = {
-          ['[M'] = '@function.outer',
-          ['[]'] = '@class.outer',
-        },
-      },
-      swap = {
-        enable = true,
-        swap_next = {
-          ['<leader>a'] = '@parameter.inner',
-        },
-        swap_previous = {
-          ['<leader>A'] = '@parameter.inner',
-        },
-      },
-    },
+    used_by = { 'eelixir', 'eex', 'leex', 'erb', 'ejs' },
   }
 end, 0)
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 
-local lsp_zero = require('lsp-zero').preset({
+local lsp_zero = require('lsp-zero').preset {
   name = 'minimal',
   set_lsp_keymaps = false,
   manage_nvim_cmp = true,
   suggest_lsp_servers = false,
-})
+}
 
 lsp_zero.on_attach(function(_, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
@@ -1323,7 +1273,7 @@ lsp_zero.on_attach(function(_, bufnr)
 
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-  nmap('<leader>cf', ":Format<cr>", '[C]ode [F]ormat')
+  nmap('<leader>cf', ':Format<cr>', '[C]ode [F]ormat')
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -1426,9 +1376,9 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 --   end,
 -- }
 
-local lspconfig = require('lspconfig')
-local server_config = require("lspconfig.configs")
-local util = require("lspconfig.util")
+local lspconfig = require 'lspconfig'
+local server_config = require 'lspconfig.configs'
+local util = require 'lspconfig.util'
 
 lspconfig.pyright.setup {}
 lspconfig.ruff_lsp.setup {}
@@ -1437,11 +1387,11 @@ server_config.kcl = {
   default_config = {},
 }
 
-require("lspconfig").kcl.setup({
-  cmd = { "kcl-language-server" },
-  filetypes = { "kcl" },
-  root_dir = util.root_pattern(".git"),
-})
+require('lspconfig').kcl.setup {
+  cmd = { 'kcl-language-server' },
+  filetypes = { 'kcl' },
+  root_dir = util.root_pattern '.git',
+}
 -- before_init = function(_params, config)
 --   local Path = require 'plenary.path'
 --   local venv = Path:new(util.root_pattern(".venv", ".git") or vim.fn.getcwd())
@@ -1452,13 +1402,25 @@ require("lspconfig").kcl.setup({
 --   end
 -- end
 
-lsp_zero.setup_servers({ 'tsserver', 'jsonnet_ls', 'rust_analyzer', 'gopls', 'terraformls', 'html', 'emmet_language_server',
-  'ruby_lsp', 'vimls', 'lua_ls', 'intelephense', 'dockerls' })
+lsp_zero.setup_servers {
+  'tsserver',
+  'jsonnet_ls',
+  'rust_analyzer',
+  'gopls',
+  'terraformls',
+  'html',
+  'emmet_language_server',
+  'ruby_lsp',
+  'vimls',
+  'lua_ls',
+  'intelephense',
+  'dockerls',
+}
 require('copilot_cmp').setup()
 
-local lspkind = require('lspkind')
+local lspkind = require 'lspkind'
 
-require('copilot').setup({
+require('copilot').setup {
   suggestion = { enabled = false },
   panel = { enabled = false },
   filetypes = {
@@ -1468,14 +1430,14 @@ require('copilot').setup({
     -- vim = true, -- allow specific filetype
     ['*'] = false, -- disable for all other filetypes and ignore default `filetypes`
   },
-})
+}
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
-require("luasnip.loaders.from_snipmate").lazy_load()
+require('luasnip.loaders.from_snipmate').lazy_load()
 luasnip.filetype_extend('ruby', { 'rails' })
 luasnip.config.setup {}
 
@@ -1487,12 +1449,12 @@ cmp.setup {
   },
   formatting = {
     fields = { 'abbr', 'kind', 'menu' },
-    format = lspkind.cmp_format({
+    format = lspkind.cmp_format {
       mode = 'symbol',
       max_width = 50,
       ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-      symbol_map = { Copilot = '' }
-    })
+      symbol_map = { Copilot = '' },
+    },
   },
   completion = {
     completeopt = 'menu,menuone,noinsert',
@@ -1542,10 +1504,10 @@ cmp.setup {
     cmp.config.compare.order,
   },
   sources = {
-    { name = 'copilot',  group_index = 2 },
+    { name = 'copilot', group_index = 2 },
     { name = 'nvim_lsp', group_index = 2 },
-    { name = 'path',     group_index = 2 },
-    { name = 'luasnip',  group_index = 2 },
+    { name = 'path', group_index = 2 },
+    { name = 'luasnip', group_index = 2 },
     { name = 'path' },
   },
 }
@@ -1579,7 +1541,7 @@ end, { desc = 'delete buffer' })
 vim.keymap.set('n', '<leader>tc', ':Copilot! toggle<cr>', { desc = 'toggle copilot' })
 
 local Terminal = require('toggleterm.terminal').Terminal
-local lazygit  = Terminal:new({
+local lazygit = Terminal:new {
   cmd = 'lazygit',
   dir = 'git_dir',
   direction = 'float',
@@ -1588,10 +1550,10 @@ local lazygit  = Terminal:new({
   },
   -- function to run on opening the terminal
   on_open = function(term)
-    vim.cmd('startinsert!')
+    vim.cmd 'startinsert!'
     vim.api.nvim_buf_set_keymap(term.bufnr, 'n', 'q', '<cmd>close<CR>', { noremap = true, silent = true })
   end,
-})
+}
 
 function _lazygit_toggle()
   lazygit:toggle()
@@ -1613,8 +1575,7 @@ vim.keymap.set('n', '<C-k>', '<C-W>k', { desc = 'Window Move Up' })
 vim.keymap.set('n', '<C-h>', '<C-W>h', { desc = 'Window Move Left' })
 vim.keymap.set('n', '<C-l>', '<C-W>l', { desc = 'Window Move Right' })
 
-vim.keymap.set('n', '<leader>fb', ':Telescope file_browser path=%:p:h select_buffer=true<CR>',
-  { desc = 'Open file browser with current buffer' })
+vim.keymap.set('n', '<leader>fb', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { desc = 'Open file browser with current buffer' })
 vim.keymap.set('n', '<leader>tt', ':AerialToggle<cr>', { desc = 'Toggle tagbar', silent = true })
 vim.keymap.set('n', 'X', 'ci"', { desc = 'Replace quoted text' })
 vim.env.SUDO_ASKPASS = '/usr/bin/ksshaskpass'
@@ -1632,12 +1593,12 @@ vim.keymap.set('n', '<right>', ':bn<cr>', { silent = true })
 
 -- vim.keymap.set('n', '\\\\', ":NERDTreeToggle<cr>", {silent = true, noremap = true})
 -- vim.keymap.set('n', '<leader>ff', ':NERDTreeFind<CR>', {desc = 'Find file', silent = true})
-vim.keymap.set('n', '\\\\', ":NvimTreeToggle<cr>", { silent = true, noremap = true })
+vim.keymap.set('n', '\\\\', ':NvimTreeToggle<cr>', { silent = true, noremap = true })
 vim.keymap.set('n', '<leader>ff', ':NvimTreeFindFile<CR>', { desc = 'Find file', silent = true })
 
-vim.keymap.set('n', '<leader>do', ":DevdocsOpen<cr>", { desc = '[D]evdocs [O]pen', silent = true, noremap = true })
-vim.keymap.set('n', '<leader>di', ":DevdocsInstall<cr>", { desc = '[D]evdocs [I]nstall', silent = true, noremap = true })
-vim.keymap.set('n', '<leader>dg', ":DogeGenerate<cr>", { desc = '[D]ocstring [G]enerate', silent = true, noremap = true })
+vim.keymap.set('n', '<leader>do', ':DevdocsOpen<cr>', { desc = '[D]evdocs [O]pen', silent = true, noremap = true })
+vim.keymap.set('n', '<leader>di', ':DevdocsInstall<cr>', { desc = '[D]evdocs [I]nstall', silent = true, noremap = true })
+vim.keymap.set('n', '<leader>dg', ':DogeGenerate<cr>', { desc = '[D]ocstring [G]enerate', silent = true, noremap = true })
 
 -- vim.lsp.set_log_level('off')
 -- require("dap").configurations.c = {
@@ -1664,52 +1625,11 @@ vim.keymap.set('n', '<leader>dg', ":DogeGenerate<cr>", { desc = '[D]ocstring [G]
 --     },
 --   }
 -- }
-local dap = require("dap")
+local dap = require 'dap'
 
-dap.adapters.gdb = {
-  type = "executable",
-  command = "gdb",
-  args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
-}
 
-dap.configurations.c = {
-  {
-    name = "Launch",
-    type = "gdb",
-    request = "launch",
-    program = function()
-      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-    end,
-    cwd = "${workspaceFolder}",
-    stopAtBeginningOfMainSubprogram = false,
-  },
-  {
-    name = "Select and attach to process",
-    type = "gdb",
-    request = "attach",
-    program = function()
-       return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-    end,
-    pid = function()
-       local name = vim.fn.input('Executable name (filter): ')
-       return require("dap.utils").pick_process({ filter = name })
-    end,
-    cwd = '${workspaceFolder}'
-  },
-  {
-    name = 'Attach to gdbserver :3333',
-    type = 'gdb',
-    request = 'attach',
-    target = 'localhost:3333',
-    program = function()
-       return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-    end,
-    cwd = '${workspaceFolder}'
-  },
-}
-
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  pattern = { "*.tf", "*.tfvars" },
+vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+  pattern = { '*.tf', '*.tfvars' },
   callback = function()
     vim.lsp.buf.format()
   end,
