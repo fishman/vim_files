@@ -521,3 +521,12 @@ snippet fprs
 	print("$0", file=${1:sys.stderr})
 snippet fprf
 	print(f"$0", file=${1:sys.stderr})
+
+snippet readline
+	with open('${1:example.txt}', 'r') as ${2:file}:
+		for line in $2:
+			${3:print(line.strip())}
+
+snippet read
+	with open('${1:example.txt}', 'r') as ${2:file}:
+		content = $2.read()

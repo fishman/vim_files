@@ -251,6 +251,12 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
+  -- NOTE: Plugins can also be added by using a table,
+  -- with the first argument being the link and the following
+  -- keys can be used to configure plugin behavior/loading/etc.
+  --
+  -- Use `opts = {}` to force a plugin to be loaded.
+  --
   { 'tiagovla/scope.nvim', opts = {} },
   -- 'dense-analysis/ale',
   'roxma/vim-tmux-clipboard',
@@ -683,10 +689,10 @@ require('lazy').setup({
       }
 
       lsp_zero.setup_servers {
-        'tsserver',
         'jsonnet_ls',
         'gopls',
         'terraformls',
+        'tflint',
         'html',
         'emmet_language_server',
         'ruby_lsp',
@@ -715,7 +721,9 @@ require('lazy').setup({
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
-        tsserver = {},
+        --
+        -- But for many setups, the LSP (`ts_ls`) will work just fine
+        ts_ls = {},
 
         lua_ls = {
           -- cmd = {...},
@@ -741,8 +749,8 @@ require('lazy').setup({
       --  You can press `g?` for help in this menu.
       -- require('mason').setup()
 
-      -- -- You can add other tools here that you want Mason to install
-      -- -- for you, so that they are available from within Neovim.
+      -- You can add other tools here that you want Mason to install
+      -- for you, so that they are available from within Neovim.
       -- local ensure_installed = vim.tbl_keys(servers or {})
       -- vim.list_extend(ensure_installed, {
       --   'stylua', -- Used to format Lua code
@@ -1078,6 +1086,7 @@ require('lazy').setup({
         'hcl',
         'ruby',
         'gotmpl',
+        'embedded_template',
         'php',
         'jsonnet',
         'twig',
@@ -1099,45 +1108,40 @@ require('lazy').setup({
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-    config = function()
-      vim.filetype.add {
-        extension = {
-          gotmpl = 'gotmpl',
-        },
-        pattern = {
-          ['.*/templates/.*%.tpl'] = 'helm',
-          ['.*/templates/.*%.ya?ml'] = 'helm',
-          ['helmfile.*%.ya?ml'] = 'helm',
-        },
-      }
-      --   -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
-      --   vim.defer_fn(function()
-      --     local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-      --     parser_config.gotmpl = {
-      --       install_info = {
-      --         url = 'https://github.com/ngalaiko/tree-sitter-go-template',
-      --         files = { 'src/parser.c' },
-      --       },
-      --       filetype = 'gotmpl',
-      --       used_by = { 'gohtmltmpl', 'gotexttmpl', 'gotmpl', 'yaml' },
-      --     }
-      --     local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-      --     parser_config.embedded_template = {
-      --       install_info = {
-      --         url = 'https://github.com/tree-sitter/tree-sitter-embedded-template',
-      --         files = { 'src/parser.c' },
-      --         requires_generate_from_grammar = true,
-      --       },
-      --       used_by = { 'eelixir', 'eex', 'leex', 'erb', 'ejs' },
-      --     }
-      --   end, 0)
-    end,
   },
   {
     'mgierada/lazydocker.nvim',
     dependencies = { 'akinsho/toggleterm.nvim' },
     config = function()
       require('lazydocker').setup {}
+
+      local Terminal = require('toggleterm.terminal').Terminal
+      local lazygit = Terminal:new {
+        cmd = 'lazygit',
+        dir = 'git_dir',
+        direction = 'float',
+        float_opts = {
+          border = 'double',
+        },
+        -- function to run on opening the terminal
+        on_open = function(term)
+          vim.cmd 'startinsert!'
+          vim.api.nvim_buf_set_keymap(term.bufnr, 'n', 'q', '<cmd>close<CR>', { noremap = true, silent = true })
+        end,
+      }
+
+      function LazygitToggle()
+        lazygit:toggle()
+      end
+
+      vim.keymap.set('n', '<leader>og', '<cmd>lua LazygitToggle()<CR>', { desc = 'Open Lazygit' })
+      vim.keymap.set('n', '<leader>ot', '<Cmd>exe v:count1 . "ToggleTerm"<CR>', { desc = 'Open Terminal' })
+      vim.api.nvim_create_autocmd('TermEnter', {
+        pattern = 'term://*toggleterm#*',
+        callback = function()
+          vim.api.nvim_buf_set_keymap(0, 't', '<C-t>', '<Cmd>exe v:count1 . "ToggleTerm"<CR>', { silent = true })
+        end,
+      })
     end,
     event = 'BufRead', -- or any other event you might want to use.
   },
@@ -1153,7 +1157,7 @@ require('lazy').setup({
   --
   require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
@@ -1235,7 +1239,6 @@ require('lazy').setup({
   },
   {
     'folke/trouble.nvim',
-    opts = {}, -- for default options, refer to the configuration section for custom setup.
     cmd = 'Trouble',
     keys = {
       {
@@ -1270,6 +1273,13 @@ require('lazy').setup({
       },
     },
     dependencies = { 'nvim-tree/nvim-web-devicons' },
+    opts = {
+      modes = {
+        lsp = {
+          win = { position = 'right' },
+        },
+      },
+    },
   },
   {
     'ahmedkhalf/project.nvim',
@@ -1424,6 +1434,40 @@ require('lazy').setup({
     ft = { 'go', 'gomod' },
     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   },
+  {
+    'folke/todo-comments.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+  },
+  {
+    'MagicDuck/grug-far.nvim',
+    config = function()
+      require('grug-far').setup {
+        -- options, see Configuration section below
+        -- there are no required options atm
+        -- engine = 'ripgrep' is default, but 'astgrep' can be specified
+      }
+    end,
+  },
+
+  -- {
+  --   'folke/flash.nvim',
+  --   event = 'VeryLazy',
+  --   ---@type Flash.Config
+  --   opts = {},
+  --   -- stylua: ignore
+  --   keys = {
+  --     { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+  --     { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+  --     { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+  --     { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+  --     { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+  --   },
+  -- },
 
   -- {
   --   'romgrk/barbar.nvim',
@@ -1540,34 +1584,6 @@ vim.keymap.set('n', '<leader>bd', function()
 end, { desc = 'delete buffer' })
 vim.keymap.set('n', '<leader>tc', ':Copilot! toggle<cr>', { desc = 'toggle copilot' })
 
-local Terminal = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new {
-  cmd = 'lazygit',
-  dir = 'git_dir',
-  direction = 'float',
-  float_opts = {
-    border = 'double',
-  },
-  -- function to run on opening the terminal
-  on_open = function(term)
-    vim.cmd 'startinsert!'
-    vim.api.nvim_buf_set_keymap(term.bufnr, 'n', 'q', '<cmd>close<CR>', { noremap = true, silent = true })
-  end,
-}
-
-function _lazygit_toggle()
-  lazygit:toggle()
-end
-
-vim.keymap.set('n', '<leader>og', '<cmd>lua _lazygit_toggle()<CR>', { desc = 'Open Lazygit' })
-vim.keymap.set('n', '<leader>ot', '<Cmd>exe v:count1 . "ToggleTerm"<CR>', { desc = 'Open Terminal' })
-vim.api.nvim_create_autocmd('TermEnter', {
-  pattern = 'term://*toggleterm#*',
-  callback = function()
-    vim.api.nvim_buf_set_keymap(0, 't', '<C-t>', '<Cmd>exe v:count1 . "ToggleTerm"<CR>', { silent = true })
-  end,
-})
-
 -- Copy into clipboard
 vim.keymap.set('v', '<C-C>', '"+y', { desc = 'Copy to clipboard' })
 
@@ -1597,6 +1613,17 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
     vim.lsp.buf.format()
   end,
 })
+
+vim.filetype.add {
+  extension = {
+    gotmpl = 'gotmpl',
+  },
+  pattern = {
+    ['.*/templates/.*%.tpl'] = 'helm',
+    ['.*/templates/.*%.ya?ml'] = 'helm',
+    ['helmfile.*%.ya?ml'] = 'helm',
+  },
+}
 
 vim.g.NERDTreeHijackNetrw = 0
 

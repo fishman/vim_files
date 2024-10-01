@@ -27,6 +27,13 @@ return {
         ['h'] = 'close_node',
         ['\\\\'] = 'close_window',
         ['<space>'] = 'none',
+        ['A'] = 'git_add_all',
+        ['ga'] = 'git_add_file',
+        ['gu'] = 'git_unstage_file',
+        ['gr'] = 'git_revert_file',
+        ['gc'] = 'git_commit',
+        ['gp'] = 'git_push',
+        ['gg'] = 'git_commit_and_push',
         ['Y'] = {
           function(state)
             local node = state.tree:get_node()
@@ -50,12 +57,6 @@ return {
         expander_collapsed = '',
         expander_expanded = '',
         expander_highlight = 'NeoTreeExpander',
-      },
-      git_status = {
-        symbols = {
-          unstaged = '󰄱',
-          staged = '󰱒',
-        },
       },
     },
   },
