@@ -700,6 +700,7 @@ require('lazy').setup({
         'lua_ls',
         'intelephense',
         'dockerls',
+        'yamlls',
       }
 
       -- Enable the following language servers
@@ -724,6 +725,7 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {},
+        yamllint = {},
 
         lua_ls = {
           -- cmd = {...},
@@ -1081,6 +1083,7 @@ require('lazy').setup({
         'javascript',
         'typescript',
         'org',
+        'helm',
         'terraform',
         'nix',
         'hcl',
@@ -1090,6 +1093,7 @@ require('lazy').setup({
         'php',
         'jsonnet',
         'twig',
+        'yaml',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
@@ -1163,45 +1167,50 @@ require('lazy').setup({
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   require 'custom.plugins.copilot',
   require 'custom.plugins.neo-tree',
-  -- require 'AstroCore/astrocore',
-
-  -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-  --    This is the easiest way to modularize your config.
-  --
-  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  -- { import = 'custom.plugins' },
-  -- {
-  --   "chipsenkbeil/org-roam.nvim",
-  --   tag = "0.1.0",
-  --   dependencies = {
-  --     {
-  --       "nvim-orgmode/orgmode",
-  --       tag = "0.3.4",
-  --     },
-  --   },
-  --   config = function()
-  --     require("org-roam").setup({
-  --       directory = "~/org/roam",
-  --     })
-  --   end
-  -- },
-  { 'akinsho/toggleterm.nvim', version = '*', config = true },
+  require 'custom.plugins.colorscheme'
+    -- require 'AstroCore/astrocore',
+    -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
+    --    This is the easiest way to modularize your config.
+    --
+    --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
+    --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
+    -- { import = 'custom.plugins' },
+    -- {
+    --   "chipsenkbeil/org-roam.nvim",
+    --   tag = "0.1.0",
+    --   dependencies = {
+    --     {
+    --       "nvim-orgmode/orgmode",
+    --       tag = "0.3.4",
+    --     },
+    --   },
+    --   config = function()
+    --     require("org-roam").setup({
+    --       directory = "~/org/roam",
+    --     })
+    --   end
+    -- },
+    { 'akinsho/toggleterm.nvim', version = '*', config = true },
   -- {
   --   'https://gitlab.com/ivan-cukic/nvim-telescope-zeal-cli',
   --   dependencies = {
   --     { 'rktjmp/hotpot.nvim' },
   --   },
   -- },
-  -- {
-  --   'luckasRanarison/nvim-devdocs',
-  --   opts = {},
-  --   dependencies = {
-  --     'nvim-lua/plenary.nvim',
-  --     'nvim-telescope/telescope.nvim',
-  --     'nvim-treesitter/nvim-treesitter',
-  --   },
-  -- },
+  {
+    'luckasRanarison/nvim-devdocs',
+    opts = {},
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    init = function()
+      vim.keymap.set('n', '<leader>do', ':DevdocsOpen<cr>', { desc = '[D]evdocs [O]pen', silent = true, noremap = true })
+      vim.keymap.set('n', '<leader>di', ':DevdocsInstall<cr>', { desc = '[D]evdocs [I]nstall', silent = true, noremap = true })
+      vim.keymap.set('n', '<leader>dg', ':DogeGenerate<cr>', { desc = '[D]ocstring [G]enerate', silent = true, noremap = true })
+    end,
+  },
   {
     'nvim-orgmode/orgmode',
     dependencies = {
@@ -1350,15 +1359,6 @@ require('lazy').setup({
   -- },
 
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'onedark'
-    end,
-  },
-
-  {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
@@ -1412,6 +1412,13 @@ require('lazy').setup({
       },
     },
     config = function()
+      vim.keymap.set('n', '<leader>Tc', ':TestClass<cr>', { desc = 'Test Class' })
+      vim.keymap.set('n', '<leader>Tf', ':TestFile<cr>', { desc = 'Test File' })
+      vim.keymap.set('n', '<leader>Tl', ':TestLast<cr>', { desc = 'Test Last' })
+      vim.keymap.set('n', '<leader>Tn', ':TestNearest<cr>', { desc = 'Test Nearest' })
+      vim.keymap.set('n', '<leader>Ts', ':TestSuite<cr>', { desc = 'Test Suite' })
+      vim.keymap.set('n', '<leader>Tv', ':TestVisit<cr>', { desc = 'Test Visit' })
+
       require('neotest').setup {
         adapters = {
           require 'neotest-rust',
@@ -1593,26 +1600,8 @@ vim.keymap.set('n', 'X', 'ci"', { desc = 'Replace quoted text' })
 vim.env.SUDO_ASKPASS = '/usr/bin/ksshaskpass'
 vim.api.nvim_create_user_command('Sudow', 'w !sudo tee % > /dev/null', {})
 
-vim.keymap.set('n', '<leader>Tc', ':TestClass<cr>', { desc = 'Test Class' })
-vim.keymap.set('n', '<leader>Tf', ':TestFile<cr>', { desc = 'Test File' })
-vim.keymap.set('n', '<leader>Tl', ':TestLast<cr>', { desc = 'Test Last' })
-vim.keymap.set('n', '<leader>Tn', ':TestNearest<cr>', { desc = 'Test Nearest' })
-vim.keymap.set('n', '<leader>Ts', ':TestSuite<cr>', { desc = 'Test Suite' })
-vim.keymap.set('n', '<leader>Tv', ':TestVisit<cr>', { desc = 'Test Visit' })
-
 vim.keymap.set('n', '<left>', ':bp<cr>', { silent = true })
 vim.keymap.set('n', '<right>', ':bn<cr>', { silent = true })
-
-vim.keymap.set('n', '<leader>do', ':DevdocsOpen<cr>', { desc = '[D]evdocs [O]pen', silent = true, noremap = true })
-vim.keymap.set('n', '<leader>di', ':DevdocsInstall<cr>', { desc = '[D]evdocs [I]nstall', silent = true, noremap = true })
-vim.keymap.set('n', '<leader>dg', ':DogeGenerate<cr>', { desc = '[D]ocstring [G]enerate', silent = true, noremap = true })
-
-vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
-  pattern = { '*.tf', '*.tfvars' },
-  callback = function()
-    vim.lsp.buf.format()
-  end,
-})
 
 vim.filetype.add {
   extension = {
