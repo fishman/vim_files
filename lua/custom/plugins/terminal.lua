@@ -1,8 +1,9 @@
 return {
   {
-    'mgierada/lazydocker.nvim',
-    dependencies = { 'akinsho/toggleterm.nvim' },
+    'akinsho/toggleterm.nvim',
+    dependencies = { 'mgierada/lazydocker.nvim' },
     config = function()
+      require('toggleterm').setup {}
       require('lazydocker').setup {}
 
       local Terminal = require('toggleterm.terminal').Terminal

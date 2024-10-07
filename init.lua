@@ -257,53 +257,6 @@ require('lazy').setup({
   --
   -- Use `opts = {}` to force a plugin to be loaded.
   --
-  { 'tiagovla/scope.nvim', opts = {} },
-  -- 'dense-analysis/ale',
-  'roxma/vim-tmux-clipboard',
-  'tmux-plugins/vim-tmux-focus-events',
-  -- 'jlcrochet/vim-ruby',
-  'westeri/asl-vim',
-  'vimwiki/vimwiki',
-  'tools-life/taskwiki',
-  'michal-h21/vimwiki-sync',
-  {
-    'pasky/claude.vim',
-    config = function()
-      vim.g.claude_api_key = 'helloworld'
-    end,
-  },
-  -- 'sheerun/vim-polyglot',
-  -- 'bfredl/nvim-ipy',
-
-  'google/vim-jsonnet',
-
-  -- Git related plugins
-  'tpope/vim-fugitive',
-  'tpope/vim-rhubarb',
-
-  -- tpope language plugins
-  {
-    'tpope/vim-rails',
-    config = function()
-      vim.api.nvim_create_autocmd('FileType', { pattern = 'eruby.yaml', command = 'set filetype=yaml' })
-    end,
-  },
-  'preservim/tagbar',
-  'tpope/vim-rake',
-  'tpope/vim-vinegar',
-  'tpope/vim-bundler',
-  'echasnovski/mini.move',
-  '0xmovses/move.vim',
-
-  -- NOTE: This is where your plugins related to LSP can be installed.
-  --  The configuration is done below. Search for lspconfig to find it below.
-
-  {
-    'kcl-lang/kcl.nvim',
-    ft = {
-      'kcl',
-    },
-  },
 
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
@@ -493,7 +446,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-      vim.keymap.set('n', '<leader>fr', require('telescope').extensions.frecency.frecency, { desc = '[F]ind Recent Files ("." for repeat)' })
+      vim.keymap.set('n', '<leader>fr', ':Telescope frecency<CR>', { desc = '[F]ind Recent Files ("." for repeat)' })
+      -- vim.keymap.set('n', '<leader>fr', require('telescope').extensions.frecency.frecency, { desc = '[F]ind Recent Files ("." for repeat)' })
       -- vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
@@ -1113,42 +1067,6 @@ require('lazy').setup({
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
-  {
-    'mgierada/lazydocker.nvim',
-    dependencies = { 'akinsho/toggleterm.nvim' },
-    config = function()
-      require('lazydocker').setup {}
-
-      local Terminal = require('toggleterm.terminal').Terminal
-      local lazygit = Terminal:new {
-        cmd = 'lazygit',
-        dir = 'git_dir',
-        direction = 'float',
-        float_opts = {
-          border = 'double',
-        },
-        -- function to run on opening the terminal
-        on_open = function(term)
-          vim.cmd 'startinsert!'
-          vim.api.nvim_buf_set_keymap(term.bufnr, 'n', 'q', '<cmd>close<CR>', { noremap = true, silent = true })
-        end,
-      }
-
-      function LazygitToggle()
-        lazygit:toggle()
-      end
-
-      vim.keymap.set('n', '<leader>og', '<cmd>lua LazygitToggle()<CR>', { desc = 'Open Lazygit' })
-      vim.keymap.set('n', '<leader>ot', '<Cmd>exe v:count1 . "ToggleTerm"<CR>', { desc = 'Open Terminal' })
-      vim.api.nvim_create_autocmd('TermEnter', {
-        pattern = 'term://*toggleterm#*',
-        callback = function()
-          vim.api.nvim_buf_set_keymap(0, 't', '<C-t>', '<Cmd>exe v:count1 . "ToggleTerm"<CR>', { silent = true })
-        end,
-      })
-    end,
-    event = 'BufRead', -- or any other event you might want to use.
-  },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
@@ -1165,237 +1083,46 @@ require('lazy').setup({
   require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'custom.plugins.init',
   require 'custom.plugins.copilot',
   require 'custom.plugins.neo-tree',
-  require 'custom.plugins.colorscheme'
-    -- require 'AstroCore/astrocore',
-    -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-    --    This is the easiest way to modularize your config.
-    --
-    --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-    --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-    -- { import = 'custom.plugins' },
-    -- {
-    --   "chipsenkbeil/org-roam.nvim",
-    --   tag = "0.1.0",
-    --   dependencies = {
-    --     {
-    --       "nvim-orgmode/orgmode",
-    --       tag = "0.3.4",
-    --     },
-    --   },
-    --   config = function()
-    --     require("org-roam").setup({
-    --       directory = "~/org/roam",
-    --     })
-    --   end
-    -- },
-    { 'akinsho/toggleterm.nvim', version = '*', config = true },
+  require 'custom.plugins.theme',
+  require 'custom.plugins.terminal',
+  -- require 'AstroCore/astrocore',
+  -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
+  --    This is the easiest way to modularize your config.
+  --
+  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
+  --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
+  -- { import = 'custom.plugins' },
+  -- {
+  --   "chipsenkbeil/org-roam.nvim",
+  --   tag = "0.1.0",
+  --   dependencies = {
+  --     {
+  --       "nvim-orgmode/orgmode",
+  --       tag = "0.3.4",
+  --     },
+  --   },
+  --   config = function()
+  --     require("org-roam").setup({
+  --       directory = "~/org/roam",
+  --     })
+  --   end
+  -- },
+
   -- {
   --   'https://gitlab.com/ivan-cukic/nvim-telescope-zeal-cli',
   --   dependencies = {
   --     { 'rktjmp/hotpot.nvim' },
   --   },
   -- },
-  {
-    'luckasRanarison/nvim-devdocs',
-    opts = {},
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope.nvim',
-      'nvim-treesitter/nvim-treesitter',
-    },
-    init = function()
-      vim.keymap.set('n', '<leader>do', ':DevdocsOpen<cr>', { desc = '[D]evdocs [O]pen', silent = true, noremap = true })
-      vim.keymap.set('n', '<leader>di', ':DevdocsInstall<cr>', { desc = '[D]evdocs [I]nstall', silent = true, noremap = true })
-      vim.keymap.set('n', '<leader>dg', ':DogeGenerate<cr>', { desc = '[D]ocstring [G]enerate', silent = true, noremap = true })
-    end,
-  },
-  {
-    'nvim-orgmode/orgmode',
-    dependencies = {
-      { 'nvim-treesitter/nvim-treesitter', lazy = true },
-    },
-    event = 'VeryLazy',
-    config = function()
-      -- Load treesitter grammar for org
-      -- Setup orgmode
-      require('orgmode').setup {
-        org_agenda_files = '~/org/roam/*',
-        org_default_notes_file = '~/org/refile.org',
-      }
-    end,
-  },
-  {
-    'linux-cultist/venv-selector.nvim',
-    dependencies = {
-      'neovim/nvim-lspconfig',
-      'mfussenegger/nvim-dap',
-      'mfussenegger/nvim-dap-python', --optional
-      { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
-    },
-    lazy = false,
-    branch = 'regexp', -- This is the regexp branch, use this for the new version
-    config = function()
-      require('venv-selector').setup()
-    end,
-    keys = {
-      -- Keymap to open VenvSelector to pick a venv.
-      { '<leader>vs', '<cmd>VenvSelect<cr>' },
-      -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
-      { '<leader>vc', '<cmd>VenvSelectCached<cr>' },
-    },
-  },
-  {
-    'folke/trouble.nvim',
-    cmd = 'Trouble',
-    keys = {
-      {
-        '<leader>xx',
-        '<cmd>Trouble diagnostics toggle<cr>',
-        desc = 'Diagnostics (Trouble)',
-      },
-      {
-        '<leader>xX',
-        '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
-        desc = 'Buffer Diagnostics (Trouble)',
-      },
-      {
-        '<leader>cs',
-        '<cmd>Trouble symbols toggle focus=false<cr>',
-        desc = 'Symbols (Trouble)',
-      },
-      {
-        '<leader>cl',
-        '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
-        desc = 'LSP Definitions / references / ... (Trouble)',
-      },
-      {
-        '<leader>xL',
-        '<cmd>Trouble loclist toggle<cr>',
-        desc = 'Location List (Trouble)',
-      },
-      {
-        '<leader>xQ',
-        '<cmd>Trouble qflist toggle<cr>',
-        desc = 'Quickfix List (Trouble)',
-      },
-    },
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    opts = {
-      modes = {
-        lsp = {
-          win = { position = 'right' },
-        },
-      },
-    },
-  },
-  {
-    'ahmedkhalf/project.nvim',
-    config = function()
-      require('project_nvim').setup {
-        ignore_lsp = { 'texlab' },
-        scope_chdir = 'tab',
-      }
-    end,
-  },
-  {
-    'kylechui/nvim-surround',
-    version = '*', -- Use for stability; omit to use `main` branch for the latest features
-    event = 'VeryLazy',
-    opts = {},
-  },
-  {
-    'kkoomen/vim-doge',
-  },
-  {
-    'nvim-telescope/telescope-file-browser.nvim',
-    dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
-  },
-  {
-    'stevearc/aerial.nvim',
-    opts = {},
-    -- Optional dependencies
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-      'nvim-tree/nvim-web-devicons',
-    },
-  },
-
-  {
-    'vim-test/vim-test',
-    config = function()
-      vim.api.nvim_command 'let test#strategy = "neovim"'
-    end,
-  },
-  {
-    'christoomey/vim-tmux-navigator',
-    cmd = {
-      'TmuxNavigateLeft',
-      'TmuxNavigateDown',
-      'TmuxNavigateUp',
-      'TmuxNavigateRight',
-      'TmuxNavigatePrevious',
-    },
-    keys = {
-      { '<c-h>', '<cmd><C-U>TmuxNavigateLeft<cr>' },
-      { '<c-j>', '<cmd><C-U>TmuxNavigateDown<cr>' },
-      { '<c-k>', '<cmd><C-U>TmuxNavigateUp<cr>' },
-      { '<c-l>', '<cmd><C-U>TmuxNavigateRight<cr>' },
-      { '<c-\\>', '<cmd><C-U>TmuxNavigatePrevious<cr>' },
-    },
-  },
-  {
-    'cuducos/yaml.nvim',
-    ft = { 'yaml' }, -- optional
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-      'nvim-telescope/telescope.nvim', -- optional
-    },
-  },
 
   -- {
   --   -- 'weizheheng/ror.nvim'
   -- },
 
-  {
-    -- Set lualine as statusline
-    'nvim-lualine/lualine.nvim',
-    -- See `:help lualine.txt`
-    dependencies = {
-      'AndreM222/copilot-lualine',
-    },
-    opts = {
-      options = {
-        icons_enabled = false,
-        theme = 'onedark',
-        -- component_separators = '|',
-        -- section_separators = '',
-      },
-      sections = {
-        lualine_a = { 'mode' },
-        lualine_b = {
-          'branch',
-          'diff',
-          {
-            'diagnostics',
-            sources = { 'nvim_diagnostic' },
-            symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
-          },
-        },
-        lualine_c = { 'filename' },
-        lualine_x = { 'copilot', 'encoding', 'fileformat', 'filetype' }, -- I added copilot here
-        lualine_y = { 'progress' },
-        lualine_z = { 'location' },
-      },
-    },
-  },
 
-  {
-    'mrcjkb/rustaceanvim',
-    version = '^5', -- Recommended
-    lazy = false, -- This plugin is already lazy
-  },
   {
     'nvim-neotest/neotest',
     dependencies = {
@@ -1426,29 +1153,6 @@ require('lazy').setup({
         },
       }
     end,
-  },
-  {
-    'ray-x/go.nvim',
-    dependencies = { -- optional packages
-      'ray-x/guihua.lua',
-      'neovim/nvim-lspconfig',
-      'nvim-treesitter/nvim-treesitter',
-    },
-    config = function()
-      require('go').setup()
-    end,
-    event = { 'CmdlineEnter' },
-    ft = { 'go', 'gomod' },
-    build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
-  },
-  {
-    'folke/todo-comments.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    },
   },
   {
     'MagicDuck/grug-far.nvim',
