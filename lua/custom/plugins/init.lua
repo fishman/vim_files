@@ -63,11 +63,6 @@ return {
     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   },
   {
-    'mrcjkb/rustaceanvim',
-    version = '^5', -- Recommended
-    lazy = false, -- This plugin is already lazy
-  },
-  {
     'JoosepAlviste/nvim-ts-context-commentstring',
     config = function()
       require('ts_context_commentstring').setup {

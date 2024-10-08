@@ -498,7 +498,7 @@ require('lazy').setup({
       -- { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
       -- 'williamboman/mason-lspconfig.nvim',
       -- 'WhoIsSethDaniel/mason-tool-installer.nvim',
-      { 'VonHeikemen/lsp-zero.nvim', branch = 'v3.x', lazy = true, config = false },
+      { 'VonHeikemen/lsp-zero.nvim', branch = 'v4.x', lazy = true, config = false },
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -635,11 +635,28 @@ require('lazy').setup({
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
-      local lsp_zero = require('lsp-zero').preset {
-        name = 'minimal',
-        set_lsp_keymaps = false,
-        manage_nvim_cmp = true,
-        suggest_lsp_servers = false,
+      local lsp_zero = require 'lsp-zero'
+
+      local lsp_attach = function(client, bufnr)
+        local opts = { buffer = bufnr }
+
+        vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+        vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+        vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+        vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+        vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+        vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+        vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+        vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+        vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+        vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+      end
+
+      lsp_zero.extend_lspconfig {
+        capabilities = capabilities,
+        lsp_attach = lsp_attach,
+        float_border = 'rounded',
+        sign_text = true,
       }
 
       lsp_zero.setup_servers {
@@ -1088,6 +1105,7 @@ require('lazy').setup({
   require 'custom.plugins.neo-tree',
   require 'custom.plugins.theme',
   require 'custom.plugins.terminal',
+  require 'custom.plugins.rust',
   -- require 'AstroCore/astrocore',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
@@ -1121,7 +1139,6 @@ require('lazy').setup({
   -- {
   --   -- 'weizheheng/ror.nvim'
   -- },
-
 
   {
     'nvim-neotest/neotest',
