@@ -36,18 +36,16 @@ return {
   'tpope/vim-rake',
   'tpope/vim-vinegar',
   'tpope/vim-bundler',
-  'echasnovski/mini.move',
-  '0xmovses/move.vim',
+  {
+    'echasnovski/mini.move',
+    config = function()
+      require('mini.move').setup()
+    end,
+  },
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
 
-  {
-    'kcl-lang/kcl.nvim',
-    ft = {
-      'kcl',
-    },
-  },
   {
     'ray-x/go.nvim',
     dependencies = { -- optional packages
@@ -184,9 +182,7 @@ return {
     event = 'VeryLazy',
     opts = {},
   },
-  {
-    'kkoomen/vim-doge',
-  },
+  'kkoomen/vim-doge',
   {
     'nvim-telescope/telescope-file-browser.nvim',
     dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
@@ -194,7 +190,16 @@ return {
   {
     'stevearc/aerial.nvim',
     opts = {},
-    -- Optional dependencies
+    config = function()
+      require('aerial').setup {
+        on_attach = function(bufnr)
+          -- Jump forwards/backwards with '{' and '}'
+          vim.keymap.set('n', '{', '<cmd>AerialPrev<CR>', { buffer = bufnr })
+          vim.keymap.set('n', '}', '<cmd>AerialNext<CR>', { buffer = bufnr })
+        end,
+      }
+      vim.keymap.set('n', '<leader>tt', '<cmd>AerialToggle<cr>', { desc = 'Toggle tagbar', silent = true })
+    end,
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
       'nvim-tree/nvim-web-devicons',
@@ -208,21 +213,19 @@ return {
     end,
   },
   {
-    'christoomey/vim-tmux-navigator',
-    cmd = {
-      'TmuxNavigateLeft',
-      'TmuxNavigateDown',
-      'TmuxNavigateUp',
-      'TmuxNavigateRight',
-      'TmuxNavigatePrevious',
-    },
-    keys = {
-      { '<c-h>', '<cmd><C-U>TmuxNavigateLeft<cr>' },
-      { '<c-j>', '<cmd><C-U>TmuxNavigateDown<cr>' },
-      { '<c-k>', '<cmd><C-U>TmuxNavigateUp<cr>' },
-      { '<c-l>', '<cmd><C-U>TmuxNavigateRight<cr>' },
-      { '<c-\\>', '<cmd><C-U>TmuxNavigatePrevious<cr>' },
-    },
+    'numToStr/Navigator.nvim',
+    config = function()
+      require('Navigator').setup {
+        auto_save = nil,
+        disable_on_zoom = false,
+        mux = 'auto',
+      }
+
+      vim.keymap.set({ 'n', 't' }, '<C-h>', '<CMD>NavigatorLeft<CR>')
+      vim.keymap.set({ 'n', 't' }, '<C-l>', '<CMD>NavigatorRight<CR>')
+      vim.keymap.set({ 'n', 't' }, '<C-k>', '<CMD>NavigatorUp<CR>')
+      vim.keymap.set({ 'n', 't' }, '<C-j>', '<CMD>NavigatorDown<CR>')
+    end,
   },
   {
     'cuducos/yaml.nvim',

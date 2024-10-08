@@ -1106,6 +1106,8 @@ require('lazy').setup({
   require 'custom.plugins.theme',
   require 'custom.plugins.terminal',
   require 'custom.plugins.rust',
+  require 'custom.plugins.web3',
+  require 'custom.plugins.k8s',
   -- require 'AstroCore/astrocore',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
@@ -1316,7 +1318,6 @@ vim.keymap.set('n', '<leader>tc', ':Copilot! toggle<cr>', { desc = 'toggle copil
 vim.keymap.set('v', '<C-C>', '"+y', { desc = 'Copy to clipboard' })
 
 vim.keymap.set('n', '<leader>fb', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { desc = 'Open file browser with current buffer' })
-vim.keymap.set('n', '<leader>tt', ':AerialToggle<cr>', { desc = 'Toggle tagbar', silent = true })
 vim.keymap.set('n', 'X', 'ci"', { desc = 'Replace quoted text' })
 vim.env.SUDO_ASKPASS = '/usr/bin/ksshaskpass'
 vim.api.nvim_create_user_command('Sudow', 'w !sudo tee % > /dev/null', {})
