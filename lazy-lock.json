@@ -5,6 +5,7 @@
   "Navigator.nvim": { "branch": "master", "commit": "91d86506ac2a039504d5205d32a1d4bc7aa57072" },
   "aerial.nvim": { "branch": "master", "commit": "603156d4fd58963a05f221e76b1a25bc79ed55b0" },
   "asl-vim": { "branch": "master", "commit": "d0f2fad000a0a9c0e64c5cb48b2853b4f6e4c261" },
+  "bigfile.nvim": { "branch": "main", "commit": "33eb067e3d7029ac77e081cfe7c45361887a311a" },
   "claude.vim": { "branch": "main", "commit": "883c1fcad735f5e9916fddea54e7068349cc5d59" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "39e2eda76828d88b773cc27a3f61d2ad782c922d" },
   "cmp-path": { "branch": "main", "commit": "91ff86cd9c29299a64f968ebb45846c485725f23" },

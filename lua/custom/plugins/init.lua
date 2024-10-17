@@ -4,6 +4,7 @@
 -- See the kickstart.nvim README for more information
 return {
   { 'tiagovla/scope.nvim', opts = {} },
+  'LunarVim/bigfile.nvim',
   -- 'dense-analysis/ale',
   'roxma/vim-tmux-clipboard',
   'tmux-plugins/vim-tmux-focus-events',
@@ -160,6 +161,7 @@ return {
     },
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     opts = {
+      indent_guides = false,
       modes = {
         lsp = {
           win = { position = 'right' },
