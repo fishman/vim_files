@@ -446,7 +446,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-      vim.keymap.set('n', '<leader>fr', ':Telescope frecency<CR>', { desc = '[F]ind Recent Files ("." for repeat)' })
+      vim.keymap.set('n', '<leader>fr', ':Telescope frecency workspace=CWD<CR>', { desc = '[F]ind Recent Files ("." for repeat)', silent = true })
+      vim.keymap.set('n', '<leader>fR', ':Telescope frecency<CR>', { desc = '[F]ind Recent Files ("." for repeat)', silent = true })
       -- vim.keymap.set('n', '<leader>fr', require('telescope').extensions.frecency.frecency, { desc = '[F]ind Recent Files ("." for repeat)' })
       -- vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
@@ -697,6 +698,7 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {},
         yamllint = {},
+        volar = {},
 
         lua_ls = {
           -- cmd = {...},
@@ -798,7 +800,7 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
