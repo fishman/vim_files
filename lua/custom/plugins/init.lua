@@ -4,21 +4,40 @@
 -- See the kickstart.nvim README for more information
 return {
   { 'tiagovla/scope.nvim', opts = {} },
+  {
+    'stevearc/dressing.nvim',
+    opts = {},
+  },
+  -- {
+  --   'mrjones2014/legendary.nvim',
+  --   -- since legendary.nvim handles all your keymaps/commands,
+  --   -- its recommended to load legendary.nvim before other plugins
+  --   priority = 10000,
+  --   lazy = false,
+  --   -- sqlite is only needed if you want to use frecency sorting
+  --   dependencies = { 'kkharji/sqlite.lua' },
+  --   -- config = function()
+  --   --   require('legendary').setup {
+  --   --     extensions = {
+  --   --       codecompanion = true,
+  --   --     },
+  --   --   }
+  --   -- end,
+  -- },
   'LunarVim/bigfile.nvim',
   -- 'dense-analysis/ale',
   'roxma/vim-tmux-clipboard',
-  'tmux-plugins/vim-tmux-focus-events',
+  {
+    'aserowy/tmux.nvim',
+    config = function()
+      return require('tmux').setup()
+    end,
+  },
   -- 'jlcrochet/vim-ruby',
   'westeri/asl-vim',
   'vimwiki/vimwiki',
   'tools-life/taskwiki',
   'michal-h21/vimwiki-sync',
-  {
-    'pasky/claude.vim',
-    config = function()
-      vim.g.claude_api_key = 'helloworld'
-    end,
-  },
   -- 'sheerun/vim-polyglot',
   -- 'bfredl/nvim-ipy',
 
@@ -236,5 +255,18 @@ return {
       'nvim-treesitter/nvim-treesitter',
       'nvim-telescope/telescope.nvim', -- optional
     },
+  },
+  {
+    'NeogitOrg/neogit',
+    dependencies = {
+      'nvim-lua/plenary.nvim', -- required
+      'sindrets/diffview.nvim', -- optional - Diff integration
+
+      -- Only one of these is needed.
+      'nvim-telescope/telescope.nvim', -- optional
+      'ibhagwan/fzf-lua', -- optional
+      'echasnovski/mini.pick', -- optional
+    },
+    config = true,
   },
 }

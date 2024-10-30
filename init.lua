@@ -379,6 +379,16 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
       { 'jvgrootveld/telescope-zoxide' },
       { 'davvid/telescope-git-grep.nvim' },
+      {
+        'prochri/telescope-all-recent.nvim',
+        dependencies = {
+          'nvim-telescope/telescope.nvim',
+          'kkharji/sqlite.lua',
+          -- optional, if using telescope for vim.ui.select
+          'stevearc/dressing.nvim',
+        },
+        opts = {},
+      },
       { 'nvim-telescope/telescope-frecency.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
@@ -446,10 +456,10 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-      vim.keymap.set('n', '<leader>fr', ':Telescope frecency workspace=CWD<CR>', { desc = '[F]ind Recent Files ("." for repeat)', silent = true })
-      vim.keymap.set('n', '<leader>fR', ':Telescope frecency<CR>', { desc = '[F]ind Recent Files ("." for repeat)', silent = true })
-      -- vim.keymap.set('n', '<leader>fr', require('telescope').extensions.frecency.frecency, { desc = '[F]ind Recent Files ("." for repeat)' })
-      -- vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
+      -- vim.keymap.set('n', '<leader>fr', ':Telescope frecency workspace=CWD<CR>', { desc = '[F]ind Recent Files ("." for repeat)', silent = true })
+      -- vim.keymap.set('n', '<leader>fR', ':Telescope frecency<CR>', { desc = '[F]ind Recent Files ("." for repeat)', silent = true })
+      vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
+      vim.keymap.set('n', '<leader>fr', require('telescope').extensions.frecency.frecency, { desc = '[F]ind Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
       -- Slightly advanced example of overriding default behavior and theme
@@ -673,6 +683,7 @@ require('lazy').setup({
         'intelephense',
         'dockerls',
         'yamlls',
+        'clangd',
       }
 
       -- Enable the following language servers
@@ -798,9 +809,9 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
-        --
+        ruby = { 'rubocop' },
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        -- javascript = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -1033,6 +1044,7 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    dependencies = { 'RRethy/nvim-treesitter-endwise' },
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
@@ -1078,6 +1090,9 @@ require('lazy').setup({
         additional_vim_regex_highlighting = { 'ruby', 'org' },
       },
       indent = { enable = true, disable = { 'ruby' } },
+      endwise = {
+        enable = true,
+      },
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
@@ -1103,7 +1118,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   require 'custom.plugins.init',
-  require 'custom.plugins.copilot',
+  require 'custom.plugins.llm',
   require 'custom.plugins.neo-tree',
   require 'custom.plugins.theme',
   require 'custom.plugins.terminal',
@@ -1337,8 +1352,6 @@ vim.filetype.add {
     ['helmfile.*%.ya?ml'] = 'helm',
   },
 }
-
-vim.g.NERDTreeHijackNetrw = 0
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
