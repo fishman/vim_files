@@ -367,7 +367,7 @@ else
   " To use Python remote plugin features in Vim, can be skipped
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
-  Plug 'SirVer/ultisnips'
+  "Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
   Plug 'vim-test/vim-test'
   Plug 'Alok/notational-fzf-vim'

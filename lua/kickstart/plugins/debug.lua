@@ -50,8 +50,8 @@ return {
     local dap = require 'dap'
     local dapui = require 'dapui'
 
-    vim.fn.sign_define('DapBreakpoint',{ text ='🟥', texthl ='', linehl ='', numhl =''})
-    vim.fn.sign_define('DapStopped',{ text ='▶️', texthl ='', linehl ='', numhl =''})
+    vim.fn.sign_define('DapBreakpoint', { text = '🟥', texthl = '', linehl = '', numhl = '' })
+    vim.fn.sign_define('DapStopped', { text = '▶️', texthl = '', linehl = '', numhl = '' })
 
     dap.adapters.gdb = {
       type = 'executable',
@@ -59,7 +59,44 @@ return {
       args = { '--interpreter=dap', '--eval-command', 'set print pretty on' },
     }
 
+    dap.adapters.codelldb = {
+      type = 'server',
+      port = '${port}',
+      executable = {
+        command = '/usr/bin/codelldb',
+        args = { '--port', '${port}' },
+      },
+    }
+
     dap.configurations.c = {
+      {
+        name = 'Launch file',
+        type = 'codelldb',
+        request = 'launch',
+        program = function()
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+      },
+      {
+        name = 'Launch test (cmake)',
+        type = 'codelldb',
+        request = 'launch',
+        program = function()
+          local test_exe = vim.fn.input('Test executable path: ', vim.fn.getcwd() .. '/build/', 'file')
+          return test_exe
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+        setupCommands = {
+          {
+            text = '-enable-pretty-printing',
+            description = 'Enable pretty printing',
+            ignoreFailures = true,
+          },
+        },
+      },
       {
         name = 'Launch',
         type = 'gdb',
@@ -94,6 +131,9 @@ return {
         cwd = '${workspaceFolder}',
       },
     }
+
+    dap.configurations.cpp = dap.configurations.c
+    dap.configurations.rust = dap.configurations.c
 
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
@@ -133,6 +173,18 @@ return {
         },
       },
     }
+
+    -- Change breakpoint icons
+    -- vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
+    -- vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
+    -- local breakpoint_icons = vim.g.have_nerd_font
+    --     and { Breakpoint = '', BreakpointCondition = '', BreakpointRejected = '', LogPoint = '', Stopped = '' }
+    --   or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
+    -- for type, icon in pairs(breakpoint_icons) do
+    --   local tp = 'Dap' .. type
+    --   local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
+    --   vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
+    -- end
 
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
