@@ -692,6 +692,11 @@ require('lazy').setup({
         'intelephense',
         'dockerls',
         'yamlls',
+        'pyright',
+        'ruff_lsp',
+        'ts_ls',
+        'volar',
+        'yamlls',
         'clangd',
       }
 
