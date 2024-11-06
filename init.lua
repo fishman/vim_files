@@ -1183,8 +1183,8 @@ require('lazy').setup({
       'nvim-neotest/nvim-nio',
       'nvim-lua/plenary.nvim',
       'antoinemadec/FixCursorHold.nvim',
+      'mrcjkb/rustaceanvim',
       'nvim-treesitter/nvim-treesitter',
-      'rouge8/neotest-rust',
       {
         'fredrikaverpil/neotest-golang',
         dependencies = {
@@ -1202,7 +1202,7 @@ require('lazy').setup({
 
       require('neotest').setup {
         adapters = {
-          require 'neotest-rust',
+          require 'rustaceanvim.neotest',
           require 'neotest-golang',
         },
       }
