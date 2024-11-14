@@ -26,13 +26,13 @@ return {
   -- },
   'LunarVim/bigfile.nvim',
   -- 'dense-analysis/ale',
-  'roxma/vim-tmux-clipboard',
-  {
-    'aserowy/tmux.nvim',
-    config = function()
-      return require('tmux').setup()
-    end,
-  },
+  -- 'roxma/vim-tmux-clipboard',
+  -- {
+  --   'aserowy/tmux.nvim',
+  --   config = function()
+  --     return require('tmux').setup()
+  --   end,
+  -- },
   -- 'jlcrochet/vim-ruby',
   'westeri/asl-vim',
   'vimwiki/vimwiki',
@@ -125,17 +125,14 @@ return {
   },
   {
     'linux-cultist/venv-selector.nvim',
-    dependencies = {
-      'neovim/nvim-lspconfig',
-      'mfussenegger/nvim-dap',
-      'mfussenegger/nvim-dap-python', --optional
-      { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
+    dependencies = { 'neovim/nvim-lspconfig', 'nvim-telescope/telescope.nvim', 'mfussenegger/nvim-dap-python' },
+    opts = {
+      -- Your options go here
+      -- name = "venv",
+      -- auto_refresh = false
     },
-    lazy = false,
-    branch = 'regexp', -- This is the regexp branch, use this for the new version
-    config = function()
-      require('venv-selector').setup()
-    end,
+    event = 'VeryLazy', -- Optional: needed only if you want to type `:VenvSelect` without a keymapping
+    branch = 'regexp',
     keys = {
       -- Keymap to open VenvSelector to pick a venv.
       { '<leader>vs', '<cmd>VenvSelect<cr>' },
@@ -189,25 +186,12 @@ return {
     },
   },
   {
-    'ahmedkhalf/project.nvim',
-    config = function()
-      require('project_nvim').setup {
-        ignore_lsp = { 'texlab' },
-        scope_chdir = 'tab',
-      }
-    end,
-  },
-  {
     'kylechui/nvim-surround',
     version = '*', -- Use for stability; omit to use `main` branch for the latest features
     event = 'VeryLazy',
     opts = {},
   },
   'kkoomen/vim-doge',
-  {
-    'nvim-telescope/telescope-file-browser.nvim',
-    dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
-  },
   {
     'stevearc/aerial.nvim',
     opts = {},
@@ -269,12 +253,12 @@ return {
     },
     config = true,
   },
-  {
-    'vidocqh/data-viewer.nvim',
-    opts = {},
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'kkharji/sqlite.lua', -- Optional, sqlite support
-    },
-  },
+  -- {
+  --   'vidocqh/data-viewer.nvim',
+  --   opts = {},
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim',
+  --     'kkharji/sqlite.lua', -- Optional, sqlite support
+  --   },
+  -- },
 }

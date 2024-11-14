@@ -133,6 +133,7 @@ return {
     }
 
     dap.configurations.cpp = dap.configurations.c
+    dap.configurations.rust = dap.configurations.c
 
     -- require('mason-nvim-dap').setup {
     --   -- Makes a best effort to setup the various debuggers with

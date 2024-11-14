@@ -390,6 +390,16 @@ require('lazy').setup({
         opts = {},
       },
       { 'nvim-telescope/telescope-frecency.nvim' },
+      { 'nvim-telescope/telescope-file-browser.nvim' },
+      {
+        'ahmedkhalf/project.nvim',
+        config = function()
+          require('project_nvim').setup {
+            ignore_lsp = { 'texlab' },
+            scope_chdir = 'tab',
+          }
+        end,
+      },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
@@ -693,7 +703,7 @@ require('lazy').setup({
         'dockerls',
         'yamlls',
         'pyright',
-        'ruff_lsp',
+        'ruff',
         'ts_ls',
         'volar',
         'yamlls',
@@ -713,7 +723,7 @@ require('lazy').setup({
         -- clangd = {},
         -- gopls = {},
         pyright = {},
-        ruff_lsp = {},
+        ruff = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -1129,7 +1139,7 @@ require('lazy').setup({
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  -- -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   require 'custom.plugins.init',
   require 'custom.plugins.llm',
@@ -1139,7 +1149,6 @@ require('lazy').setup({
   require 'custom.plugins.rust',
   require 'custom.plugins.web3',
   require 'custom.plugins.k8s',
-  -- require 'AstroCore/astrocore',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --

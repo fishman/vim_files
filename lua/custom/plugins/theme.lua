@@ -2,8 +2,27 @@ return {
   {
     'olimorris/onedarkpro.nvim',
     priority = 1000, -- Ensure it loads first
+    dependencies = { 'Mofiqul/vscode.nvim', 'rafamadriz/neon' },
     config = function()
       vim.cmd.colorscheme 'onedark'
+    end,
+    init = function()
+      vim.g.neon_style = 'light'
+
+      local function set_theme()
+        if vim.o.background == 'dark' then
+          vim.cmd 'colorscheme onedark'
+          -- require('lualine').setup { options = { theme = 'onedark' } }
+        else
+          vim.cmd 'colorscheme neon'
+          -- require('lualine').setup { options = { theme = 'onedark' } }
+        end
+      end
+
+      vim.api.nvim_create_autocmd('OptionSet', {
+        pattern = 'background',
+        callback = set_theme,
+      })
     end,
   },
   {
