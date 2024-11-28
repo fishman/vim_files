@@ -1,3 +1,3 @@
 return {
-  '0xmovses/move.vim',
+--   '0xmovses/move.vim',
 }

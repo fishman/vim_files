@@ -291,62 +291,106 @@ require('lazy').setup({
   -- after the plugin has been loaded:
   --  config = function() ... end
 
-  { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-    opts = {
-      icons = {
-        -- set icon mappings to true if you have a Nerd Font
-        mappings = vim.g.have_nerd_font,
-        -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-        -- default whick-key.nvim defined Nerd Font icons, otherwise define a string table
-        keys = vim.g.have_nerd_font and {} or {
-          Up = '<Up> ',
-          Down = '<Down> ',
-          Left = '<Left> ',
-          Right = '<Right> ',
-          C = '<C-…> ',
-          M = '<M-…> ',
-          D = '<D-…> ',
-          S = '<S-…> ',
-          CR = '<CR> ',
-          Esc = '<Esc> ',
-          ScrollWheelDown = '<ScrollWheelDown> ',
-          ScrollWheelUp = '<ScrollWheelUp> ',
-          NL = '<NL> ',
-          BS = '<BS> ',
-          Space = '<Space> ',
-          Tab = '<Tab> ',
-          F1 = '<F1>',
-          F2 = '<F2>',
-          F3 = '<F3>',
-          F4 = '<F4>',
-          F5 = '<F5>',
-          F6 = '<F6>',
-          F7 = '<F7>',
-          F8 = '<F8>',
-          F9 = '<F9>',
-          F10 = '<F10>',
-          F11 = '<F11>',
-          F12 = '<F12>',
-        },
-      },
+  -- { -- Useful plugin to show you pending keybinds.
+  --   'folke/which-key.nvim',
+  --   event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+  --   opts = {
+  --     icons = {
+  --       -- set icon mappings to true if you have a Nerd Font
+  --       mappings = vim.g.have_nerd_font,
+  --       -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
+  --       -- default whick-key.nvim defined Nerd Font icons, otherwise define a string table
+  --       keys = vim.g.have_nerd_font and {} or {
+  --         Up = '<Up> ',
+  --         Down = '<Down> ',
+  --         Left = '<Left> ',
+  --         Right = '<Right> ',
+  --         C = '<C-…> ',
+  --         M = '<M-…> ',
+  --         D = '<D-…> ',
+  --         S = '<S-…> ',
+  --         CR = '<CR> ',
+  --         Esc = '<Esc> ',
+  --         ScrollWheelDown = '<ScrollWheelDown> ',
+  --         ScrollWheelUp = '<ScrollWheelUp> ',
+  --         NL = '<NL> ',
+  --         BS = '<BS> ',
+  --         Space = '<Space> ',
+  --         Tab = '<Tab> ',
+  --         F1 = '<F1>',
+  --         F2 = '<F2>',
+  --         F3 = '<F3>',
+  --         F4 = '<F4>',
+  --         F5 = '<F5>',
+  --         F6 = '<F6>',
+  --         F7 = '<F7>',
+  --         F8 = '<F8>',
+  --         F9 = '<F9>',
+  --         F10 = '<F10>',
+  --         F11 = '<F11>',
+  --         F12 = '<F12>',
+  --       },
+  --     },
+  --
+  --     -- Document existing key chains
+  --     spec = {
+  --       { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
+  --       { '<leader>d', group = '[D]ocument' },
+  --       { '<leader>r', group = '[R]ename' },
+  --       { '<leader>s', group = '[S]earch' },
+  --       { '<leader>w', group = '[W]orkspace' },
+  --       { '<leader>t', group = '[t]oggle' },
+  --       { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+  --       { '<leader>b', group = '[B]uffer' },
+  --       { '<leader>g', group = '[G]it' },
+  --       { '<leader>T', group = '[T]est' },
+  --       { '<leader>x', group = 'Trouble' },
+  --       { '<leader>o', group = '[O]pen' },
+  --     },
+  --   },
+  -- },
 
-      -- Document existing key chains
-      spec = {
-        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-        { '<leader>d', group = '[D]ocument' },
-        { '<leader>r', group = '[R]ename' },
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>w', group = '[W]orkspace' },
-        { '<leader>t', group = '[t]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-        { '<leader>b', group = '[B]uffer' },
-        { '<leader>g', group = '[G]it' },
-        { '<leader>T', group = '[T]est' },
-        { '<leader>x', group = 'Trouble' },
-        { '<leader>o', group = '[O]pen' },
-      },
+  {
+    'Cassin01/wf.nvim',
+    version = '*',
+    config = function()
+      require('wf').setup()
+      local which_key = require 'wf.builtin.which_key'
+      local register = require 'wf.builtin.register'
+      local mark = require 'wf.builtin.mark'
+
+      -- Register
+      vim.keymap.set(
+        'n',
+        '<Space>wr',
+        -- register(opts?: table) -> function
+        -- opts?: option
+        register(),
+        { noremap = true, silent = true, desc = '[wf.nvim] register' }
+      )
+
+      -- Mark
+      vim.keymap.set(
+        'n',
+        "'",
+        -- mark(opts?: table) -> function
+        -- opts?: option
+        mark(),
+        { nowait = true, noremap = true, silent = true, desc = '[wf.nvim] mark' }
+      )
+
+      -- Which Key
+      vim.keymap.set(
+        'n',
+        '<Leader>',
+        -- mark(opts?: table) -> function
+        -- opts?: option
+        which_key { text_insert_in_advance = '<Leader>' },
+        { noremap = true, silent = true, desc = '[wf.nvim] which-key /' }
+      )
+    end,
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
     },
   },
 
@@ -516,9 +560,9 @@ require('lazy').setup({
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
-      -- { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
-      -- 'williamboman/mason-lspconfig.nvim',
-      -- 'WhoIsSethDaniel/mason-tool-installer.nvim',
+      { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
+      'williamboman/mason-lspconfig.nvim',
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
       { 'VonHeikemen/lsp-zero.nvim', branch = 'v4.x', lazy = true, config = false },
 
       -- Useful status updates for LSP.
@@ -682,34 +726,6 @@ require('lazy').setup({
         vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
       end
 
-      lsp_zero.extend_lspconfig {
-        capabilities = capabilities,
-        lsp_attach = lsp_attach,
-        float_border = 'rounded',
-        sign_text = true,
-      }
-
-      lsp_zero.setup_servers {
-        'jsonnet_ls',
-        'gopls',
-        'terraformls',
-        'tflint',
-        'html',
-        'emmet_language_server',
-        'ruby_lsp',
-        'vimls',
-        'lua_ls',
-        'intelephense',
-        'dockerls',
-        'yamlls',
-        'pyright',
-        'ruff',
-        'ts_ls',
-        'volar',
-        'yamlls',
-        'clangd',
-      }
-
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       --
@@ -757,28 +773,80 @@ require('lazy').setup({
       --    :Mason
       --
       --  You can press `g?` for help in this menu.
-      -- require('mason').setup()
+      require('mason').setup()
+
+      lsp_zero.extend_lspconfig {
+        capabilities = capabilities,
+        lsp_attach = lsp_attach,
+        float_border = 'rounded',
+        sign_text = true,
+      }
+
+      lsp_zero.setup_servers {
+        'gopls',
+        'terraformls',
+        'tflint',
+        'html',
+        'emmet_language_server',
+        'ruby_lsp',
+        'vimls',
+        'intelephense',
+        'dockerls',
+        'yamlls',
+        'clangd',
+        -- 'lua_ls',
+        -- 'pyright',
+        -- 'ruff',
+        -- 'ts_ls',
+        -- 'volar',
+      }
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
-      -- local ensure_installed = vim.tbl_keys(servers or {})
-      -- vim.list_extend(ensure_installed, {
-      --   'stylua', -- Used to format Lua code
-      -- })
-      -- require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      local ensure_installed = vim.tbl_keys(servers or {})
+      vim.list_extend(ensure_installed, {
+        'stylua', -- Used to format Lua code
+      })
+      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-      -- require('mason-lspconfig').setup {
-      --   handlers = {
-      --     function(server_name)
-      --       local server = servers[server_name] or {}
-      --       -- This handles overriding only values explicitly passed
-      --       -- by the server configuration above. Useful when disabling
-      --       -- certain features of an LSP (for example, turning off formatting for ts_ls)
-      --       server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-      --       require('lspconfig')[server_name].setup(server)
-      --     end,
-      --   },
-      -- }
+      lsp_zero.extend_lspconfig {
+        capabilities = capabilities,
+        lsp_attach = lsp_attach,
+        float_border = 'rounded',
+        sign_text = true,
+      }
+
+      lsp_zero.setup_servers {
+        'gopls',
+        'terraformls',
+        'tflint',
+        'html',
+        'emmet_language_server',
+        'ruby_lsp',
+        'vimls',
+        'intelephense',
+        'dockerls',
+        'yamlls',
+        'clangd',
+        -- 'lua_ls',
+        -- 'pyright',
+        -- 'ruff',
+        -- 'ts_ls',
+        -- 'volar',
+      }
+
+      require('mason-lspconfig').setup {
+        handlers = {
+          function(server_name)
+            local server = servers[server_name] or {}
+            -- This handles overriding only values explicitly passed
+            -- by the server configuration above. Useful when disabling
+            -- certain features of an LSP (for example, turning off formatting for ts_ls)
+            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+            require('lspconfig')[server_name].setup(server)
+          end,
+        },
+      }
 
       local lspconfig = require 'lspconfig'
       local server_config = require 'lspconfig.configs'
@@ -816,8 +884,7 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        -- local disable_filetypes = { c = true, cpp = true, php = true }
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = { c = true, cpp = true, javascript = true }
         local lsp_format_opt
         if disable_filetypes[vim.bo[bufnr].filetype] then
           lsp_format_opt = 'never'
