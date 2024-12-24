@@ -291,106 +291,62 @@ require('lazy').setup({
   -- after the plugin has been loaded:
   --  config = function() ... end
 
-  -- { -- Useful plugin to show you pending keybinds.
-  --   'folke/which-key.nvim',
-  --   event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-  --   opts = {
-  --     icons = {
-  --       -- set icon mappings to true if you have a Nerd Font
-  --       mappings = vim.g.have_nerd_font,
-  --       -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-  --       -- default whick-key.nvim defined Nerd Font icons, otherwise define a string table
-  --       keys = vim.g.have_nerd_font and {} or {
-  --         Up = '<Up> ',
-  --         Down = '<Down> ',
-  --         Left = '<Left> ',
-  --         Right = '<Right> ',
-  --         C = '<C-…> ',
-  --         M = '<M-…> ',
-  --         D = '<D-…> ',
-  --         S = '<S-…> ',
-  --         CR = '<CR> ',
-  --         Esc = '<Esc> ',
-  --         ScrollWheelDown = '<ScrollWheelDown> ',
-  --         ScrollWheelUp = '<ScrollWheelUp> ',
-  --         NL = '<NL> ',
-  --         BS = '<BS> ',
-  --         Space = '<Space> ',
-  --         Tab = '<Tab> ',
-  --         F1 = '<F1>',
-  --         F2 = '<F2>',
-  --         F3 = '<F3>',
-  --         F4 = '<F4>',
-  --         F5 = '<F5>',
-  --         F6 = '<F6>',
-  --         F7 = '<F7>',
-  --         F8 = '<F8>',
-  --         F9 = '<F9>',
-  --         F10 = '<F10>',
-  --         F11 = '<F11>',
-  --         F12 = '<F12>',
-  --       },
-  --     },
-  --
-  --     -- Document existing key chains
-  --     spec = {
-  --       { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-  --       { '<leader>d', group = '[D]ocument' },
-  --       { '<leader>r', group = '[R]ename' },
-  --       { '<leader>s', group = '[S]earch' },
-  --       { '<leader>w', group = '[W]orkspace' },
-  --       { '<leader>t', group = '[t]oggle' },
-  --       { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-  --       { '<leader>b', group = '[B]uffer' },
-  --       { '<leader>g', group = '[G]it' },
-  --       { '<leader>T', group = '[T]est' },
-  --       { '<leader>x', group = 'Trouble' },
-  --       { '<leader>o', group = '[O]pen' },
-  --     },
-  --   },
-  -- },
+  { -- Useful plugin to show you pending keybinds.
+    'folke/which-key.nvim',
+    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+    opts = {
+      icons = {
+        -- set icon mappings to true if you have a Nerd Font
+        mappings = vim.g.have_nerd_font,
+        -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
+        -- default whick-key.nvim defined Nerd Font icons, otherwise define a string table
+        keys = vim.g.have_nerd_font and {} or {
+          Up = '<Up> ',
+          Down = '<Down> ',
+          Left = '<Left> ',
+          Right = '<Right> ',
+          C = '<C-…> ',
+          M = '<M-…> ',
+          D = '<D-…> ',
+          S = '<S-…> ',
+          CR = '<CR> ',
+          Esc = '<Esc> ',
+          ScrollWheelDown = '<ScrollWheelDown> ',
+          ScrollWheelUp = '<ScrollWheelUp> ',
+          NL = '<NL> ',
+          BS = '<BS> ',
+          Space = '<Space> ',
+          Tab = '<Tab> ',
+          F1 = '<F1>',
+          F2 = '<F2>',
+          F3 = '<F3>',
+          F4 = '<F4>',
+          F5 = '<F5>',
+          F6 = '<F6>',
+          F7 = '<F7>',
+          F8 = '<F8>',
+          F9 = '<F9>',
+          F10 = '<F10>',
+          F11 = '<F11>',
+          F12 = '<F12>',
+        },
+      },
 
-  {
-    'Cassin01/wf.nvim',
-    version = '*',
-    config = function()
-      require('wf').setup()
-      local which_key = require 'wf.builtin.which_key'
-      local register = require 'wf.builtin.register'
-      local mark = require 'wf.builtin.mark'
-
-      -- Register
-      vim.keymap.set(
-        'n',
-        '<Space>wr',
-        -- register(opts?: table) -> function
-        -- opts?: option
-        register(),
-        { noremap = true, silent = true, desc = '[wf.nvim] register' }
-      )
-
-      -- Mark
-      vim.keymap.set(
-        'n',
-        "'",
-        -- mark(opts?: table) -> function
-        -- opts?: option
-        mark(),
-        { nowait = true, noremap = true, silent = true, desc = '[wf.nvim] mark' }
-      )
-
-      -- Which Key
-      vim.keymap.set(
-        'n',
-        '<Leader>',
-        -- mark(opts?: table) -> function
-        -- opts?: option
-        which_key { text_insert_in_advance = '<Leader>' },
-        { noremap = true, silent = true, desc = '[wf.nvim] which-key /' }
-      )
-    end,
-    dependencies = {
-      'nvim-tree/nvim-web-devicons',
+      -- Document existing key chains
+      spec = {
+        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
+        { '<leader>d', group = '[D]ocument' },
+        { '<leader>r', group = '[R]ename' },
+        { '<leader>s', group = '[S]earch' },
+        { '<leader>w', group = '[W]orkspace' },
+        { '<leader>t', group = '[t]oggle' },
+        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>b', group = '[B]uffer' },
+        { '<leader>g', group = '[G]it' },
+        { '<leader>T', group = '[T]est' },
+        { '<leader>x', group = 'Trouble' },
+        { '<leader>o', group = '[O]pen' },
+      },
     },
   },
 
@@ -433,7 +389,8 @@ require('lazy').setup({
         },
         opts = {},
       },
-      { 'nvim-telescope/telescope-frecency.nvim' },
+      -- { 'nvim-telescope/telescope-frecency.nvim' },
+      { 'smartpde/telescope-recent-files' },
       { 'nvim-telescope/telescope-file-browser.nvim' },
       {
         'ahmedkhalf/project.nvim',
@@ -474,11 +431,15 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+          preview = {
+            timeout_ms = 200,
+            filesize_limit = 0.1,
+          },
+          -- mappings = {
+          --   i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          -- },
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
@@ -493,7 +454,9 @@ require('lazy').setup({
       pcall(require('telescope').load_extension, 'zoxide')
       pcall(require('telescope').load_extension, 'projects')
       pcall(require('telescope').load_extension, 'git_grep')
-      pcall(require('telescope').load_extension, 'frecency')
+      -- pcall(require('telescope').load_extension, 'frecency')
+      pcall(require('telescope').load_extension, 'recent_files')
+      pcall(require('telescope').load_extension, 'file_browser')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
@@ -512,8 +475,9 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       -- vim.keymap.set('n', '<leader>fr', ':Telescope frecency workspace=CWD<CR>', { desc = '[F]ind Recent Files ("." for repeat)', silent = true })
       -- vim.keymap.set('n', '<leader>fR', ':Telescope frecency<CR>', { desc = '[F]ind Recent Files ("." for repeat)', silent = true })
-      vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
-      vim.keymap.set('n', '<leader>fr', require('telescope').extensions.frecency.frecency, { desc = '[F]ind Recent Files ("." for repeat)' })
+      -- vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
+      -- vim.keymap.set('n', '<leader>fr', require('telescope').extensions.frecency.frecency,
+      vim.keymap.set('n', '<leader>fr', require('telescope').extensions.recent_files.pick, { desc = '[F]ind Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
       -- Slightly advanced example of overriding default behavior and theme
@@ -563,7 +527,14 @@ require('lazy').setup({
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-      { 'VonHeikemen/lsp-zero.nvim', branch = 'v4.x', lazy = true, config = false },
+      {
+        'VonHeikemen/lsp-zero.nvim',
+        branch = 'v4.x',
+        lazy = true,
+        config = false,
+      },
+      { 'ray-x/navigator.lua' },
+      { 'ray-x/guihua.lua', build = 'cd lua/fzy && make' },
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -750,6 +721,7 @@ require('lazy').setup({
         ts_ls = {},
         yamllint = {},
         volar = {},
+        phpactor = {},
 
         lua_ls = {
           -- cmd = {...},
@@ -775,32 +747,6 @@ require('lazy').setup({
       --  You can press `g?` for help in this menu.
       require('mason').setup()
 
-      lsp_zero.extend_lspconfig {
-        capabilities = capabilities,
-        lsp_attach = lsp_attach,
-        float_border = 'rounded',
-        sign_text = true,
-      }
-
-      lsp_zero.setup_servers {
-        'gopls',
-        'terraformls',
-        'tflint',
-        'html',
-        'emmet_language_server',
-        'ruby_lsp',
-        'vimls',
-        'intelephense',
-        'dockerls',
-        'yamlls',
-        'clangd',
-        -- 'lua_ls',
-        -- 'pyright',
-        -- 'ruff',
-        -- 'ts_ls',
-        -- 'volar',
-      }
-
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
@@ -821,13 +767,14 @@ require('lazy').setup({
         'terraformls',
         'tflint',
         'html',
-        'emmet_language_server',
-        'ruby_lsp',
+        -- 'emmet_language_server',
         'vimls',
-        'intelephense',
         'dockerls',
         'yamlls',
         'clangd',
+        'intelephense',
+        -- 'move_analyzer',
+        -- 'ruby_lsp',
         -- 'lua_ls',
         -- 'pyright',
         -- 'ruff',
@@ -847,6 +794,10 @@ require('lazy').setup({
           end,
         },
       }
+
+      -- require('navigator').setup {
+      --   mason = true,
+      -- }
 
       local lspconfig = require 'lspconfig'
       local server_config = require 'lspconfig.configs'
@@ -901,6 +852,7 @@ require('lazy').setup({
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         ruby = { 'rubocop' },
+        -- php = { 'php-cs-fixer' },
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { 'prettierd', 'prettier', stop_after_first = true },
       },
@@ -1085,7 +1037,7 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'tokyonight-storm'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
@@ -1135,7 +1087,7 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    dependencies = { 'RRethy/nvim-treesitter-endwise' },
+    dependencies = { 'RRethy/nvim-treesitter-endwise', 'nvim-treesitter/playground' },
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
@@ -1184,6 +1136,9 @@ require('lazy').setup({
       endwise = {
         enable = true,
       },
+      playground = {
+        enable = true,
+      },
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
@@ -1217,6 +1172,7 @@ require('lazy').setup({
   require 'custom.plugins.web3',
   require 'custom.plugins.k8s',
   require 'custom.plugins.autopairs',
+  require 'custom.plugins.dev',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
@@ -1327,6 +1283,10 @@ require('lazy').setup({
   --   version = '^1.0.0', -- optional: only update when a new 1.x version is released
   -- },
 }, {
+  dev = {
+    path = '~/git/neovim',
+    patterns = { 'fishman' },
+  },
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
