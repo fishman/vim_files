@@ -1,30 +1,74 @@
 return {
   {
     'olimorris/onedarkpro.nvim',
-    priority = 1000, -- Ensure it loads first
-    dependencies = { 'Mofiqul/vscode.nvim', 'rafamadriz/neon' },
+    priority = 900, -- Ensure it loads first
+    dependencies = {
+      'Mofiqul/vscode.nvim',
+      'rafamadriz/neon',
+      { 'catppuccin/nvim', name = 'catppuccin' },
+      'yorik1984/newpaper.nvim',
+    },
     config = function()
-      vim.cmd.colorscheme 'onedark'
-    end,
-    init = function()
-      vim.g.neon_style = 'light'
-
-      local function set_theme()
-        if vim.o.background == 'dark' then
-          vim.cmd 'colorscheme onedark'
-          -- require('lualine').setup { options = { theme = 'onedark' } }
-        else
-          vim.cmd 'colorscheme neon'
-          -- require('lualine').setup { options = { theme = 'onedark' } }
-        end
+      local hour = tonumber(os.date '%H')
+      if hour < 6 then
+        vim.opt.background = 'dark'
+        vim.cmd.colorscheme 'tokyonight-night'
+      elseif hour < 17 then
+        vim.opt.background = 'light'
+        -- vim.cmd.colorscheme 'newpaper'
+        vim.cmd.colorscheme 'tokyonight-day'
+      else
+        vim.opt.background = 'dark'
+        vim.cmd.colorscheme 'tokyonight-storm'
       end
-
-      vim.api.nvim_create_autocmd('OptionSet', {
-        pattern = 'background',
-        callback = set_theme,
-      })
     end,
+    -- init = function()
+    --   local function set_theme_from_darkman()
+    --     if vim.fn.executable 'darkman' == 1 then
+    --       local darkman_status = vim.fn.system('darkman get'):gsub('%s+', '')
+    --
+    --       if darkman_status == 'dark' then
+    --         vim.o.background = 'dark'
+    --         vim.cmd 'colorscheme onedark'
+    --       else
+    --         vim.o.background = 'light'
+    --         vim.cmd 'colorscheme neon'
+    --       end
+    --     end
+    --   end
+    --
+    --   set_theme_from_darkman()
+    --
+    --   local function set_theme()
+    --     if vim.o.background == 'dark' then
+    --       vim.cmd 'colorscheme onedark'
+    --       -- require('lualine').setup { options = { theme = 'onedark' } }
+    --     else
+    --       vim.cmd 'colorscheme neon'
+    --       -- require('lualine').setup { options = { theme = 'onedark' } }
+    --       -- vim.cmd [[highlight IndentBlanklineChar guifg=#3b4048 gui=nocombine]]
+    --       -- vim.cmd [[highlight IndentBlanklineContextChar guifg=#5c6370 gui=nocombine]]
+    --
+    --       -- Force indent-blankline refresh
+    --       -- vim.cmd [[IndentBlanklineRefresh]]
+    --     end
+    --   end
+    --
+    --   vim.api.nvim_create_autocmd('OptionSet', {
+    --     pattern = 'background',
+    --     callback = set_theme,
+    --   })
+    -- end,
   },
+  -- {
+  --   '4e554c4c/darkman.nvim',
+  --   build = 'go build -o bin/darkman.nvim',
+  --   config = function()
+  --     require('darkman').setup {
+  --       colorscheme = { dark = 'onedark', light = 'neon' },
+  --     }
+  --   end,
+  -- },
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -34,10 +78,9 @@ return {
     },
     opts = {
       options = {
-        icons_enabled = false,
-        theme = 'onedark',
-        -- component_separators = '|',
-        -- section_separators = '',
+        icons_enabled = true,
+        component_separators = '|',
+        section_separators = '',
       },
       sections = {
         lualine_a = { 'mode' },
@@ -51,7 +94,7 @@ return {
           },
         },
         lualine_c = { 'filename' },
-        lualine_x = { 'copilot', 'encoding', 'fileformat', 'filetype' }, -- I added copilot here
+        lualine_x = { 'copilot', 'encoding', 'filetype' }, -- I added copilot here
         lualine_y = { 'progress' },
         lualine_z = { 'location' },
       },
