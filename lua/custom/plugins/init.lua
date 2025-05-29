@@ -3,6 +3,12 @@
 --
 -- See the kickstart.nvim README for more information
 return {
+  {
+    'yorickpeterse/nvim-tree-pairs',
+    dependencies = { -- optional packages
+      'nvim-treesitter/nvim-treesitter',
+    },
+  },
   'AndrewRadev/linediff.vim',
   { 'tiagovla/scope.nvim', opts = {} },
   {

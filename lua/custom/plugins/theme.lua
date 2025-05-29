@@ -12,14 +12,14 @@ return {
       local hour = tonumber(os.date '%H')
       if hour < 6 then
         vim.opt.background = 'dark'
-        vim.cmd.colorscheme 'tokyonight-night'
+        vim.cmd.colorscheme 'catppuccin-frappe'
       elseif hour < 17 then
         vim.opt.background = 'light'
         -- vim.cmd.colorscheme 'newpaper'
-        vim.cmd.colorscheme 'tokyonight-day'
+        vim.cmd.colorscheme 'catppuccin-latte'
       else
         vim.opt.background = 'dark'
-        vim.cmd.colorscheme 'tokyonight-storm'
+        vim.cmd.colorscheme 'catppuccin-macchiato'
       end
     end,
     -- init = function()

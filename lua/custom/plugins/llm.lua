@@ -18,37 +18,35 @@ return {
               },
             })
           end,
-          ollama = function()
-            return require('codecompanion.adapters').extend('ollama', {
-              env = {
-                url = 'http://localhost:11434',
+          ollama = require('codecompanion.adapters').extend('ollama', {
+            schema = {
+              model = {
+                default = 'deepscaler',
+                -- default = 'deepseek-coder:6.7b',
+                choices = {},
               },
-              parameters = {
-                sync = true,
-                model = 'deepseek-coder:6.7b',
-              },
-            })
-          end,
+            },
+          }),
         },
         strategies = {
-          chat = {
-            adapter = 'ollama',
-          },
-          inline = {
-            adapter = 'ollama',
-          },
-          agent = {
-            adapter = 'ollama',
-          },
           -- chat = {
-          --   adapter = 'anthropic',
+          --   adapter = 'ollama',
           -- },
           -- inline = {
-          --   adapter = 'copilot',
+          --   adapter = 'ollama',
           -- },
           -- agent = {
-          --   adapter = 'anthropic',
+          --   adapter = 'ollama',
           -- },
+          chat = {
+            adapter = 'anthropic',
+          },
+          inline = {
+            adapter = 'copilot',
+          },
+          agent = {
+            adapter = 'anthropic',
+          },
         },
       }
 
@@ -60,8 +58,8 @@ return {
         silent = true,
       })
       vim.api.nvim_set_keymap('v', '<C-a>', '<cmd>CodeCompanionActions<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('n', '<LocalLeader>a', '<cmd>CodeCompanionChat Toggle<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('v', '<LocalLeader>a', '<cmd>CodeCompanionChat Toggle<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<LocalLeader>ta', '<cmd>CodeCompanionChat Toggle<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('v', '<LocalLeader>ta', '<cmd>CodeCompanionChat Toggle<cr>', { noremap = true, silent = true })
       vim.api.nvim_set_keymap('v', 'ga', '<cmd>CodeCompanionChat Add<cr>', { noremap = true, silent = true })
 
       -- Expand 'cc' into 'CodeCompanion' in the command line
@@ -136,5 +134,50 @@ return {
         ft = { 'markdown', 'Avante' },
       },
     },
+  },
+  {
+    'GeorgesAlkhouri/nvim-aider',
+    aider_cmd = 'aider',
+    args = {
+      '--no-auto-commits',
+      '--pretty',
+      '--stream',
+    },
+    -- Example key mappings for common actions:
+    keys = {
+      { '<leader>a/', '<cmd>Aider toggle<cr>', desc = 'Toggle Aider' },
+      { '<leader>as', '<cmd>Aider send<cr>', desc = 'Send to Aider', mode = { 'n', 'v' } },
+      { '<leader>ac', '<cmd>Aider command<cr>', desc = 'Aider Commands' },
+      { '<leader>ab', '<cmd>Aider buffer<cr>', desc = 'Send Buffer' },
+      { '<leader>a+', '<cmd>Aider add<cr>', desc = 'Add File' },
+      { '<leader>a-', '<cmd>Aider drop<cr>', desc = 'Drop File' },
+      { '<leader>ar', '<cmd>Aider add readonly<cr>', desc = 'Add Read-Only' },
+      { '<leader>aR', '<cmd>Aider reset<cr>', desc = 'Reset Session' },
+      -- Example nvim-tree.lua integration if needed
+      { '<leader>a+', '<cmd>AiderTreeAddFile<cr>', desc = 'Add File from Tree to Aider', ft = 'NvimTree' },
+      { '<leader>a-', '<cmd>AiderTreeDropFile<cr>', desc = 'Drop File from Tree from Aider', ft = 'NvimTree' },
+    },
+    dependencies = {
+      'folke/snacks.nvim',
+      --- The below dependencies are optional
+      'catppuccin/nvim',
+      'nvim-tree/nvim-tree.lua',
+      --- Neo-tree integration
+      {
+        'nvim-neo-tree/neo-tree.nvim',
+        opts = function(_, opts)
+          -- Example mapping configuration (already set by default)
+          -- opts.window = {
+          --   mappings = {
+          --     ["+"] = { "nvim_aider_add", desc = "add to aider" },
+          --     ["-"] = { "nvim_aider_drop", desc = "drop from aider" }
+          --     ["="] = { "nvim_aider_add_read_only", desc = "add read-only to aider" }
+          --   }
+          -- }
+          require('nvim_aider.neo_tree').setup(opts)
+        end,
+      },
+    },
+    config = true,
   },
 }
