@@ -9,66 +9,42 @@ return {
       'yorik1984/newpaper.nvim',
     },
     config = function()
-      local hour = tonumber(os.date '%H')
-      if hour < 6 then
-        vim.opt.background = 'dark'
-        vim.cmd.colorscheme 'catppuccin-frappe'
-      elseif hour < 17 then
-        vim.opt.background = 'light'
-        -- vim.cmd.colorscheme 'newpaper'
-        vim.cmd.colorscheme 'catppuccin-latte'
+      local function set_theme_from_darkman()
+        if vim.fn.executable 'darkman' == 1 then
+          local darkman_status = vim.fn.system('darkman get'):gsub('%s+', '')
+
+          if darkman_status == 'dark' then
+            vim.o.background = 'dark'
+            -- vim.cmd 'colorscheme onedark'
+            vim.cmd 'colorscheme catppuccin-macchiato'
+          else
+            vim.opt.background = 'light'
+            -- vim.cmd.colorscheme 'newpaper'
+            vim.cmd.colorscheme 'catppuccin-latte'
+          end
+        end
+      end
+      local function set_theme_from_time()
+        local hour = tonumber(os.dat '%H')
+        if hour < 6 then
+          vim.opt.background = 'dark'
+          vim.cmd.colorscheme 'catppuccin-frappe'
+        elseif hour < 17 then
+          vim.opt.background = 'light'
+          -- vim.cmd.colorscheme 'newpaper'
+          vim.cmd.colorscheme 'catppuccin-latte'
+        else
+          vim.opt.background = 'dark'
+          vim.cmd.colorscheme 'catppuccin-macchiato'
+        end
+      end
+      if vim.fn.executable 'darkman' == 1 then
+        set_theme_from_darkman()
       else
-        vim.opt.background = 'dark'
-        vim.cmd.colorscheme 'catppuccin-macchiato'
+        set_theme_from_time()
       end
     end,
-    -- init = function()
-    --   local function set_theme_from_darkman()
-    --     if vim.fn.executable 'darkman' == 1 then
-    --       local darkman_status = vim.fn.system('darkman get'):gsub('%s+', '')
-    --
-    --       if darkman_status == 'dark' then
-    --         vim.o.background = 'dark'
-    --         vim.cmd 'colorscheme onedark'
-    --       else
-    --         vim.o.background = 'light'
-    --         vim.cmd 'colorscheme neon'
-    --       end
-    --     end
-    --   end
-    --
-    --   set_theme_from_darkman()
-    --
-    --   local function set_theme()
-    --     if vim.o.background == 'dark' then
-    --       vim.cmd 'colorscheme onedark'
-    --       -- require('lualine').setup { options = { theme = 'onedark' } }
-    --     else
-    --       vim.cmd 'colorscheme neon'
-    --       -- require('lualine').setup { options = { theme = 'onedark' } }
-    --       -- vim.cmd [[highlight IndentBlanklineChar guifg=#3b4048 gui=nocombine]]
-    --       -- vim.cmd [[highlight IndentBlanklineContextChar guifg=#5c6370 gui=nocombine]]
-    --
-    --       -- Force indent-blankline refresh
-    --       -- vim.cmd [[IndentBlanklineRefresh]]
-    --     end
-    --   end
-    --
-    --   vim.api.nvim_create_autocmd('OptionSet', {
-    --     pattern = 'background',
-    --     callback = set_theme,
-    --   })
-    -- end,
   },
-  -- {
-  --   '4e554c4c/darkman.nvim',
-  --   build = 'go build -o bin/darkman.nvim',
-  --   config = function()
-  --     require('darkman').setup {
-  --       colorscheme = { dark = 'onedark', light = 'neon' },
-  --     }
-  --   end,
-  -- },
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',

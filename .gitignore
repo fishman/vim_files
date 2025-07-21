@@ -7,3 +7,5 @@ mkmf.log
 doc/tags
 plugged/
 vimdata/
+.aider*
+.env

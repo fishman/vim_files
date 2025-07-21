@@ -3,6 +3,7 @@
 --
 -- See the kickstart.nvim README for more information
 return {
+  { 'lemarsu/sops.nvim' },
   {
     'yorickpeterse/nvim-tree-pairs',
     dependencies = { -- optional packages
@@ -245,6 +246,12 @@ return {
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
       'nvim-telescope/telescope.nvim', -- optional
+    },
+  },
+  {
+    'windwp/nvim-ts-autotag',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
     },
   },
   {

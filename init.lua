@@ -174,6 +174,11 @@ vim.o.confirm = true
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
+vim.o.shiftround = true
+vim.o.shiftwidth = 2
+vim.o.tabstop = 2
+vim.o.expandtab = true
+
 -- vim.g.loaded_netrw       = 1
 -- vim.g.loaded_netrwPlugin = 1
 
@@ -742,7 +747,7 @@ require('lazy').setup({
       --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
-      -- local lsp_zero = require 'lsp-zero'
+      local lsp_zero = require 'lsp-zero'
 
       -- local lsp_attach = function(client, bufnr)
       --   local opts = { buffer = bufnr }
@@ -784,6 +789,7 @@ require('lazy').setup({
         yamllint = {},
         -- volar = {},
         phpactor = {},
+        yamlls = {},
         --
 
         lua_ls = {
@@ -821,32 +827,32 @@ require('lazy').setup({
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-      -- lsp_zero.extend_lspconfig {
-      --   capabilities = capabilities,
-      --   float_border = 'rounded',
-      --   sign_text = true,
-      -- }
+      lsp_zero.extend_lspconfig {
+        capabilities = capabilities,
+        float_border = 'rounded',
+        sign_text = true,
+      }
 
-      -- lsp_zero.setup_servers {
-      --   'gopls',
-      --   'terraformls',
-      --   'tflint',
-      --   'html',
-      --   -- 'emmet_language_server',
-      --   'vimls',
-      --   'dockerls',
-      --   'yamlls',
-      --   'clangd',
-      --   'intelephense',
-      --   'zls',
-      --   -- 'move_analyzer',
-      --   -- 'ruby_lsp',
-      --   -- 'lua_ls',
-      --   -- 'pyright',
-      --   -- 'ruff',
-      --   -- 'ts_ls',
-      --   -- 'volar',
-      -- }
+      lsp_zero.setup_servers {
+        'gopls',
+        'terraformls',
+        'tflint',
+        'html',
+        -- 'emmet_language_server',
+        'vimls',
+        'dockerls',
+        'clangd',
+        'intelephense',
+        'zls',
+        'rubocop',
+        -- 'move_analyzer',
+        'ruby_lsp',
+        -- 'lua_ls',
+        -- 'pyright',
+        -- 'ruff',
+        -- 'ts_ls',
+        -- 'volar',
+      }
 
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
@@ -921,16 +927,17 @@ require('lazy').setup({
         ruby = { 'rubocop' },
         -- php = { 'php-cs-fixer' },
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
 
   { -- Autocompletion
-    'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
+    'saghen/blink.cmp',
+    event = 'VimEnter',
+    version = '1.*',
     dependencies = {
-      -- Snippet Engine & its associated nvim-cmp source
+      -- Snippet Engine
       {
         'L3MON4D3/LuaSnip',
         version = '2.*',
@@ -963,6 +970,8 @@ require('lazy').setup({
     --- @type blink.cmp.Config
     opts = {
       keymap = {
+        ['<m-y>'] = { 'accept' },
+        -- ['<cr>'] = { 'accept' },
         -- 'default' (recommended) for mappings similar to built-in completions
         --   <c-y> to accept ([y]es) the completion.
         --    This will auto-import if your LSP supports it.
@@ -1135,7 +1144,7 @@ require('lazy').setup({
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
         additional_vim_regex_highlighting = { 'ruby', 'org' },
       },
-      indent = { enable = true, disable = { 'ruby' } },
+      indent = { enable = true, disable = { 'ruby', 'javascript' } },
       endwise = {
         enable = true,
       },

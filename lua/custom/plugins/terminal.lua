@@ -25,7 +25,7 @@ return {
         lazygit:toggle()
       end
 
-      vim.keymap.set('n', '<leader>og', '<cmd>lua LazygitToggle()<CR>', { desc = 'Open Lazygit' })
+      vim.keymap.set('n', '<leader>tg', '<cmd>lua LazygitToggle()<CR>', { desc = 'Open Lazygit' })
       vim.keymap.set('n', '<leader>ot', '<Cmd>exe v:count1 . "ToggleTerm"<CR>', { desc = 'Open Terminal' })
       vim.api.nvim_create_autocmd('TermEnter', {
         pattern = 'term://*toggleterm#*',
