@@ -427,15 +427,7 @@ require('lazy').setup({
       -- { 'nvim-telescope/telescope-frecency.nvim' },
       { 'smartpde/telescope-recent-files' },
       { 'nvim-telescope/telescope-file-browser.nvim' },
-      {
-        'ahmedkhalf/project.nvim',
-        config = function()
-          require('project_nvim').setup {
-            ignore_lsp = { 'texlab' },
-            scope_chdir = 'tab',
-          }
-        end,
-      },
+      -- { 'DrKJeff16/project.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
@@ -487,7 +479,7 @@ require('lazy').setup({
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
       pcall(require('telescope').load_extension, 'zoxide')
-      pcall(require('telescope').load_extension, 'projects')
+      -- pcall(require('telescope').load_extension, 'projects')
       pcall(require('telescope').load_extension, 'git_grep')
       -- pcall(require('telescope').load_extension, 'frecency')
       pcall(require('telescope').load_extension, 'recent_files')
@@ -498,7 +490,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>pf', builtin.find_files, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>pg', builtin.git_files, { desc = 'Search [P]roject [G]it Files' })
       vim.keymap.set('n', '<leader>p/', require('telescope').extensions.git_grep.live_grep, { desc = 'Search [P]roject [/]' })
-      vim.keymap.set('n', '<leader>po', require('telescope').extensions.projects.projects, { desc = '[O]pen [Project]' })
+      -- vim.keymap.set('n', '<leader>po', require('telescope').extensions.projects.projects, { desc = '[O]pen [Project]' })
       vim.keymap.set('n', '<leader>pz', require('telescope').extensions.zoxide.list, { desc = '[P]roject [z]' })
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
@@ -747,8 +739,6 @@ require('lazy').setup({
       --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
-      local lsp_zero = require 'lsp-zero'
-
       -- local lsp_attach = function(client, bufnr)
       --   local opts = { buffer = bufnr }
 
@@ -827,32 +817,32 @@ require('lazy').setup({
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-      lsp_zero.extend_lspconfig {
-        capabilities = capabilities,
-        float_border = 'rounded',
-        sign_text = true,
+      local existing_servers = {
+        lua_ls = {},
+        gopls = {},
+        terraformls = {},
+        tflint = {},
+        html = {},
+        -- emmet_language_server = {},
+        vimls = {},
+        dockerls = {},
+        clangd = {},
+        intelephense = {},
+        zls = {},
+        rubocop = {},
+        -- move_analyzer = {},
+        ruby_lsp = {},
+        -- lua_ls = {},
+        -- pyright = {},
+        -- ruff = {},
+        -- ts_ls = {},
+        -- volar = {},
       }
 
-      lsp_zero.setup_servers {
-        'gopls',
-        'terraformls',
-        'tflint',
-        'html',
-        -- 'emmet_language_server',
-        'vimls',
-        'dockerls',
-        'clangd',
-        'intelephense',
-        'zls',
-        'rubocop',
-        -- 'move_analyzer',
-        'ruby_lsp',
-        -- 'lua_ls',
-        -- 'pyright',
-        -- 'ruff',
-        -- 'ts_ls',
-        -- 'volar',
-      }
+      for server, config in pairs(existing_servers) do
+        config.capabilities = capabilities
+        vim.lsp.config[server] = config
+      end
 
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
@@ -864,28 +854,10 @@ require('lazy').setup({
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+            vim.lsp.config[server_name] = server
           end,
         },
       }
-
-      --       -- require('navigator').setup {
-      --       --   mason = true,
-      --       -- }
-
-      --       local lspconfig = require 'lspconfig'
-      --       local server_config = require 'lspconfig.configs'
-      --       local util = require 'lspconfig.util'
-
-      --       server_config.kcl = {
-      --         default_config = {},
-      --       }
-
-      --       lspconfig.kcl.setup {
-      --         cmd = { 'kcl-language-server' },
-      --         filetypes = { 'kcl' },
-      --         root_dir = util.root_pattern '.git',
-      --       }
     end,
   },
 
@@ -909,7 +881,7 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = { c = true, cpp = true, python = true }
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
         else
@@ -1171,7 +1143,7 @@ require('lazy').setup({
   --
   require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
-  require 'kickstart.plugins.lint',
+  -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   -- -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
@@ -1422,6 +1394,6 @@ vim.filetype.add {
 }
 
 -- remove indenting on empty lines
-vim.keymap.set('n', '<C-F2>', ":%s/\\s*$//g<CR>:noh<CR>''", { noremap = false, silent = false })
+vim.keymap.set('n', '<S-F2>', ":%s/\\s*$//g<CR>:noh<CR>''", { noremap = false, silent = false })
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

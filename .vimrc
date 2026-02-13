@@ -814,9 +814,7 @@ lsp.on_attach(function(client, bufnr)
   lsp.default_keymaps({buffer = bufnr})
 end)
 
-local lspconfig = require('lspconfig')
-
-lspconfig.pyright.setup {
+vim.lsp.config['pyright'] = {
   before_init = function(params, config)
     local Path = require "plenary.path"
     local venv = Path:new((config.root_dir:gsub("/", Path.path.sep)), ".venv")
@@ -974,115 +972,117 @@ let g:airline_symbols_ascii = 1
 
 fu! LightBackground()
   set background=light
-  color pencil
+  color desert
 endfu
 " matchparentesis is pretty slow on big files :(
 let loaded_matchparen = 1
-if has("gui_running")
-  " prepare path
-  "set shell=$VIMDATA/path.sh
-  " the `b' puts a scrollbar at the bottom, which has no effect if wrap is set
-  " e sets the gui tabline
-  " r sets the right scrollbar
-  set guioptions-=Tm
-  set guioptions=age
-  set tabpagemax=30
-  set mousehide
+"if has("gui_running")
+"  " prepare path
+"  "set shell=$VIMDATA/path.sh
+"  " the `b' puts a scrollbar at the bottom, which has no effect if wrap is set
+"  " e sets the gui tabline
+"  " r sets the right scrollbar
+"  set guioptions-=Tm
+"  set guioptions=age
+"  set tabpagemax=30
+"  set mousehide
 
-  set columns=90
-  if has("gui_gtk2")
-    set lines=30
-    set showcmd
-  elseif has("gui_macvim") || has("gui_mac")
-    set columns=190
-    set lines=59
-  else
-    set lines=50
-    set cursorline
-  endif
+"  set columns=90
+"  if has("gui_gtk2")
+"    set lines=30
+"    set showcmd
+"  elseif has("gui_macvim") || has("gui_mac")
+"    set columns=190
+"    set lines=59
+"  else
+"    set lines=50
+"    set cursorline
+"  endif
 
-  let psc_style='cool'
+"  let psc_style='cool'
 
-  " colo desert
-  colo wombat
+"  " colo desert
+"  " colo wombat
 
-else
-  if (has("nvim"))
-    colo tokyonight
-  else
-    colo onedark
-  endif
-  set title
-  "set background=light
-  "colo ir_black
-  " set background=dark
-  " colo wombat256
-  " colo jellybeans
-  "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-  "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-  "(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
-  if (empty($TMUX))
-    if (has("nvim"))
-      "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-      let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-    endif
-    "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-    "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-    " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-    if (has("termguicolors"))
-      set termguicolors
-    endif
-  endif
-  " set termguicolors
+"else
+"  if (has("nvim"))
+"    colo tokyonight
+"  else
+"    colo onedark
+"  endif
+"  set title
+"  "set background=light
+"  "colo ir_black
+"  " set background=dark
+"  " colo wombat256
+"  " colo jellybeans
+"  colo desert
+"  "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+"  "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+"  "(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+"  if (empty($TMUX))
+"    if (has("nvim"))
+"      "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+"      let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+"    endif
+"    "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+"    "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+"    " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+"    if (has("termguicolors"))
+"      set termguicolors
+"    endif
+"  endif
+"  " set termguicolors
 
-  if has("termguicolors")     " set true colors
-    " change ^[ to real escape!
-    set t_8f=[38;2;%lu;%lu;%lum
-    set t_8b=[48;2;%lu;%lu;%lum
-  endif
+"  if has("termguicolors")     " set true colors
+"    " change ^[ to real escape!
+"    set t_8f=[38;2;%lu;%lu;%lum
+"    set t_8b=[48;2;%lu;%lu;%lum
+"  endif
 
-  if $TERM == "rxvt-unicode-256color"
-    set t_Co=256
-    "colo desert256
-    " colo wombatc
-    " colo hybrid
-    " colo desertc
-    " colo leo
-    " colo gardener
-    " colo inkpot
-  elseif $TERM == "alacritty"
-    call LightBackground()
-  elseif $TERM == "screen-256color"
-    " simply use c-v to create these maps
-    noremap [k;5D <c-left>
-    noremap [1;5C <c-right>
-    noremap [1;2D <s-left>
-    noremap [1;2C <s-right>
-    inoremap [1;5D <c-left>
-    inoremap [1;5C <c-right>
-    inoremap [1;2D <s-left>
-    inoremap [1;2C <s-right>
-    cnoremap [1;5D <c-left>
-    cnoremap [1;5C <c-right>
-    cnoremap [1;2D <s-left>
-    cnoremap [1;2C <s-right>
-    inoremap OP <C-O>:w!<cr>
+"  if $TERM == "rxvt-unicode-256color"
+"    set t_Co=256
+"    "colo desert256
+"    " colo wombatc
+"    " colo hybrid
+"    " colo desertc
+"    " colo leo
+"    " colo gardener
+"    " colo inkpot
+"  elseif $TERM == "alacritty"
+"    call LightBackground()
+"  elseif $TERM == "screen-256color"
+"    " simply use c-v to create these maps
+"    noremap [k;5D <c-left>
+"    noremap [1;5C <c-right>
+"    noremap [1;2D <s-left>
+"    noremap [1;2C <s-right>
+"    inoremap [1;5D <c-left>
+"    inoremap [1;5C <c-right>
+"    inoremap [1;2D <s-left>
+"    inoremap [1;2C <s-right>
+"    cnoremap [1;5D <c-left>
+"    cnoremap [1;5C <c-right>
+"    cnoremap [1;2D <s-left>
+"    cnoremap [1;2C <s-right>
+"    inoremap OP <C-O>:w!<cr>
 
-    " fix mouse selection dragging and scrolling
-    " set ttymouse=xterm2
-    " set termguicolors
+"    " fix mouse selection dragging and scrolling
+"    " set ttymouse=xterm2
+"    " set termguicolors
 
-    " colo wombat256mod
-  elseif has("win32")
-    set term=xterm
-    set t_Co=256
-    let &t_AB="\e[48;5;%dm"
-    let &t_AF="\e[38;5;%dm"
-    colo wombat256mod
-  endif
-  " let g:Powerline_symbols = 'unicode'
-endif
+"    " colo wombat256mod
+"  elseif has("win32")
+"    set term=xterm
+"    set t_Co=256
+"    let &t_AB="\e[48;5;%dm"
+"    let &t_AF="\e[38;5;%dm"
+"    " colo wombat256mod
+"  endif
+"  " let g:Powerline_symbols = 'unicode'
+"endif
 
+color desert
 
 if has("win32")
   set rtp+=$VIMFILES/runtime/win

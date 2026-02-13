@@ -116,21 +116,21 @@ return {
       vim.keymap.set('n', '<leader>dg', ':DogeGenerate<cr>', { desc = '[D]ocstring [G]enerate', silent = true, noremap = true })
     end,
   },
-  {
-    'nvim-orgmode/orgmode',
-    dependencies = {
-      { 'nvim-treesitter/nvim-treesitter', lazy = true },
-    },
-    event = 'VeryLazy',
-    config = function()
-      -- Load treesitter grammar for org
-      -- Setup orgmode
-      require('orgmode').setup {
-        org_agenda_files = '~/org/roam/*',
-        org_default_notes_file = '~/org/refile.org',
-      }
-    end,
-  },
+  -- {
+  --   'nvim-orgmode/orgmode',
+  --   dependencies = {
+  --     { 'nvim-treesitter/nvim-treesitter', lazy = true },
+  --   },
+  --   event = 'VeryLazy',
+  --   config = function()
+  --     -- Load treesitter grammar for org
+  --     -- Setup orgmode
+  --     require('orgmode').setup {
+  --       org_agenda_files = '~/org/roam/*',
+  --       org_default_notes_file = '~/org/refile.org',
+  --     }
+  --   end,
+  -- },
   {
     'linux-cultist/venv-selector.nvim',
     dependencies = { 'neovim/nvim-lspconfig', 'nvim-telescope/telescope.nvim', 'mfussenegger/nvim-dap-python' },
@@ -140,7 +140,6 @@ return {
       -- auto_refresh = false
     },
     event = 'VeryLazy', -- Optional: needed only if you want to type `:VenvSelect` without a keymapping
-    branch = 'regexp',
     keys = {
       -- Keymap to open VenvSelector to pick a venv.
       { '<leader>vs', '<cmd>VenvSelect<cr>' },
@@ -266,6 +265,44 @@ return {
       'echasnovski/mini.pick', -- optional
     },
     config = true,
+  },
+  {
+    'dmtrKovalenko/fff.nvim',
+    build = 'cargo build --release',
+    opts = {
+      -- pass here all the options
+    },
+    keys = {
+      {
+        '<leader>fff', -- try it if you didn't it is a banger keybinding for a picker
+        function()
+          require('fff').toggle()
+        end,
+        desc = 'Toggle FFF',
+      },
+    },
+  },
+  {
+    'hat0uma/csvview.nvim',
+    ---@module "csvview"
+    ---@type CsvView.Options
+    opts = {
+      parser = { comments = { '#', '//' } },
+      keymaps = {
+        -- Text objects for selecting fields
+        textobject_field_inner = { 'if', mode = { 'o', 'x' } },
+        textobject_field_outer = { 'af', mode = { 'o', 'x' } },
+        -- Excel-like navigation:
+        -- Use <Tab> and <S-Tab> to move horizontally between fields.
+        -- Use <Enter> and <S-Enter> to move vertically between rows and place the cursor at the end of the field.
+        -- Note: In terminals, you may need to enable CSI-u mode to use <S-Tab> and <S-Enter>.
+        jump_next_field_end = { '<Tab>', mode = { 'n', 'v' } },
+        jump_prev_field_end = { '<S-Tab>', mode = { 'n', 'v' } },
+        jump_next_row = { '<Enter>', mode = { 'n', 'v' } },
+        jump_prev_row = { '<S-Enter>', mode = { 'n', 'v' } },
+      },
+    },
+    cmd = { 'CsvViewEnable', 'CsvViewDisable', 'CsvViewToggle' },
   },
   -- {
   --   'vidocqh/data-viewer.nvim',

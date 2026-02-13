@@ -10,10 +10,12 @@ return {
     },
     config = function()
       local function set_theme_from_darkman()
-        if vim.fn.executable 'darkman' == 1 then
-          local darkman_status = vim.fn.system('darkman get'):gsub('%s+', '')
+        if vim.fn.executable 'busctl' == 1 then
+          local darkman_status = vim.trim(
+            vim.fn.system 'busctl --user call org.freedesktop.portal.Desktop /org/freedesktop/portal/desktop org.freedesktop.portal.Settings ReadOne ss org.freedesktop.appearance color-scheme'
+          )
 
-          if darkman_status == 'dark' then
+          if darkman_status == 'v u 1' then
             vim.o.background = 'dark'
             -- vim.cmd 'colorscheme onedark'
             vim.cmd 'colorscheme catppuccin-macchiato'
@@ -25,7 +27,7 @@ return {
         end
       end
       local function set_theme_from_time()
-        local hour = tonumber(os.dat '%H')
+        local hour = tonumber(os.date '%H')
         if hour < 6 then
           vim.opt.background = 'dark'
           vim.cmd.colorscheme 'catppuccin-frappe'
