@@ -5,6 +5,19 @@
 return {
   { 'lemarsu/sops.nvim' },
   {
+    'oug-t/difi.nvim',
+    event = 'VeryLazy',
+    keys = {
+      -- Context-aware: Syncs with CLI target (e.g. main) or defaults to HEAD
+      { '<leader>df', ':Difi<CR>', desc = 'Toggle Difi' },
+    },
+  },
+  {
+    'esmuellert/codediff.nvim',
+    dependencies = { 'MunifTanjim/nui.nvim' },
+    cmd = 'CodeDiff',
+  },
+  {
     'yorickpeterse/nvim-tree-pairs',
     dependencies = { -- optional packages
       'nvim-treesitter/nvim-treesitter',
@@ -268,17 +281,33 @@ return {
   },
   {
     'dmtrKovalenko/fff.nvim',
-    build = 'cargo build --release',
+    build = function()
+      -- downloads a prebuilt binary or falls back to cargo build
+      require('fff.download').download_or_build_binary()
+    end,
+    -- for nixos:
+    -- build = "nix run .#release",
     opts = {
-      -- pass here all the options
+      debug = {
+        enabled = true,
+        show_scores = true,
+      },
     },
+    lazy = false, -- the plugin lazy-initialises itself
     keys = {
       {
-        '<leader>fff', -- try it if you didn't it is a banger keybinding for a picker
+        'fz',
         function()
-          require('fff').toggle()
+          require('fff').live_grep { grep = { modes = { 'fuzzy', 'plain' } } }
         end,
-        desc = 'Toggle FFF',
+        desc = 'Live fffuzy grep',
+      },
+      {
+        'fc',
+        function()
+          require('fff').live_grep { query = vim.fn.expand '<cword>', desc = 'Search [P]roject [/]' }
+        end,
+        desc = 'Search current word',
       },
     },
   },

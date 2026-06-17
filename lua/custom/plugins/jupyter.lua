@@ -5,7 +5,6 @@ return {
     dependencies = {
       '3rd/image.nvim', -- Optional: Inline image support
       'MunifTanjim/nui.nvim', -- UI support
-      'rcarriga/nvim-notify', -- Notification support
     },
     config = function()
       vim.g.molten_image_provider = 'image.nvim' -- Enable inline images

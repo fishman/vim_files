@@ -1,14 +1,12 @@
 return {
   {
-    'olimorris/onedarkpro.nvim',
-    priority = 900, -- Ensure it loads first
-    dependencies = {
-      'Mofiqul/vscode.nvim',
-      'rafamadriz/neon',
-      { 'catppuccin/nvim', name = 'catppuccin' },
-      'yorik1984/newpaper.nvim',
-    },
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    -- priority = 1000,
     config = function()
+      require('catppuccin').setup {
+        auto_integrations = true,
+      }
       local function set_theme_from_darkman()
         if vim.fn.executable 'busctl' == 1 then
           local darkman_status = vim.trim(
@@ -18,11 +16,11 @@ return {
           if darkman_status == 'v u 1' then
             vim.o.background = 'dark'
             -- vim.cmd 'colorscheme onedark'
-            vim.cmd 'colorscheme catppuccin-macchiato'
+            -- vim.cmd 'colorscheme catppuccin-macchiato'
           else
             vim.opt.background = 'light'
             -- vim.cmd.colorscheme 'newpaper'
-            vim.cmd.colorscheme 'catppuccin-latte'
+            -- vim.cmd.colorscheme 'catppuccin-latte'
           end
         end
       end
@@ -30,14 +28,14 @@ return {
         local hour = tonumber(os.date '%H')
         if hour < 6 then
           vim.opt.background = 'dark'
-          vim.cmd.colorscheme 'catppuccin-frappe'
+          -- vim.cmd.colorscheme 'catppuccin-frappe'
         elseif hour < 17 then
           vim.opt.background = 'light'
           -- vim.cmd.colorscheme 'newpaper'
-          vim.cmd.colorscheme 'catppuccin-latte'
+          -- vim.cmd.colorscheme 'catppuccin-latte'
         else
           vim.opt.background = 'dark'
-          vim.cmd.colorscheme 'catppuccin-macchiato'
+          -- vim.cmd.colorscheme 'catppuccin-macchiato'
         end
       end
       if vim.fn.executable 'darkman' == 1 then
@@ -47,6 +45,16 @@ return {
       end
     end,
   },
+  -- {
+  --   'olimorris/onedarkpro.nvim',
+  --   priority = 900, -- Ensure it loads first
+  --   dependencies = {
+  --     'Mofiqul/vscode.nvim',
+  --     'rafamadriz/neon',
+  --     { 'catppuccin/nvim', name = 'catppuccin' },
+  --     'yorik1984/newpaper.nvim',
+  --   },
+  -- },
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',

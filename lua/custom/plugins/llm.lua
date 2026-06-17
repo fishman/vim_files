@@ -14,10 +14,11 @@ return {
           http = {
             anthropic = function()
               return require('codecompanion.adapters').extend('anthropic', {
-                url = 'https://api.z.ai/api/anthropic/v1/messages',
+                -- url = 'https://api.z.ai/api/anthropic/v1/messages',
+                url = 'https://api.deepseek.com/anthropic/v1/messages',
                 env = {
-                  -- api_key = 'cmd:pass llm/claude',
-                  api_key = 'cmd:pass llm/zai',
+                  -- api_key = 'cmd:pass llm/zai',
+                  api_key = 'cmd:pass llm/deepseek',
                 },
               })
             end,
@@ -30,11 +31,28 @@ return {
                 },
               },
             }),
+            acp = {
+              claude_code = function()
+                return require('codecompanion.adapters').extend('claude_code', {
+                  env = {
+                    ANTHROPIC_BASE_URL = 'https://api.deepseek.com/anthropic',
+                    ANTHROPIC_AUTH_TOKEN = 'cmd:pass llm/deepseek',
+                    ANTHROPIC_MODEL = 'deepseek-v4-pro[1m]',
+                    ANTHROPIC_DEFAULT_OPUS_MODEL = 'deepseek-v4-pro[1m]',
+                    ANTHROPIC_DEFAULT_SONNET_MODEL = 'deepseek-v4-pro[1m]',
+                    ANTHROPIC_DEFAULT_HAIKU_MODEL = 'deepseek-v4-flash',
+                    CLAUDE_CODE_SUBAGENT_MODEL = 'deepseek-v4-flash',
+                    CLAUDE_CODE_EFFORT_LEVEL = 'max',
+                    CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = '1',
+                  },
+                })
+              end,
+            },
             openrouter = function()
               return require('codecompanion.adapters').extend('openai_compatible', {
                 env = {
                   url = 'https://openrouter.ai/api',
-                  api_key = 'cmd:pass llm:openrouter',
+                  api_key = 'cmd:pass llm/openrouter',
                   chat_url = '/v1/chat/completions',
                 },
                 handlers = {
@@ -54,23 +72,20 @@ return {
           },
         },
         strategies = {
-          -- chat = {
-          --   adapter = 'ollama',
-          -- },
-          -- inline = {
-          --   adapter = 'ollama',
-          -- },
-          -- agent = {
-          --   adapter = 'ollama',
-          -- },
           chat = {
-            adapter = 'openrouter',
+            adapter = 'anthropic',
           },
           inline = {
-            adapter = 'openrouter',
+            adapter = 'anthropic',
           },
           agent = {
-            adapter = 'openrouter',
+            adapter = 'anthropic',
+          },
+        },
+        interactions = {
+          chat = {
+            -- adapter = 'claude_code',
+            adapter = 'anthropic',
           },
         },
       }
@@ -90,6 +105,23 @@ return {
       -- Expand 'cc' into 'CodeCompanion' in the command line
       vim.cmd [[cab cc CodeCompanion]]
     end,
+  },
+  {
+    'zbirenbaum/copilot.lua',
+    dependencies = { 'copilotlsp-nvim/copilot-lsp' },
+    cmd = 'Copilot',
+    event = 'InsertEnter',
+    opts = {
+      suggestion = { enabled = false },
+      panel = { enabled = false },
+      filetypes = {
+        markdown = true,
+        help = true,
+        javascript = true,
+        typescript = true,
+        ['*'] = false,
+      },
+    },
   },
   -- {
   --   'pasky/claude.vim',
@@ -180,7 +212,7 @@ return {
     dependencies = {
       { 'folke/snacks.nvim', version = '>=2.24.0' },
       --- The below dependencies are optional
-      'catppuccin/nvim',
+      -- 'catppuccin/nvim',
       'nvim-tree/nvim-tree.lua',
       --- Neo-tree integration
       {
@@ -201,22 +233,46 @@ return {
     config = true,
   },
   {
-    'NickvanDyke/opencode.nvim',
-    dependencies = { 'folke/snacks.nvim' },
-    ---@type opencode.Config
-    opts = {
-      -- Your configuration, if any
+    'nickjvandyke/opencode.nvim',
+    dependencies = {
+      -- Recommended for `ask()` and `select()`.
+      -- Required for `snacks` provider.
+      ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
+      { 'folke/snacks.nvim', opts = { input = {}, picker = {}, terminal = {} } },
     },
-  -- stylua: ignore
-  keys = {
-    { '<leader>ot', function() require('opencode').toggle() end, desc = 'Toggle embedded opencode', },
-    { '<leader>oa', function() require('opencode').ask('@cursor: ') end, desc = 'Ask opencode', mode = 'n', },
-    { '<leader>oa', function() require('opencode').ask('@selection: ') end, desc = 'Ask opencode about selection', mode = 'v', },
-    { '<leader>op', function() require('opencode').select_prompt() end, desc = 'Select prompt', mode = { 'n', 'v', }, },
-    { '<leader>on', function() require('opencode').command('session_new') end, desc = 'New session', },
-    { '<leader>oy', function() require('opencode').command('messages_copy') end, desc = 'Copy last message', },
-    { '<S-C-u>',    function() require('opencode').command('messages_half_page_up') end, desc = 'Scroll messages up', },
-    { '<S-C-d>',    function() require('opencode').command('messages_half_page_down') end, desc = 'Scroll messages down', },
-  },
+    config = function()
+      ---@type opencode.Opts
+      vim.g.opencode_opts = {
+        -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition" on the type or field.
+      }
+
+      -- Required for `opts.events.reload`.
+      vim.o.autoread = true
+
+      -- Recommended/example keymaps.
+      vim.keymap.set({ 'n', 'x' }, '<leader>oa', function()
+        require('opencode').ask('@this: ', { submit = true })
+      end, { desc = 'Ask opencode…' })
+      vim.keymap.set({ 'n', 'x' }, '<leader>os', function()
+        require('opencode').select()
+      end, { desc = 'Execute opencode action…' })
+      vim.keymap.set({ 'n', 't' }, '<leader>ot', function()
+        require('opencode').toggle()
+      end, { desc = 'Toggle opencode' })
+
+      vim.keymap.set({ 'n', 'x' }, 'go', function()
+        return require('opencode').operator '@this '
+      end, { desc = 'Add range to opencode', expr = true })
+      vim.keymap.set('n', 'goo', function()
+        return require('opencode').operator '@this ' .. '_'
+      end, { desc = 'Add line to opencode', expr = true })
+
+      vim.keymap.set('n', '<S-C-u>', function()
+        require('opencode').command 'session.half.page.up'
+      end, { desc = 'Scroll opencode up' })
+      vim.keymap.set('n', '<S-C-d>', function()
+        require('opencode').command 'session.half.page.down'
+      end, { desc = 'Scroll opencode down' })
+    end,
   },
 }
