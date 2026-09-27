@@ -7,9 +7,19 @@ return {
       'hrsh7th/nvim-cmp', -- Optional: For using slash commands and variables in the chat buffer
       'nvim-telescope/telescope.nvim', -- Optional: For using slash commands
       { 'stevearc/dressing.nvim', opts = {} }, -- Optional: Improves `vim.ui.select`
+      'ravitemer/codecompanion-history.nvim',
     },
     config = function()
       require('codecompanion').setup {
+        extensions = {
+          history = {
+            enabled = true,
+            -- Optional: Set the maximum number of history entries to keep
+            max_entries = 100,
+            -- Optional: Set the path to store the history file (default is ~/.local/share/nvim/codecompanion_history.json)
+            history_file_path = vim.fn.stdpath 'data' .. '/codecompanion_history.json',
+          },
+        },
         adapters = {
           http = {
             anthropic = function()
@@ -18,6 +28,13 @@ return {
                 url = 'https://api.deepseek.com/anthropic/v1/messages',
                 env = {
                   -- api_key = 'cmd:pass llm/zai',
+                  api_key = 'cmd:pass llm/deepseek',
+                },
+              })
+            end,
+            deepseek = function()
+              return require('codecompanion.adapters').extend('deepseek', {
+                env = {
                   api_key = 'cmd:pass llm/deepseek',
                 },
               })
@@ -73,19 +90,82 @@ return {
         },
         strategies = {
           chat = {
-            adapter = 'anthropic',
+            adapter = 'deepseek',
           },
           inline = {
-            adapter = 'anthropic',
+            adapter = 'deepseek',
           },
           agent = {
-            adapter = 'anthropic',
+            adapter = 'deepseek',
           },
         },
         interactions = {
           chat = {
             -- adapter = 'claude_code',
-            adapter = 'anthropic',
+            adapter = 'deepseek',
+          },
+        },
+        prompt_library = {
+          ['email-rephrase'] = {
+            strategy = 'chat',
+            description = 'Rephrase the email in the current buffer',
+            opts = {
+              is_slash_cmd = true,
+              short_name = 'email-rephrase',
+            },
+            prompts = {
+              {
+                role = 'user',
+                content = function(context)
+                  local lines = vim.api.nvim_buf_get_lines(context.bufnr, 0, -1, false)
+                  return 'Rephrase the email below to be more concise and professional. '
+                    .. 'Keep the meaning, intent, and tone. Remove wordiness and filler. '
+                    .. 'Keep it under 200 words. Output only the rewritten email, no commentary.\n\n'
+                    .. table.concat(lines, '\n')
+                end,
+              },
+            },
+          },
+          ['email-improve'] = {
+            strategy = 'chat',
+            description = 'Improve the email in the current buffer',
+            opts = {
+              is_slash_cmd = true,
+              short_name = 'email-improve',
+            },
+            prompts = {
+              {
+                role = 'user',
+                content = function(context)
+                  local lines = vim.api.nvim_buf_get_lines(context.bufnr, 0, -1, false)
+                  return 'Improve the email below: strengthen the call to action, '
+                    .. 'make the value proposition clearer, and fix awkward phrasing. '
+                    .. 'Keep the same sender voice and structure. '
+                    .. 'Output only the improved email, no commentary.\n\n'
+                    .. table.concat(lines, '\n')
+                end,
+              },
+            },
+          },
+          ['email-brief'] = {
+            strategy = 'chat',
+            description = 'Make the email in the current buffer brief',
+            opts = {
+              is_slash_cmd = true,
+              short_name = 'email-brief',
+            },
+            prompts = {
+              {
+                role = 'user',
+                content = function(context)
+                  local lines = vim.api.nvim_buf_get_lines(context.bufnr, 0, -1, false)
+                  return 'Make the email below brief: cut it to the essential message '
+                    .. 'in as few words as possible without losing the point. '
+                    .. 'No filler, no fluff. Output only the brief email, no commentary.\n\n'
+                    .. table.concat(lines, '\n')
+                end,
+              },
+            },
           },
         },
       }
@@ -107,6 +187,19 @@ return {
     end,
   },
   {
+    'carderne/pi-nvim',
+    config = function()
+      require('pi-nvim').setup {
+        thinking = false,
+      }
+      vim.keymap.set('n', '<leader>pp', ':PiSend<CR>', { desc = 'Send to Pi' })
+      vim.keymap.set('n', '<leader>pt', ':PiSendFile<CR>', { desc = 'Send file to Pi' })
+      vim.keymap.set('v', '<leader>ps', ':PiSendSelection<CR>', { desc = 'Send selection to Pi' })
+      vim.keymap.set('n', '<leader>pb', ':PiSendBuffer<CR>', { desc = 'Send buffer to Pi' })
+      vim.keymap.set('n', '<leader>pi', ':PiPing<CR>', { desc = 'Ping Pi' })
+    end,
+  },
+  {
     'zbirenbaum/copilot.lua',
     dependencies = { 'copilotlsp-nvim/copilot-lsp' },
     cmd = 'Copilot',
@@ -115,7 +208,7 @@ return {
       suggestion = { enabled = false },
       panel = { enabled = false },
       filetypes = {
-        markdown = true,
+        markdown = false,
         help = true,
         javascript = true,
         typescript = true,
@@ -192,87 +285,4 @@ return {
   --     },
   --   },
   -- },
-  {
-    'GeorgesAlkhouri/nvim-aider',
-    cmd = 'Aider',
-    -- Example key mappings for common actions:
-    keys = {
-      { '<leader>a/', '<cmd>Aider toggle<cr>', desc = 'Toggle Aider' },
-      { '<leader>as', '<cmd>Aider send<cr>', desc = 'Send to Aider', mode = { 'n', 'v' } },
-      { '<leader>ac', '<cmd>Aider command<cr>', desc = 'Aider Commands' },
-      { '<leader>ab', '<cmd>Aider buffer<cr>', desc = 'Send Buffer' },
-      { '<leader>a+', '<cmd>Aider add<cr>', desc = 'Add File' },
-      { '<leader>a-', '<cmd>Aider drop<cr>', desc = 'Drop File' },
-      { '<leader>ar', '<cmd>Aider add readonly<cr>', desc = 'Add Read-Only' },
-      { '<leader>aR', '<cmd>Aider reset<cr>', desc = 'Reset Session' },
-      -- Example nvim-tree.lua integration if needed
-      { '<leader>a+', '<cmd>AiderTreeAddFile<cr>', desc = 'Add File from Tree to Aider', ft = 'NvimTree' },
-      { '<leader>a-', '<cmd>AiderTreeDropFile<cr>', desc = 'Drop File from Tree from Aider', ft = 'NvimTree' },
-    },
-    dependencies = {
-      { 'folke/snacks.nvim', version = '>=2.24.0' },
-      --- The below dependencies are optional
-      -- 'catppuccin/nvim',
-      'nvim-tree/nvim-tree.lua',
-      --- Neo-tree integration
-      {
-        'nvim-neo-tree/neo-tree.nvim',
-        opts = function(_, opts)
-          -- Example mapping configuration (already set by default)
-          -- opts.window = {
-          --   mappings = {
-          --     ["+"] = { "nvim_aider_add", desc = "add to aider" },
-          --     ["-"] = { "nvim_aider_drop", desc = "drop from aider" }
-          --     ["="] = { "nvim_aider_add_read_only", desc = "add read-only to aider" }
-          --   }
-          -- }
-          require('nvim_aider.neo_tree').setup(opts)
-        end,
-      },
-    },
-    config = true,
-  },
-  {
-    'nickjvandyke/opencode.nvim',
-    dependencies = {
-      -- Recommended for `ask()` and `select()`.
-      -- Required for `snacks` provider.
-      ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
-      { 'folke/snacks.nvim', opts = { input = {}, picker = {}, terminal = {} } },
-    },
-    config = function()
-      ---@type opencode.Opts
-      vim.g.opencode_opts = {
-        -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition" on the type or field.
-      }
-
-      -- Required for `opts.events.reload`.
-      vim.o.autoread = true
-
-      -- Recommended/example keymaps.
-      vim.keymap.set({ 'n', 'x' }, '<leader>oa', function()
-        require('opencode').ask('@this: ', { submit = true })
-      end, { desc = 'Ask opencode…' })
-      vim.keymap.set({ 'n', 'x' }, '<leader>os', function()
-        require('opencode').select()
-      end, { desc = 'Execute opencode action…' })
-      vim.keymap.set({ 'n', 't' }, '<leader>ot', function()
-        require('opencode').toggle()
-      end, { desc = 'Toggle opencode' })
-
-      vim.keymap.set({ 'n', 'x' }, 'go', function()
-        return require('opencode').operator '@this '
-      end, { desc = 'Add range to opencode', expr = true })
-      vim.keymap.set('n', 'goo', function()
-        return require('opencode').operator '@this ' .. '_'
-      end, { desc = 'Add line to opencode', expr = true })
-
-      vim.keymap.set('n', '<S-C-u>', function()
-        require('opencode').command 'session.half.page.up'
-      end, { desc = 'Scroll opencode up' })
-      vim.keymap.set('n', '<S-C-d>', function()
-        require('opencode').command 'session.half.page.down'
-      end, { desc = 'Scroll opencode down' })
-    end,
-  },
 }

@@ -57,7 +57,7 @@ return {
   -- 'jlcrochet/vim-ruby',
   'westeri/asl-vim',
   'vimwiki/vimwiki',
-  'tools-life/taskwiki',
+  'jahagirdar/taskwiki',
   'michal-h21/vimwiki-sync',
   -- 'sheerun/vim-polyglot',
   -- 'bfredl/nvim-ipy',
@@ -129,19 +129,43 @@ return {
       vim.keymap.set('n', '<leader>dg', ':DogeGenerate<cr>', { desc = '[D]ocstring [G]enerate', silent = true, noremap = true })
     end,
   },
+  {
+    'nvim-orgmode/orgmode',
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter', lazy = true },
+    },
+    event = 'VeryLazy',
+    config = function()
+      -- Load treesitter grammar for org
+      -- Setup orgmode
+      require('orgmode').setup {
+        org_agenda_files = '~/org/roam/*',
+        org_default_notes_file = '~/org/refile.org',
+      }
+    end,
+  },
   -- {
-  --   'nvim-orgmode/orgmode',
-  --   dependencies = {
-  --     { 'nvim-treesitter/nvim-treesitter', lazy = true },
-  --   },
-  --   event = 'VeryLazy',
+  --   "nvim-neorg/neorg",
+  --   lazy = false,
+  --   version = "*",
   --   config = function()
-  --     -- Load treesitter grammar for org
-  --     -- Setup orgmode
-  --     require('orgmode').setup {
-  --       org_agenda_files = '~/org/roam/*',
-  --       org_default_notes_file = '~/org/refile.org',
+  --     require("neorg").setup {
+  --       load = {
+  --         ["core.defaults"] = {},
+  --         ["core.concealer"] = {},
+  --         ["core.dirman"] = {
+  --           config = {
+  --             workspaces = {
+  --               notes = "~/notes",
+  --             },
+  --             default_workspace = "notes",
+  --           },
+  --         },
+  --       },
   --     }
+  --
+  --     vim.wo.foldlevel = 99
+  --     vim.wo.conceallevel = 2
   --   end,
   -- },
   {

@@ -184,6 +184,7 @@ do
   vim.o.shiftwidth = 2
   vim.o.tabstop = 2
   vim.o.expandtab = true
+  vim.g.vimwiki_global_ext = 0
 
   -- vim.g.loaded_netrw = 1
   -- vim.g.loaded_netrwPlugin = 1
@@ -202,7 +203,7 @@ do
   vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
   -- Diagnostic Config & Keymaps
-  -- See :help vim.diagnostic.Opts
+  --  See `:help vim.diagnostic.Opts`
   vim.diagnostic.config {
     update_in_insert = false,
     severity_sort = true,
@@ -214,7 +215,15 @@ do
     virtual_lines = false, -- Text shows up underneath the line, with virtual lines
 
     -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
-    jump = { float = true },
+    jump = {
+      on_jump = function(_, bufnr)
+        vim.diagnostic.open_float {
+          bufnr = bufnr,
+          scope = 'cursor',
+          focus = false,
+        }
+      end,
+    },
   }
   -- Keymaps for better default experience
   -- See `:help vim.keymap.set()`
@@ -274,12 +283,82 @@ do
 end
 
 -- install with vim.pack directly
-vim.pack.add { 'https://github.com/zuqini/zpack.nvim' }
--- automatically import specs from `./lua/plugins/`
-require('zpack').setup()
+-- vim.pack.add { 'https://github.com/zuqini/zpack.nvim' }
+-- -- automatically import specs from `./lua/plugins/`
+-- require('zpack').setup()
 -- ============================================================
 -- SECTION 3: PLUGIN MANAGER INTRO
+-- vim.pack intro, build hooks
 -- ============================================================
+do
+  -- [[ Intro to `vim.pack` ]]
+  -- `vim.pack` is a new plugin manager built into Neovim,
+  --  which provides a Lua interface for installing and managing plugins.
+  --
+  --  See `:help vim.pack`, `:help vim.pack-examples` or the
+  --  excellent blog post from the creator of vim.pack and mini.nvim:
+  --  https://echasnovski.com/blog/2026-03-13-a-guide-to-vim-pack
+  --
+  --  To inspect plugin state and pending updates, run
+  --    :lua vim.pack.update(nil, { offline = true })
+  --
+  --  To update plugins, run
+  --    :lua vim.pack.update()
+  --
+  --
+  --  Throughout the rest of the config there will be examples
+  --  of how to install and configure plugins using `vim.pack`.
+  --
+  --  In this section we set up some autocommands to run build
+  --  steps for certain plugins after they are installed or updated.
+
+  local function run_build(name, cmd, cwd)
+    local result = vim.system(cmd, { cwd = cwd }):wait()
+    if result.code ~= 0 then
+      local stderr = result.stderr or ''
+      local stdout = result.stdout or ''
+      local output = stderr ~= '' and stderr or stdout
+      if output == '' then
+        output = 'No output from build command.'
+      end
+      vim.notify(('Build failed for %s:\n%s'):format(name, output), vim.log.levels.ERROR)
+    end
+  end
+
+  -- This autocommand runs after a plugin is installed or updated and
+  --  runs the appropriate build command for that plugin if necessary.
+  --
+  -- See `:help vim.pack-events`
+  vim.api.nvim_create_autocmd('PackChanged', {
+    callback = function(ev)
+      local name = ev.data.spec.name
+      local kind = ev.data.kind
+      if kind ~= 'install' and kind ~= 'update' then
+        return
+      end
+
+      if name == 'telescope-fzf-native.nvim' and vim.fn.executable 'make' == 1 then
+        run_build(name, { 'make' }, ev.data.path)
+        return
+      end
+
+      if name == 'LuaSnip' then
+        if vim.fn.has 'win32' ~= 1 and vim.fn.executable 'make' == 1 then
+          run_build(name, { 'make', 'install_jsregexp' }, ev.data.path)
+        end
+        return
+      end
+
+      if name == 'nvim-treesitter' then
+        if not ev.data.active then
+          vim.cmd.packadd 'nvim-treesitter'
+        end
+        vim.cmd 'TSUpdate'
+        return
+      end
+    end,
+  })
+end
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -324,8 +403,9 @@ require('lazy').setup({
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`.
   --
-  -- See `:help gitsigns` to understand what the configuration keys do
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
+  -- See `:help gitsigns` to understand what each configuration keys does.
+  -- Adds git related signs to the gutter, as well as utilities for managing changes
+  {
     'lewis6991/gitsigns.nvim',
     ---@module 'gitsigns'
     ---@type Gitsigns.Config
@@ -354,15 +434,16 @@ require('lazy').setup({
   --
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
-
-  { -- Useful plugin to show you pending keybinds.
+  --
+  -- Useful plugin to show you pending keybinds.
+  {
     'folke/which-key.nvim',
     event = 'VimEnter',
     ---@module 'which-key'
     ---@type wk.Opts
     ---@diagnostic disable-next-line: missing-fields
     opts = {
-      -- delay between pressing a key and opening which-key (milliseconds)
+      -- Delay between pressing a key and opening which-key (milliseconds)
       delay = 0,
       icons = { mappings = vim.g.have_nerd_font },
 
@@ -391,8 +472,9 @@ require('lazy').setup({
   -- you do for a plugin at the top level, you can do for a dependency.
   --
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
-
-  { -- Fuzzy Finder (files, lsp, etc)
+  --
+  -- Fuzzy Finder (files, lsp, etc)
+  {
     'nvim-telescope/telescope.nvim',
     -- By default, Telescope is included and acts as your picker for everything.
 
@@ -407,7 +489,8 @@ require('lazy').setup({
     event = 'VimEnter',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      { -- If encountering errors, see telescope-fzf-native README for installation instructions
+      -- If encountering errors, see telescope-fzf-native README for installation instructions
+      {
         'nvim-telescope/telescope-fzf-native.nvim',
 
         -- `build` is used to run some command when the plugin is installed/updated.
@@ -443,7 +526,7 @@ require('lazy').setup({
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
-      'dmtrKovalenko/fff.nvim',
+      -- 'dmtrKovalenko/fff.nvim',
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -491,6 +574,7 @@ require('lazy').setup({
               { '~/git', max_depth = 1 },
               { '~/git/opencode', max_depth = 2 },
               { '~/.config', max_depth = 2 },
+              { '~/.vim', max_depth = 1 },
             },
             ignore_missing_dirs = true, -- default: false
             hidden_files = true, -- default: false
@@ -545,15 +629,15 @@ require('lazy').setup({
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
-      -- vim.keymap.set('n', '<leader>pf', builtin.find_files, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>pf', function()
-        require('fff').find_files { desc = 'Search [F]iles' }
-      end)
+      vim.keymap.set('n', '<leader>pf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      -- vim.keymap.set('n', '<leader>pf', function()
+      --   require('fff').find_files { desc = 'Search [F]iles' }
+      -- end)
       vim.keymap.set('n', '<leader>pg', builtin.git_files, { desc = 'Search [P]roject [G]it Files' })
-      -- vim.keymap.set('n', '<leader>p/', require('telescope').extensions.git_grep.live_grep, { desc = 'Search [P]roject [/]' })
-      vim.keymap.set('n', '<leader>p/', function()
-        require('fff').live_grep { desc = 'Search [P]roject [/]' }
-      end)
+      vim.keymap.set('n', '<leader>p/', require('telescope').extensions.git_grep.live_grep, { desc = 'Search [P]roject [/]' })
+      -- vim.keymap.set('n', '<leader>p/', function()
+      --   require('fff').live_grep { desc = 'Search [P]roject [/]' }
+      -- end)
       vim.keymap.set('n', '<leader>po', require('telescope').extensions.project.project, { desc = '[O]pen [Project]' })
       vim.keymap.set('n', '<leader>pz', require('telescope').extensions.zoxide.list, { desc = '[P]roject [z]' })
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
@@ -561,15 +645,18 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+      -- vim.keymap.set('n', '<leader>sw', function()
+      --   require('fff').live_grep { query = vim.fn.expand '<cword>', desc = '[S]earch current [W]ord' }
+      -- end)
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
       -- vim.keymap.set('n', '<leader>fr', ':Telescope frecency workspace=CWD<CR>', { desc = '[F]ind Recent Files ("." for repeat)', silent = true })
-      vim.keymap.set('n', '<leader>fr', ':Telescope frecency<CR>', { desc = '[F]ind Recent Files ("." for repeat)', silent = true })
+      -- vim.keymap.set('n', '<leader>fr', ':Telescope frecency<CR>', { desc = '[F]ind Recent Files ("." for repeat)', silent = true })
       -- vim.keymap.set('n', '<leader>fR', ':Telescope frecency<CR>', { desc = '[F]ind Recent Files ("." for repeat)', silent = true })
-      -- vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
+      vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
       -- vim.keymap.set('n', '<leader>fr', require('telescope').extensions.frecency.frecency,
       -- vim.keymap.set('n', '<leader>fr', require('telescope').extensions.recent_files.pick, { desc = '[F]ind Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
@@ -654,6 +741,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
+      { 'fishman/ltex-utils.nvim' },
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -856,6 +944,25 @@ require('lazy').setup({
             telemetry = { enable = false },
           },
         },
+
+        -- LanguageTool (ltex-ls-plus), enabled for markdown and mail only
+        ltex_plus = {
+          filetypes = { 'latex', 'tex', 'bib', 'markdown', 'gitcommit', 'text', 'mail' },
+          settings = {
+            ltex = {
+              enabled = { 'markdown', 'mail', 'gitcommit' },
+            },
+          },
+          on_attach = function(_, bufnr)
+            require('ltex-utils').on_attach(bufnr)
+          end,
+        },
+      }
+      --
+      require('ltex-utils').setup {
+        settings = {
+          path = vim.fn.stdpath 'data' .. '/ltex/',
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -880,7 +987,8 @@ require('lazy').setup({
     end,
   },
 
-  { -- Autoformat
+  -- Autoformat
+  {
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
@@ -1050,7 +1158,7 @@ require('lazy').setup({
       -- By default, we use the Lua implementation instead, but you may enable
       -- the rust implementation via `'prefer_rust_with_warning'`
       --
-      -- See :h blink-cmp-config-fuzzy for more information
+      -- See `:help blink-cmp-config-fuzzy` for more information
       fuzzy = { implementation = 'lua' },
 
       -- Shows a signature help window while you type arguments for a function
@@ -1058,7 +1166,8 @@ require('lazy').setup({
     },
   },
 
-  { -- You can easily change to a different colorscheme.
+  {
+    -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is.
     --
@@ -1091,7 +1200,8 @@ require('lazy').setup({
     opts = { signs = false },
   },
 
-  { -- Collection of various small independent plugins/modules
+  -- Collection of various small independent plugins/modules
+  {
     'nvim-mini/mini.nvim',
     config = function()
       -- Better Around/Inside textobjects
@@ -1120,7 +1230,7 @@ require('lazy').setup({
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
       local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
+      -- Set `use_icons` to true if you have a Nerd Font
       statusline.setup { use_icons = vim.g.have_nerd_font }
 
       -- You can configure sections in the statusline by overriding their
@@ -1136,7 +1246,8 @@ require('lazy').setup({
     end,
   },
 
-  { -- Highlight, edit, and navigate code
+  -- Used to highlight, edit, and navigate code
+  {
     'nvim-treesitter/nvim-treesitter',
     dependencies = { 'RRethy/nvim-treesitter-endwise' },
     lazy = false,
@@ -1144,7 +1255,7 @@ require('lazy').setup({
     branch = 'main',
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter-intro`
     config = function()
-      -- ensure basic parser are installed
+      -- Ensure basic parsers are installed
       local parsers = {
         'bash',
         'c',
@@ -1182,23 +1293,23 @@ require('lazy').setup({
       ---@param buf integer
       ---@param language string
       local function treesitter_try_attach(buf, language)
-        -- check if parser exists and load it
+        -- Check if a parser exists and load it
         if not vim.treesitter.language.add(language) then
           return
         end
-        -- enables syntax highlighting and other treesitter features
+        -- Enable syntax highlighting and other treesitter features
         vim.treesitter.start(buf, language)
 
-        -- enables treesitter based folds
-        -- for more info on folds see `:help folds`
+        -- Enable treesitter based folds
+        -- For more info on folds see `:help folds`
         -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
         -- vim.wo.foldmethod = 'expr'
 
-        -- check if treesitter indentation is available for this language, and if so enable it
+        -- Check if treesitter indentation is available for this language, and if so enable it
         -- in case there is no indent query, the indentexpr will fallback to the vim's built in one
         local has_indent_query = vim.treesitter.query.get(language, 'indents') ~= nil
 
-        -- enables treesitter based indentation
+        -- Enable treesitter based indentation
         if has_indent_query then
           vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end
@@ -1217,15 +1328,15 @@ require('lazy').setup({
           local installed_parsers = require('nvim-treesitter').get_installed 'parsers'
 
           if vim.tbl_contains(installed_parsers, language) then
-            -- enable the parser if it is installed
+            -- Enable the parser if it is already installed
             treesitter_try_attach(buf, language)
           elseif vim.tbl_contains(available_parsers, language) then
-            -- if a parser is available in `nvim-treesitter` auto install it, and enable it after the installation is done
+            -- If a parser is available in `nvim-treesitter`, auto-install it and enable it after the installation is done
             require('nvim-treesitter').install(language):await(function()
               treesitter_try_attach(buf, language)
             end)
           else
-            -- try to enable treesitter features in case the parser exists but is not available from `nvim-treesitter`
+            -- Try to enable treesitter features in case the parser exists but is not available from `nvim-treesitter`
             treesitter_try_attach(buf, language)
           end
         end,

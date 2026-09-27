@@ -1,0 +1,1 @@
+/home/timebomb/git/opencode/dynamia-gtm-assistant/docs/templates/nvim/prompts/email-rephrase.md

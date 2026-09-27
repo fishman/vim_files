@@ -1,0 +1,25 @@
+{
+  "plugins": {
+    "autolist.nvim": {
+      "rev": "339499695d3be8c44aefef1d2516464758957004",
+      "src": "https://github.com/gaoDean/autolist.nvim"
+    },
+    "nvim-fundo": {
+      "rev": "c2b83cb19e4ac475f2b08aaf775afe3da19bc495",
+      "src": "https://github.com/kevinhwang91/nvim-fundo",
+      "version": "'main'"
+    },
+    "promise-async": {
+      "rev": "119e8961014c9bfaf1487bf3c2a393d254f337e2",
+      "src": "https://github.com/kevinhwang91/promise-async"
+    },
+    "zpack.nvim": {
+      "rev": "c8b4e8d597ec5da5102e66ce7d73b77fa727b90c",
+      "src": "https://github.com/zuqini/zpack.nvim"
+    },
+    "zshow.nvim": {
+      "rev": "fb2a7104fa339854cb45493942bb45bfd3bc4567",
+      "src": "https://github.com/sairyy/zshow.nvim"
+    }
+  }
+}
